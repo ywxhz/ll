@@ -7,6 +7,8 @@ app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 @app.route('/seach')
 def hello_world():
+   #ds=DataService()
+    #ds.hello_world()
     return render_template('seach.html')
 
 @app.route('/user/<name>')
