@@ -246,6 +246,7 @@ class DataServicec:
         enum = ms.SQLexecute(sqlstr)
         return enum
 
+
         # 删除景点
         # pid：景点id
         # 返回值：1 成功，0 失败
