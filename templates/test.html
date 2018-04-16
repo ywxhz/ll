@@ -1,0 +1,12 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}旅游行程宝{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="application/javascript" src="../static/dataapi.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div onclick="getjdapi('长沙')" >xxxxxx1111</div>
+    <div onclick="gethotelapi('长沙')" >yyyy1111</div>
+{% endblock %}

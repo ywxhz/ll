@@ -49,13 +49,16 @@ class MySqlconc:
                 cumlist.append(cumval)
                 #print cumlist
         dictlist=[]
-        for i in valresult:
+        for valr in valresult:
             dict = {}
             cnum = 0
-            for j in i:
-                dict["'"+cumlist[cnum]+"'"]= j
+            #print valr
+            for va in valr:
+                dict["'"+cumlist[cnum]+"'"]= va
+                cnum = cnum + 1
+                #print va
             dictlist.append(dict)
-        print dictlist
+
         self.conn.commit()
         valcursor.close()
         cumcursor.close()

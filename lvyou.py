@@ -7,9 +7,11 @@ app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 @app.route('/seach')
 def hello_world():
-   #ds=DataService()
-    #ds.hello_world()
     return render_template('seach.html')
+
+@app.route('/test')
+def asdasd():
+    return render_template('test.html')
 
 @app.route('/user/<name>')
 def user(name):
@@ -17,4 +19,4 @@ def user(name):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()
