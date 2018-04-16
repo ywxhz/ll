@@ -2,9 +2,27 @@
 
 {% block title %}旅游行程宝{% endblock %}
 
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .list-group-item-separate {
+            margin-bottom: 10px;
+        }
+        a.list-group-item-nav:focus,
+        .list-group-item-nav.active:focus,
+        .list-group-item-nav.active:hover,
+        a.list-group-item-nav:active,
+        .list-group-item-nav.active{
+            border: none;
+            color: inherit;
+            background-color: inherit;
+        }
+    </style>
+{% endblock %}
+
 {% block navbar %}
-    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-        <div class="container">
+    <div class="container-fluid">
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -15,49 +33,66 @@
                 </button>
                 <a class="navbar-brand" href="#">城市</a>
             </div>
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" style="padding-left: 100px;">
                 <ul class="nav navbar-nav">
-                    <li><a href="#"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
+                    <li><a href="#camera"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
                     <li><a href="#shop"><span class="glyphicon glyphicon-cutlery"></span> 美食</a></li>
                     <li><a href="#support"><span class="glyphicon glyphicon-home"></span> 酒店</a></li>
-                    <li><a href="#support"><span class="glyphicon glyphicon-road"></span> 交通</a></li>
+                    <li><a href="#road"><span class="glyphicon glyphicon-road"></span> 交通</a></li>
                 </ul>
-            </div><!-- /.nav-collapse -->
-        </div><!-- /.container -->
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div class="panel panel-default" style="margin:20px;">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-             带有 title 的面板标题
-          </h3>
-        </div>
-        <div class="panel-body">
-            <div class="list-group">
-               <a href="#" class="list-group-item">
-                    <span class="badge">
-                        <h4>+</h4>
-                    </span>
-                    <h4 class="list-group-item-heading">
-                        免费域名注册
-                    </h4>
-                    <p class="list-group-item-text">
-                        您将通过网页进行免费域名注册。
-                    </p>
+    <div class="container-fluid"  style="margin-top: 60px;" >
+        <div class="row" style="padding: 5px;">
+            <div class="list-group col-xs-6 col-md-8" style="padding-left: 0px;padding-right: 0px;">
+               <a href="#" class="list-group-item" >
+                    <span class="badge"><h4>+</h4></span>
+                    <h4 class="list-group-item-heading">免费域名注册</h4>
+                    <p class="list-group-item-text">您将通过网页进行免费域名注册。</p>
                </a>
                <a href="#" class="list-group-item">
-                    <span class="badge">
-                        <h4>+</h4>
-                    </span>
-                    <h4 class="list-group-item-heading">
-                        24*7 支持
-                    </h4>
-                    <p class="list-group-item-text">
-                        我们提供 24*7 支持。
-                    </p>
+                    <span class="badge"><h4>+</h4></span>
+                    <h4 class="list-group-item-heading">24*7 支持</h4>
+                    <p class="list-group-item-text">我们提供 24*7 支持。</p>
                </a>
+            </div>
+            <div class="col-xs-6  col-md-4" style="padding-left: 10px;padding-right: 0px;">
+                <div class="col-xs-4 col-md-2" style="padding-left: 0px;padding-right: 0px;" >
+                    <ul class='list-group list-group-flush' >
+                        <a href="#tab1"  class="list-group-item list-group-item-nav text-center active" data-toggle='tab' >第1天</a>
+                        <a href="#tab2"  class="list-group-item list-group-item-nav text-center" data-toggle='tab'>第2天</a>
+                        <a href="#tab3"  class="list-group-item list-group-item-nav text-center" data-toggle='tab'>第3天</a>
+                    </ul>
+                    <button type="button" class="btn btn-default btn-block"> 添加 </button>
+                </div>
+                <div class='tab-content col-xs-8 col-md-10' style="padding-left: 10px;padding-right: 0px;">
+                    <div class='tab-pane active' id='tab1'>
+                        <h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   第1天 西藏</h4>
+                        <div class="list-group" style="padding-left: 0px;padding-right: 0px;width: 100%;" >
+                           <a href="#" class="list-group-item list-group-item-separate" >
+                                <span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px"> </span>
+                                <span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px"> </span>
+                                <h4 class="list-group-item-heading">玛吉阿米</h4>
+                                <p class="list-group-item-separate">八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
+                                <div class="list-group-item-text" style="margin-bottom: 30px;">
+                                    <span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >
+                                    <span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>
+                                    <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px">编辑交通</span>
+                                </div>
+                           </a>
+                           <a href="#" class="list-group-item list-group-item-separate">
+                                <h4 class="list-group-item-heading">24*7 支持</h4>
+                                <p class="list-group-item-text">我们提供 24*7 支持。</p>
+                           </a>
+                        </div>
+                    </div>
+                    <div class='tab-pane' id='tab2'>我是选项卡二的内容1</div>
+                    <div class='tab-pane' id='tab3'>我是选项卡三的内容</div>
+                </div>
             </div>
         </div>
     </div>

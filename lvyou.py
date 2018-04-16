@@ -9,14 +9,10 @@ app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 def hello_world():
     return render_template('seach.html')
 
-@app.route('/test')
-def asdasd():
-    return render_template('test.html')
-
 @app.route('/user/<name>')
 def user(name):
     return render_template('user.html', name=name)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
