@@ -37,6 +37,42 @@ function pointclick() {
     var pointname='';
     getpointapi(cityid,pointname);
 }
+function gethotelpic(hotalid) {
+    var hotelpicurl;
+    var xx=formatterDateTime();
+    var strurl="https://route.showapi.com/1450-3?hotalId="+hotalid+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
+    $.ajaxSettings.async = false
+    $.getJSON(strurl, function(data) {
+        //alert("1 hotalid "+hotalid);
+        var i=0;
+        $.each(data, function(key, field){
+            //alert("1_" + field.toString() + " " + key.toString()+" i"+i.toString());
+            if(key.toString()=="showapi_res_body" ){
+                $.each(field, function(key1, field1){
+                    //alert("2_" + field1.toString() + " " + key1.toString());
+                    if(key1.toString()=="imgList" ) {
+                        $.each(field1, function (key2, field2) {
+                            $.each(field2, function (key3, field3) {
+                                //alert("2_" + field3.toString() + " " + field3.toString());
+                                if(field3.toString() =="外观"){
+                                    $.each(field2, function (key3, field3) {
+                                          if(key3.toString() =="imgUrl"){
+                                              hotelpicurl=field3.toString();
+                                              return false;
+                                          }
+                                     });
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    })
+    //alert("hotelpicurl "+hotelpicurl)
+    return  hotelpicurl;
+}
+
 //通过城市名称查询酒店
 function gethotelapi(cityname,hotalname) {
     // alert("1");
@@ -48,6 +84,8 @@ function gethotelapi(cityname,hotalname) {
     var proName;
     var cityName;
     var hotalName;
+    var hotalpic;
+    var hotalId;
     $.getJSON(strurl, function(data) {
             //alert("1 "+data.toString());
             var i=0;
@@ -81,8 +119,12 @@ function gethotelapi(cityname,hotalname) {
                                     if(key3.toString()=="hotalName"){
                                           hotalName=field3.toString() ;
                                     }
+                                    if(key3.toString()=="hotalId"){
+                                        hotalId=field3.toString() ;
+                                        hotalpic= gethotelpic(hotalId);
+                                    }
                                  });
-                                 $("#dipIn").append(gethotelrowhtml(proName,cityName,hotalName));
+                                 $("#dipIn").append(gethotelrowhtml(proName,cityName,hotalName,hotalpic));
                              });
                         }
                     });
@@ -92,19 +134,29 @@ function gethotelapi(cityname,hotalname) {
              $("#dipIn").append(gethotelFYhtml(cityname,hotalname));
         })
 }
-function gethotelrowhtml(proName,cityName,hotalName) {
+function gethotelrowhtml(proName,cityName,hotalName,hotalpic) {
+
         var htmlstr1="";
         htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
-        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
-        htmlstr1+="<h4  class=\"list-group-item-heading\">酒店:"+hotalName+"</h4>";
+        htmlstr1+="<div class=\"media\">";
+        htmlstr1+="<div class=\"media-left\">";
+        htmlstr1+="<img  src='"+hotalpic+"' style=\"height:85px;width:85px;\" />";
+        htmlstr1+="</div>";
+        htmlstr1+="<div class=\"media-body media-middle\">";
+        htmlstr1+="<h4  class=\"list-group-item-heading\">"+hotalName+"</h4>";
         htmlstr1+="<p class=\"list-group-item-text\">省份:"+proName+"   城市:"+cityName+"</p>";
+        htmlstr1+="</div>";
+        htmlstr1+="<div class=\"media-right media-middle\">";
+        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="</div>";
+        htmlstr1+="</div>";
         htmlstr1+="</a>";
         idindex++;
         return htmlstr1;
 }
 function gethotelFYhtml(cityname,hotalname) {
         var htmlstr1="";
-        htmlstr1+="<div style='text-align:center;' ><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','B')\")>上一页</button><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页";
+        htmlstr1+="<div  style='text-align:right;' ><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','B')\")>上一页</button><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
         htmlstr1+="</div>";
         return htmlstr1;
 }
@@ -221,18 +273,26 @@ function getpointapi(cityid,pointname) {
 function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall) {
         var htmlstr1="";
         htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
-        htmlstr1+="<img  src='"+picUrlSmall+"' style=\"height:130px;width:130px;\" />";
-        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="<div class=\"media\">";
+        htmlstr1+="<div class=\"media-left\">";
+        htmlstr1+="<img  src='"+picUrlSmall+"' style=\"height:85px;width:85px;\" />";
+        htmlstr1+="</div>";
+        htmlstr1+="<div class=\"media-body media-middle\">";
         htmlstr1+="<h4  class=\"list-group-item-heading\">"+name+"</h4>";
         htmlstr1+="<p class=\"list-group-item-text\">介绍:"+summary+"</p>";
         htmlstr1+="<p class=\"list-group-item-text\">省份:"+proName+"   城市:"+cityName+" 区域:"+areaName+" 地址:"+address+" </p>";
+        htmlstr1+="</div>";
+        htmlstr1+="<div class=\"media-right media-middle\">";
+        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="</div>";
+        htmlstr1+="</div>";
         htmlstr1+="</a>";
         idindex++;
         return htmlstr1;
 }
 function getpointFYhtml(cityid,pointname) {
         var htmlstr1="";
-        htmlstr1+="<div style='text-align:center;' ><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','B')\")>上一页</button><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页";
+        htmlstr1+="<div style='text-align:right;' ><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','B')\")>上一页</button><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
         htmlstr1+="</div>";
         return htmlstr1;
 }
