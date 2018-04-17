@@ -96,8 +96,8 @@ function gethotelrowhtml(proName,cityName,hotalName) {
         var htmlstr1="";
         htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
         htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
-        htmlstr1+="<h4 class=\"list-group-item-text\">酒店:"+hotalName+"</h4>";
-        htmlstr1+="<p class=\"list-group-item-heading\">省份:"+proName+"   城市:"+cityName+"</p>";
+        htmlstr1+="<h4  class=\"list-group-item-heading\">酒店:"+hotalName+"</h4>";
+        htmlstr1+="<p class=\"list-group-item-text\">省份:"+proName+"   城市:"+cityName+"</p>";
         htmlstr1+="</a>";
         idindex++;
         return htmlstr1;
@@ -223,9 +223,9 @@ function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSm
         htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
         htmlstr1+="<img  src='"+picUrlSmall+"' style=\"height:130px;width:130px;\" />";
         htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
-        htmlstr1+="<h4  class=\"list-group-item-text\">景点:"+name+"</h4>";
-        htmlstr1+="<p class=\"list-group-item-heading\">省份:"+proName+"   城市:"+cityName+" 区域:"+areaName+" 地址:"+address+" </p>";
+        htmlstr1+="<h4  class=\"list-group-item-heading\">景点:"+name+"</h4>";
         htmlstr1+="<p class=\"list-group-item-text\">介绍:"+summary+"</p>";
+        htmlstr1+="<p class=\"list-group-item-text\">省份:"+proName+"   城市:"+cityName+" 区域:"+areaName+" 地址:"+address+" </p>";
         htmlstr1+="</a>";
         idindex++;
         return htmlstr1;
