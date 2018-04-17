@@ -1,45 +1,112 @@
 {% extends "bootstrap/base.html" %}
 
 {% block title %}旅游行程宝{% endblock %}
-
 {% block head %}
-
     {{ super() }}
     <style type="text/css">
         .list-group-item-separate {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
-        a.list-group-item-nav:focus,
-        .list-group-item-nav.active:focus,
-        .list-group-item-nav.active:hover,
-        a.list-group-item-nav:active,
         .list-group-item-nav.active{
             border: none;
             color: inherit;
             background-color: inherit;
         }
+        html,body{
+                height: 100%;
+                margin: 0;
+                padding: 0;
+        }
     </style>
 {% endblock %}
 
+{% block scripts %}
+    {{ super() }}
+    <script type="application/javascript" src="../static/dataapi.js"></script>
+    <script>
+        function do_save() {
+
+        }
+        function do_addDay() {
+            len = $("#listDays a").length+1;
+            strDayDec = "第"+len+"天";
+            tempId = new Date().getTime();
+            dayId = "day"+tempId;
+            tabId = "tab"+tempId;
+            strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(\''+tempId+'\')">'+strDayDec+
+                            '<span class="glyphicon glyphicon-trash" onclick="do_delDay(\''+tempId+'\')"></span>'+
+                         '</a>';
+            $('#listDays a').removeClass('active');
+            $("#listDays").append(strElement);
+
+            strElement = '<div class="tab-pane active" id="'+tabId+'">'+
+                            '<h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   '+strDayDec+'</h4>'+
+                         '</div>';
+            $('#tabContent div').removeClass('active');
+            $("#tabContent").append(strElement);
+        }
+
+        function do_itemAcitve(selector) {
+            $("#day"+selector).addClass('active');
+        }
+
+        function do_delDay(selector) {
+            $("#day"+selector).remove();
+            $("#tab"+selector).remove();
+        }
+        function do_addPoint(pid) {
+            pName = $("#"+pid+" h4.list-group-item-heading:first").text();
+            pDec = $("#"+pid+" p.list-group-item-text:first").text();
+            temp = new Date().getTime();
+            decId = "dec"+temp
+            listId = "list"+temp;
+            strElement ='<div id="'+listId+'" class="list-group" style="padding-left: 0px;padding-right: 0px;width: 100%;" >'+
+                           '<a href="#" class="list-group-item list-group-item-separate" >'+
+                                '<span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint(\''+listId+'\')" ></span>'+
+                                '<span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editDec(\''+decId+'\')" ></span>'+
+                                '<h4 class="list-group-item-heading">'+pName+'</h4>'+
+                                '<p id="'+decId+'" class="list-group-item-separate" style="display: none;">'+pDec+'</p>'+
+                                '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
+                                    '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
+                                    '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
+                                    '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px">编辑交通</span>'+
+                                '</div>'+
+                           '</a>'+
+                        '</div>';
+            $("#tabContent .tab-pane.active:first").append(strElement);
+        }
+
+        function do_delPoint(listid) {
+            $("#"+listid).remove();
+        }
+
+        function do_editDec(decId) {
+            if($("#"+decId).is(':hidden')){
+                $("#"+decId).show();
+            }else{
+                $("#"+decId).hide();
+            }
+        }
+
+
+    </script>
+{% endblock %}
+
 {% block navbar %}
-    <div class="container-fluid">
+    <div class="container-fluid" >
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" >
+                    <span class="sr-only"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">城市</a>
+                <a class="navbar-brand" href="#">旅游行程宝</a>
             </div>
             <div class="collapse navbar-collapse" style="padding-left: 100px;">
                 <ul class="nav navbar-nav">
-                    <li><a href="#camera"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
-                    <li><a href="#shop"><span class="glyphicon glyphicon-cutlery"></span> 美食</a></li>
-                    <li><a href="#support"><span class="glyphicon glyphicon-home"></span> 酒店</a></li>
-                    <li><a href="#road"><span class="glyphicon glyphicon-road"></span> 交通</a></li>
+                    <li><a href="#road"><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
+                    <li><a href="#road"><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
                 </ul>
             </div>
         </div>
@@ -47,52 +114,52 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid"  style="margin-top: 60px;" >
-        <div class="row" style="padding: 5px;">
-            <div class="list-group col-xs-6 col-md-8" style="padding-left: 0px;padding-right: 0px;">
-               <a href="#" class="list-group-item" >
-                    <span class="badge"><h4>+</h4></span>
-                    <h4 class="list-group-item-heading">免费域名注册</h4>
-                    <p class="list-group-item-text">您将通过网页进行免费域名注册。</p>
-               </a>
-               <a href="#" class="list-group-item">
-                    <span class="badge"><h4>+</h4></span>
-                    <h4 class="list-group-item-heading">24*7 支持</h4>
-                    <p class="list-group-item-text">我们提供 24*7 支持。</p>
-               </a>
-            </div>
-            <div class="col-xs-6  col-md-4" style="padding-left: 10px;padding-right: 0px;">
-                <div class="col-xs-4 col-md-2" style="padding-left: 0px;padding-right: 0px;" >
-                    <ul class='list-group list-group-flush' >
-                        <a href="#tab1"  class="list-group-item list-group-item-nav text-center active" data-toggle='tab' >第1天</a>
-                        <a href="#tab2"  class="list-group-item list-group-item-nav text-center" data-toggle='tab'>第2天</a>
-                        <a href="#tab3"  class="list-group-item list-group-item-nav text-center" data-toggle='tab'>第3天</a>
-                    </ul>
-                    <button type="button" class="btn btn-default btn-block"> 添加 </button>
-                </div>
-                <div class='tab-content col-xs-8 col-md-10' style="padding-left: 10px;padding-right: 0px;">
-                    <div class='tab-pane active' id='tab1'>
-                        <h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   第1天 西藏</h4>
-                        <div class="list-group" style="padding-left: 0px;padding-right: 0px;width: 100%;" >
-                           <a href="#" class="list-group-item list-group-item-separate" >
-                                <span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px"> </span>
-                                <span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px"> </span>
-                                <h4 class="list-group-item-heading">玛吉阿米</h4>
-                                <p class="list-group-item-separate">八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
-                                <div class="list-group-item-text" style="margin-bottom: 30px;">
-                                    <span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >
-                                    <span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>
-                                    <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px">编辑交通</span>
-                                </div>
-                           </a>
-                           <a href="#" class="list-group-item list-group-item-separate">
-                                <h4 class="list-group-item-heading">24*7 支持</h4>
-                                <p class="list-group-item-text">我们提供 24*7 支持。</p>
-                           </a>
+    <div class="container-fluid"  style="padding-top: 45px;height: 100%; ">
+        <div class="row" style="padding-left: 5px;padding-top: 5px;height: 100%">
+            <div class="col-xs-6 col-md-7" style="padding-top: 10px;padding-left: 0px;padding-right: 5px;">
+                <div class="panel panel-default" >
+                    <div class="panel-heading" style="padding: 0px;">
+                        <div class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;border: 0px;">
+                            <ul class="nav navbar-nav">
+                                <li class="active" onclick="pointclick()"><a  href="#camera"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
+                                <li><a href="#shop"><span class="glyphicon glyphicon-cutlery"></span> 美食</a></li>
+                                <li onclick="hotelclick()"><a href="#support"><span class="glyphicon glyphicon-home"></span> 酒店</a></li>
+                                <form class="navbar-form navbar-left" role="search">
+                                    <div class="input-group">
+                                      <input id="apitxtin" type="text" class="form-control" placeholder="输入查询内容">
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">查询</button>
+                                      </span>
+                                    </div>
+                                </form>
+                            </ul>
                         </div>
                     </div>
-                    <div class='tab-pane' id='tab2'>我是选项卡二的内容1</div>
-                    <div class='tab-pane' id='tab3'>我是选项卡三的内容</div>
+                    <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;">
+                       <a id="10083" href="#" class="list-group-item" >
+                            <span class="badge" onclick="do_addPoint('10083')"><h4>+</h4></span>
+                            <h4 class="list-group-item-heading">玛吉阿米</h4>
+                            <p class="list-group-item-text">八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
+                       </a>
+                       <a id="10084" href="#" class="list-group-item">
+                            <span class="badge" onclick="do_addPoint('10084')"><h4>+</h4></span>
+                            <h4 class="list-group-item-heading">布达拉宫</h4>
+                            <p class="list-group-item-text">看到了美丽而雄伟的布达拉宫，在蓝天白云的映衬下格外辉煌，而且很是壮观。也是藏族人民最神圣的地方，很多虔诚的信徒。承载的是历史变革之中的柔情。藏族同胞都很淳朴，肃穆的心情。</p>
+                       </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6  col-md-5" style="padding-left: 0px;padding-right: 0px;background-color: #f5f5f5;border: 1px solid #ddd;height: 100%;" >
+                <div style="padding-right: 0px;border-bottom: 1px solid #ddd;">
+                    <button type="button" class="btn btn-default" style="margin: 10px;" onclick="do_addDay()"> 加一天 </button>
+                    <button type="button" class="btn btn-default" style="margin: 10px;float: right;" > 完成查看 </button>
+                </div>
+                <div style="padding: 5px;">
+                    <div class="col-xs-4 col-md-2" style="padding-left: 0px;padding-right: 0px;padding-bottom: 5px;" >
+                        <ul id="listDays" class='list-group list-group-flush' ></ul>
+                    </div>
+                    <div id="tabContent" class='tab-content col-xs-8 col-md-10' style="padding-left: 5px;padding-right: 0px;">
+                    </div>
                 </div>
             </div>
         </div>

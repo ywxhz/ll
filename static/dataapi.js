@@ -27,7 +27,16 @@ function formatterDateTime() {
                         .getSeconds());
         return datetime;
 }
-
+function hotelclick() {
+    var cityname='长沙';
+    var hotalname= $("#apitxtin").val() ;
+    gethotelapi(cityname,hotalname);
+}
+function pointclick() {
+    var cityid='199';
+    var pointname='';
+    getpointapi(cityid,pointname);
+}
 //通过城市名称查询酒店
 function gethotelapi(cityname,hotalname) {
     // alert("1");
@@ -123,8 +132,13 @@ function getpointapi(cityid,pointname) {
     //pointname="";
     var xx=formatterDateTime();
     var strurl="https://route.showapi.com/268-1?areaId=&cityId="+cityid+"&keyword="+pointname+"&page="+currentPage+"&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-    var pointname;
-    var cityid;
+    var name;
+    var areaName;
+    var proName;
+    var cityName;
+    var address;
+    var summary;
+    var picUrlSmall;
     $.getJSON(strurl, function(data) {
             //alert("1 "+data.toString());
             var i=0;
@@ -133,6 +147,9 @@ function getpointapi(cityid,pointname) {
                 if( key.toString()=="showapi_res_body"){
                     $.each(field, function(key1, field1) {
                         //alert("3_ " + field1.toString() + " " + key1.toString());
+                        if(key1.toString()=="allPages"){
+                                allPages=field1.toString() ;
+                        }
                         if(key1.toString()=="pagebean"){
                               $.each(field1, function(key2, field2) {
                                    //alert("4_ " + field2.toString() + " " + key2.toString());
@@ -140,22 +157,40 @@ function getpointapi(cityid,pointname) {
                                          $.each(field2, function(key3, field3) {
                                              //alert("5_ " + field3.toString() + " " + key3.toString());
                                              $.each(field3, function(key4, field4) {
-                                                 //alert("6_ " + field4.toString() + " " + key4.toString());
+                                                // alert("6_ " + field4.toString() + " " + key4.toString());
+                                                 if(key4.toString()=="name"){
+                                                     name=field4.toString() ;
+                                                 }
+                                                 if(key4.toString()=="areaName"){
+                                                        areaName=field4.toString() ;
+                                                 }
+                                                 if(key4.toString()=="proName"){
+                                                        proName=field4.toString() ;
+                                                 }
+                                                 if(key4.toString()=="address"){
+                                                     address=field4.toString() ;
+                                                 }
+                                                 if(key4.toString()=="summary"){
+                                                     summary=field4.toString() ;
+                                                 }
+                                                 if(key4.toString()=="cityName"){
+                                                     cityName=field4.toString() ;
+                                                 }
                                                  if(key4.toString()=="picList"){
                                                      $.each(field4, function(key5, field5) {
                                                              $.each(field5, function(key6, field6) {
-                                                                 alert("7_ " + field6.toString() + " " + key6.toString());
+                                                                 //alert("7_ " + field6.toString() + " " + key6.toString());
                                                                  if(key6.toString()=="picUrlSmall"){
-
+                                                                        picUrlSmall=field6.toString()
+                                                                        return false;
                                                                  }
                                                              });
                                                      });
                                                  }
                                              });
+                                             //输出每行
+                                               $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall));
                                          });
-                                    }
-                                    if(key1.toString()=="allPages"){
-                                        allPages=field1.toString() ;
                                     }
                                      if(key1.toString()=="currentPage"){
                                         currentPage=field1.toString() ;
@@ -180,9 +215,43 @@ function getpointapi(cityid,pointname) {
                 }
                 i++;
             });
-             $("#dipIn").append(gethotelFYhtml(cityname,hotalname));
+             $("#dipIn").append(getpointFYhtml(cityid,pointname));
         })
 }
+function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall) {
+        var htmlstr1="";
+        htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
+        htmlstr1+="<img  src='"+picUrlSmall+"' style=\"height:130px;width:130px;\" />";
+        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="<p class=\"list-group-item-text\">景点:"+name+"</p>";
+        htmlstr1+="<h4 class=\"list-group-item-heading\">省份:"+proName+"   城市:"+cityName+" 区域:"+areaName+" 地址:"+address+" </h4>";
+        htmlstr1+="<p class=\"list-group-item-text\">介绍:"+summary+"</p>";
+        htmlstr1+="</a>";
+        idindex++;
+        return htmlstr1;
+}
+function getpointFYhtml(cityid,pointname) {
+        var htmlstr1="";
+        htmlstr1+="<div style='text-align:center;' ><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','B')\")>上一页</button><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页";
+        htmlstr1+="</div>";
+        return htmlstr1;
+}
+function  do_FYpointF(cityid,pointname,action) {
+    if(action=="B"){
+        if(parseInt(currentPage)!=1){
+            currentPage--;
+            getpointapi(cityid,pointname);
+        }
+    }
+    if(action=="F"){
+       if(parseInt(currentPage)<parseInt(allPages)){
+            currentPage++;
+           getpointapi(cityid,pointname);
+       }
+
+    }
+}
+
 
 // //通过景点名称查询景点
 // function getjdapi(jname) {
