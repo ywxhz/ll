@@ -131,7 +131,8 @@ function gethotelapi(cityname,hotalname) {
                 }
                 i++;
             });
-             $("#dipIn").append(gethotelFYhtml(cityname,hotalname));
+             $("#dipFYIn").empty();
+             $("#dipFYIn").append(gethotelFYhtml(cityname,hotalname));
         })
 }
 function gethotelrowhtml(proName,cityName,hotalName,hotalpic) {
@@ -156,8 +157,7 @@ function gethotelrowhtml(proName,cityName,hotalName,hotalpic) {
 }
 function gethotelFYhtml(cityname,hotalname) {
         var htmlstr1="";
-        htmlstr1+="<div  style='text-align:right;' ><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','B')\")>上一页</button><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
-        htmlstr1+="</div>";
+        htmlstr1+="<button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','B')\")>上一页</button><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
         return htmlstr1;
 }
 function  do_FYHotelF(cityname,hotalname,action) {
@@ -267,7 +267,8 @@ function getpointapi(cityid,pointname) {
                 }
                 i++;
             });
-             $("#dipIn").append(getpointFYhtml(cityid,pointname));
+              $("#dipFYIn").empty();
+             $("#dipFYIn").append(getpointFYhtml(cityid,pointname));
         })
 }
 function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall) {
@@ -292,8 +293,7 @@ function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSm
 }
 function getpointFYhtml(cityid,pointname) {
         var htmlstr1="";
-        htmlstr1+="<div style='text-align:right;' ><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','B')\")>上一页</button><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
-        htmlstr1+="</div>";
+        htmlstr1+="<button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','B')\")>上一页</button><button onclick=\"do_FYpointF('"+cityid+"','"+pointname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
         return htmlstr1;
 }
 function  do_FYpointF(cityid,pointname,action) {
