@@ -190,6 +190,7 @@ function getpointapi(cityid,pointname) {
     var cityName;
     var address;
     var summary;
+    var content;
     var picUrlSmall;
     $.getJSON(strurl, function(data) {
             //alert("1 "+data.toString());
@@ -222,6 +223,9 @@ function getpointapi(cityid,pointname) {
                                                  if(key4.toString()=="summary"){
                                                      summary=field4.toString() ;
                                                  }
+                                                  if(key4.toString()=="content"){
+                                                     summary=field4.toString() ;
+                                                 }
                                                  if(key4.toString()=="cityName"){
                                                      cityName=field4.toString() ;
                                                  }
@@ -238,7 +242,7 @@ function getpointapi(cityid,pointname) {
                                                  }
                                              });
                                              //输出每行
-                                               $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall));
+                                               $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,content,picUrlSmall));
                                          });
                                     }
                                      if(key2.toString()=="allPages"){
