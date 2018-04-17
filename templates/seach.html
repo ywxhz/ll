@@ -24,6 +24,7 @@
     {{ super() }}
     <script type="application/javascript" src="../static/dataapi.js"></script>
     <script>
+
         function do_save() {
 
         }
@@ -33,7 +34,7 @@
             tempId = new Date().getTime();
             dayId = "day"+tempId;
             tabId = "tab"+tempId;
-            strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(\''+tempId+'\')">'+strDayDec+
+            strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(this)">'+strDayDec+
                             '<span class="glyphicon glyphicon-trash" onclick="do_delDay(\''+tempId+'\')"></span>'+
                          '</a>';
             $('#listDays a').removeClass('active');
@@ -46,8 +47,10 @@
             $("#tabContent").append(strElement);
         }
 
-        function do_itemAcitve(selector) {
-            $("#day"+selector).addClass('active');
+        function do_itemAcitve(item) {
+{#            $('#listDays a').removeClass('active');#}
+{#            $('#tabContent div').removeClass('active');#}
+{#            $(item).addClass('active');#}
         }
 
         function do_delDay(selector) {
@@ -69,7 +72,7 @@
                                 '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
                                     '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
                                     '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
-                                    '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px">编辑交通</span>'+
+                                    '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#myModal" >编辑交通</span>'+
                                 '</div>'+
                            '</a>'+
                         '</div>';
@@ -101,7 +104,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">旅游行程宝</a>
+                <a class="navbar-brand" href="#">西藏9日游</a>
             </div>
             <div class="collapse navbar-collapse" style="padding-left: 100px;">
                 <ul class="nav navbar-nav">
@@ -120,6 +123,9 @@
                 <div class="panel panel-default" >
                     <div class="panel-heading" style="padding: 0px;">
                         <div class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;border: 0px;">
+                            <div class="navbar-header">
+                                <a class="navbar-brand" href="#">城市</a>
+                            </div>
                             <ul class="nav navbar-nav">
                                 <li class="active" onclick="pointclick()"><a  href="#camera"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
                                 <li><a href="#shop"><span class="glyphicon glyphicon-cutlery"></span> 美食</a></li>
@@ -137,9 +143,18 @@
                     </div>
                     <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;">
                        <a id="10083" href="#" class="list-group-item" >
-                            <span class="badge" onclick="do_addPoint('10083')"><h4>+</h4></span>
-                            <h4 class="list-group-item-heading">玛吉阿米</h4>
-                            <p class="list-group-item-text">八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
+                            <div class="media">
+                               <div class="media-left">
+                                    <img src="" style="width: 85px;height: 85px;">
+                                </div>
+                                <div class="media-body media-middle">
+                                    <h4 class="list-group-item-heading">玛吉阿米</h4>
+                                    <p class="list-group-item-text">八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
+                                </div>
+                               <div class="media-right media-middle">
+                                    <span class="badge" onclick="do_addPoint('10083')"><h4>+</h4></span>
+                                </div>
+                            </div>
                        </a>
                        <a id="10084" href="#" class="list-group-item">
                             <span class="badge" onclick="do_addPoint('10084')"><h4>+</h4></span>
@@ -149,10 +164,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6  col-md-5" style="padding-left: 0px;padding-right: 0px;background-color: #f5f5f5;border: 1px solid #ddd;height: 100%;" >
-                <div style="padding-right: 0px;border-bottom: 1px solid #ddd;">
+            <div class="col-xs-6  col-md-5" style="padding-left: 0px;padding-right: 0px;border: 1px solid #ddd;height: 100%;" >
+                <div style="padding-right: 0px;border-bottom: 1px solid #ddd;background-color: #f5f5f5;">
                     <button type="button" class="btn btn-default" style="margin: 10px;" onclick="do_addDay()"> 加一天 </button>
-                    <button type="button" class="btn btn-default" style="margin: 10px;float: right;" > 完成查看 </button>
+                    <button type="button" class="btn btn-default" style="margin: 10px;float: right;" onclick="do_view()"> 完成查看 </button>
                 </div>
                 <div style="padding: 5px;">
                     <div class="col-xs-4 col-md-2" style="padding-left: 0px;padding-right: 0px;padding-bottom: 5px;" >
@@ -161,6 +176,33 @@
                     <div id="tabContent" class='tab-content col-xs-8 col-md-10' style="padding-left: 5px;padding-right: 0px;">
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                    <h4 class="modal-title" id="myModalLabel">编辑交通</h4>
+                  </div>
+                  <div class="modal-body">
+                        <form class="bs-example bs-example-form" role="form">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="radio" name="identity" checked="checked" >步行
+                                    <input type="radio" name="identity" >公交
+                                    <input type="radio" name="identity" >出租车
+                                </span>
+                                <input type="text" class="form-control" placeholder="输入公里数" >
+                                <input type="text" class="form-control" placeholder="输入所需时间" >
+                            </div>
+                        </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">提交更改</button>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
