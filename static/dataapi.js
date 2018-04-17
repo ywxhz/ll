@@ -2,6 +2,11 @@
  * Created by langusui on 2018/4/13.
  */
 
+var idindex=11000;
+var allPages=0;
+var currentPage=1;
+var tallNum=0;
+var maxResult=0;
 function formatterDateTime() {
   var date=new Date();
   var month=date.getMonth() + 1;
@@ -22,36 +27,192 @@ function formatterDateTime() {
                         .getSeconds());
         return datetime;
 }
+
 //通过城市名称查询酒店
-function gethotelapi(cityname) {
+function gethotelapi(cityname,hotalname) {
     // alert("1");
    // var cityname="长沙";
+     $("#dipIn").empty();
+    //hotalname="";
     var xx=formatterDateTime();
-    alert(xx.toString());
-    var strurl="https://route.showapi.com/1450-1?cityName="+cityname+"&hotalId=&hotalName=&page=&proName=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-    $.ajax({url:strurl,success:function(result){
-        alert(result.toString());
-    }});
+    var strurl="https://route.showapi.com/1450-1?cityName="+cityname+"&hotalId=&hotalName="+hotalname+"&page="+currentPage+"&proName=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
+    var proName;
+    var cityName;
+    var hotalName;
+    $.getJSON(strurl, function(data) {
+            //alert("1 "+data.toString());
+            var i=0;
+            $.each(data, function(key, field){
+                //alert("2_" + field.toString() + " " + key.toString()+" i"+i.toString());
+                if(i==2){
+                    $.each(field, function(key1, field1) {
+                        //alert("3_ " + field1.toString() + " " + key1.toString());
+                        if(key1.toString()=="allPages"){
+                            allPages=field1.toString() ;
+                        }
+                         if(key1.toString()=="currentPage"){
+                            currentPage=field1.toString() ;
+                        }
+                        if(key1.toString()=="tallNum"){
+                            tallNum=field1.toString() ;
+                        }
+                        if(key1.toString()=="maxResult"){
+                            maxResult=field1.toString() ;
+                        }
+                        if(key1.toString()=="contentlist"){
+                             $.each(field1, function(key2, field2) {
+                                //输出每行
+                                $.each(field2, function(key3, field3) {
+                                    if(key3.toString()=="proName"){
+                                        proName=field3.toString() ;
+                                    }
+                                    if(key3.toString()=="cityName"){
+                                          cityName=field3.toString() ;
+                                    }
+                                    if(key3.toString()=="hotalName"){
+                                          hotalName=field3.toString() ;
+                                    }
+                                 });
+                                 $("#dipIn").append(gethotelrowhtml(proName,cityName,hotalName));
+                             });
+                        }
+                    });
+                }
+                i++;
+            });
+             $("#dipIn").append(gethotelFYhtml(cityname,hotalname));
+        })
 }
-//通过景点名称查询景点
-function getjdapi(jname) {
+function gethotelrowhtml(proName,cityName,hotalName) {
+        var htmlstr1="";
+        htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
+        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="<h4 class=\"list-group-item-heading\">省份:"+proName+"   城市:"+cityName+"</h4>";
+        htmlstr1+="<p class=\"list-group-item-text\">酒店:"+hotalName+"</p>";
+        htmlstr1+="</a>";
+        idindex++;
+        return htmlstr1;
+}
+function gethotelFYhtml(cityname,hotalname) {
+        var htmlstr1="";
+        htmlstr1+="<div style='text-align:center;' ><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','B')\")>上一页</button><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页";
+        htmlstr1+="</div>";
+        return htmlstr1;
+}
+function  do_FYHotelF(cityname,hotalname,action) {
+    if(action=="B"){
+        if(parseInt(currentPage)!=1){
+            currentPage--;
+            gethotelapi(cityname,hotalname);
+        }
+    }
+    if(action=="F"){
+       if(parseInt(currentPage)<parseInt(allPages)){
+            currentPage++;
+           gethotelapi(cityname,hotalname);
+       }
+
+    }
+}
+
+//通过城市名称查询酒店
+function getpointapi(cityid,pointname) {
+    // alert("1");
+   // var cityname="长沙";
+     $("#dipIn").empty();
+    //pointname="";
     var xx=formatterDateTime();
-    alert(xx.toString());
-    var strurl="https://route.showapi.com/268-1?areaId=&cityId=&keyword="+jname+"&page=&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-    $.ajax({url:strurl,success:function(result){
-        alert(result.toString());
-    }});
+    var strurl="https://route.showapi.com/268-1?areaId=&cityId="+cityid+"&keyword="+pointname+"&page="+currentPage+"&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
+    var pointname;
+    var cityid;
+    $.getJSON(strurl, function(data) {
+            //alert("1 "+data.toString());
+            var i=0;
+            $.each(data, function(key, field){
+                //alert("2_" + field.toString() + " " + key.toString()+" i"+i.toString());
+                if( key.toString()=="showapi_res_body"){
+                    $.each(field, function(key1, field1) {
+                        //alert("3_ " + field1.toString() + " " + key1.toString());
+                        if(key1.toString()=="pagebean"){
+                              $.each(field1, function(key2, field2) {
+                                   //alert("4_ " + field2.toString() + " " + key2.toString());
+                                    if(key2.toString()=="contentlist"){
+                                         $.each(field2, function(key3, field3) {
+                                             //alert("5_ " + field3.toString() + " " + key3.toString());
+                                             $.each(field3, function(key4, field4) {
+                                                 //alert("6_ " + field4.toString() + " " + key4.toString());
+                                                 if(key4.toString()=="picList"){
+                                                     $.each(field4, function(key5, field5) {
+                                                             $.each(field5, function(key6, field6) {
+                                                                 alert("7_ " + field6.toString() + " " + key6.toString());
+                                                                 if(key6.toString()=="picUrlSmall"){
+
+                                                                 }
+                                                             });
+                                                     });
+                                                 }
+                                             });
+                                         });
+                                    }
+                                    if(key1.toString()=="allPages"){
+                                        allPages=field1.toString() ;
+                                    }
+                                     if(key1.toString()=="currentPage"){
+                                        currentPage=field1.toString() ;
+                                    }
+                                    if(key1.toString()=="allNum"){
+                                        allNum=field1.toString() ;
+                                    }
+                                    if(key1.toString()=="maxResult"){
+                                        maxResult=field1.toString() ;
+                                    }
+                                    // if(key1.toString()=="contentlist"){
+                                    //      $.each(field1, function(key2, field2) {
+                                    //          alert("4_ " + field2.toString() + " " + key2.toString());
+                                    //         //输出每行
+                                    //      });
+                                    // }
+
+                              });
+                        }
+
+                    });
+                }
+                i++;
+            });
+             $("#dipIn").append(gethotelFYhtml(cityname,hotalname));
+        })
 }
-function getjdapix(){
-    alert("xx");
-    var strurl="https://route.showapi.com/1450-1?cityName=长沙&hotalId=&hotalName=&page=&proName=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180413175356&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-    $.ajax({url:strurl,success:function(result){
-          alert(result.toString());
-    }});
-}
-// function getjdapi(cityname,page) {
-//
+
+// //通过景点名称查询景点
+// function getjdapi(jname) {
+//     var xx=formatterDateTime();
+//     alert(xx.toString());
+//     var strurl="https://route.showapi.com/268-1?areaId=&cityId=&keyword="+jname+"&page=&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
+//     $.ajax({url:strurl,success:function(result){
+//         alert(result.toString());
+//     }});
 // }
-// function getjdapi(cityname,hotalname) {
-//
+
+
+// //通过城市名称查询酒店
+// function gethotelapi(cityname) {
+//     // alert("1");
+//    // var cityname="长沙";
+//     var xx=formatterDateTime();
+//     alert(xx.toString());
+//     var strurl="https://route.showapi.com/1450-1?cityName="+cityname+"&hotalId=&hotalName=&page=&proName=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
+//     $.ajax({url:strurl,success:function(result){
+//         alert(result.toString());
+//     }});
 // }
+// //通过景点名称查询景点
+// function getjdapi(jname) {
+//     var xx=formatterDateTime();
+//     alert(xx.toString());
+//     var strurl="https://route.showapi.com/268-1?areaId=&cityId=&keyword="+jname+"&page=&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
+//     $.ajax({url:strurl,success:function(result){
+//         alert(result.toString());
+//     }});
+// }
+
