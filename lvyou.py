@@ -9,9 +9,13 @@ app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 def hello_world():
     return render_template('seach.html')
 
-@app.route('/user/<name>')
+@app.route('/test')
+def hello_world1():
+    return render_template('test.html')
+
+@app.route('/test')
 def user(name):
-    return render_template('user.html', name=name)
+    return render_template('test.html', name=name)
 
 
 if __name__ == '__main__':

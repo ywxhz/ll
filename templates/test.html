@@ -3,10 +3,15 @@
 {% block title %}旅游行程宝{% endblock %}
 {% block scripts %}
 {{ super() }}
-<script type="application/javascript" src="../static/dataapi.js"></script>
+    <script type="application/javascript" src="../static/dataapi.js"></script>
+    <script type="application/javascript" src="../static/jquery.qrcode.min.js"></script>
+    <script type="text/javascript">
+    jQuery('#qrcode').qrcode("http://www.163.com/");
+    </script>
 {% endblock %}
 
 {% block content %}
-    <div onclick="getjdapi('长沙')" >xxxxxx1111</div>
-    <div onclick="gethotelapi('长沙','')" >yyyy1111</div>
+    <img src="http://qrcoder.sinaapp.com?t=http://www.163.com" />
+    <div id="qrcode"></div>
+
 {% endblock %}
