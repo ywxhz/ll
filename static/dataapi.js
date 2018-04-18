@@ -189,8 +189,8 @@ function getpointapi(cityid,pointname) {
     var proName;
     var cityName;
     var address;
-    var summary;
-    var content;
+    var summary="";
+    var content="";
     var picUrlSmall;
     $.getJSON(strurl, function(data) {
             //alert("1 "+data.toString());
@@ -203,11 +203,13 @@ function getpointapi(cityid,pointname) {
                         if(key1.toString()=="pagebean"){
                               $.each(field1, function(key2, field2) {
                                    //alert("4_ " + field2.toString() + " " + key2.toString());
+                                          var fi=0;
                                     if(key2.toString()=="contentlist"){
                                          $.each(field2, function(key3, field3) {
                                              //alert("5_ " + field3.toString() + " " + key3.toString());
+
                                              $.each(field3, function(key4, field4) {
-                                                // alert("6_ " + field4.toString() + " " + key4.toString());
+                                                 //alert("6_ " + field4.toString() + " " + key4.toString());
                                                  if(key4.toString()=="name"){
                                                      name=field4.toString() ;
                                                  }
@@ -224,25 +226,40 @@ function getpointapi(cityid,pointname) {
                                                      summary=field4.toString() ;
                                                  }
                                                   if(key4.toString()=="content"){
+                                                     //alert("6_ " +fi.toString()+"  "+field4.toString());
                                                      content=field4.toString() ;
                                                  }
                                                  if(key4.toString()=="cityName"){
                                                      cityName=field4.toString() ;
                                                  }
                                                  if(key4.toString()=="picList"){
+                                                     var find=false;
                                                      $.each(field4, function(key5, field5) {
+                                                             if(find){
+                                                                   return false;
+                                                             }
                                                              $.each(field5, function(key6, field6) {
                                                                  //alert("7_ " + field6.toString() + " " + key6.toString());
                                                                  if(key6.toString()=="picUrlSmall"){
-                                                                        picUrlSmall=field6.toString()
+                                                                        picUrlSmall=field6.toString();
+                                                                        //alert("6_ " +fi.toString()+" "+picUrlSmall);
+                                                                        find=true;
                                                                         return false;
                                                                  }
                                                              });
                                                      });
                                                  }
                                              });
+
+                                             fi++;
+                                             if( content==""){
+                                                content=summary;
+                                             }
+                                             //alert("输出_ "+fi.toString()+" "+content+"  "+picUrlSmall);
                                              //输出每行
-                                               $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,content,picUrlSmall));
+                                             $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,content,picUrlSmall));
+                                             content="";
+                                             summary=""
                                          });
                                     }
                                      if(key2.toString()=="allPages"){
@@ -277,12 +294,12 @@ function getpointapi(cityid,pointname) {
 }
 function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall) {
         var htmlstr1="";
-        htmlstr1+="<a href=\"#\" id=\""+idindex.toString()+"\" class=\"list-group-item\" >";
+        htmlstr1+="<a href=\"#\" class=\"list-group-item\" >";
         htmlstr1+="<div class=\"media\">";
         htmlstr1+="<div class=\"media-left\">";
         htmlstr1+="<img  src='"+picUrlSmall+"' style=\"height:85px;width:85px;\" />";
         htmlstr1+="</div>";
-        htmlstr1+="<div class=\"media-body media-middle\">";
+        htmlstr1+="<div class=\"media-body media-middle\"  id=\""+idindex.toString()+"\">";
         htmlstr1+="<h4  class=\"list-group-item-heading\">"+name+"</h4>";
         htmlstr1+="<p class=\"list-group-item-text\">"+summary+"</p>";
         htmlstr1+="<p class=\"list-group-item-text\">"+proName+"   "+cityName+"   "+areaName+"   "+address+" </p>";
