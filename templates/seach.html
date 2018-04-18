@@ -5,17 +5,13 @@
     {{ super() }}
     <style type="text/css">
         .list-group-item-separate {
-            margin-bottom: 5px;
-        }
-        .list-group-item-nav.active{
-            border: none;
-            color: inherit;
-            background-color: inherit;
+            margin-bottom: 8px;
         }
         html,body{
                 height: 100%;
                 margin: 0;
                 padding: 0;
+                overflow-y: hidden;
         }
     </style>
 {% endblock %}
@@ -24,10 +20,6 @@
     {{ super() }}
     <script type="application/javascript" src="../static/dataapi.js"></script>
     <script>
-
-        function do_save() {
-
-        }
         function do_addDay() {
             len = $("#listDays a").length+1;
             strDayDec = "第"+len+"天";
@@ -40,8 +32,10 @@
             $('#listDays a').removeClass('active');
             $("#listDays").append(strElement);
 
-            strElement = '<div class="tab-pane active" id="'+tabId+'">'+
+            strElement = '<div class="tab-pane fade in active" id="'+tabId+'">'+
                             '<h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   '+strDayDec+'</h4>'+
+                            '<div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >'+
+                            '</div>'+
                          '</div>';
             $('#tabContent div').removeClass('active');
             $("#tabContent").append(strElement);
@@ -57,30 +51,29 @@
             $("#day"+selector).remove();
             $("#tab"+selector).remove();
         }
-        function do_addPoint(pid) {
-            pName = $("#"+pid+" h4.list-group-item-heading:first").text();
-            pDec = $("#"+pid+" p.list-group-item-text:first").text();
+        function do_addPoint(pointId) {
+            pName = $("#"+pointId+" h4.list-group-item-heading:first").text();
+            pDec = $("#"+pointId+" p.list-group-item-text:first").text();
             temp = new Date().getTime();
             decId = "dec"+temp
-            listId = "list"+temp;
-            strElement ='<div id="'+listId+'" class="list-group" style="padding-left: 0px;padding-right: 0px;width: 100%;" >'+
-                           '<a href="#" class="list-group-item list-group-item-separate" >'+
-                                '<span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint(\''+listId+'\')" ></span>'+
+            itemId = "item"+temp;
+            strElement =  '<a id="'+itemId+'"  href="#" class="list-group-item list-group-item-separate" >'+
+                                '<span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint(\''+itemId+'\')" ></span>'+
                                 '<span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editDec(\''+decId+'\')" ></span>'+
                                 '<h4 class="list-group-item-heading">'+pName+'</h4>'+
                                 '<p id="'+decId+'" class="list-group-item-separate" style="display: none;">'+pDec+'</p>'+
                                 '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
                                     '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
                                     '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
-                                    '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#myModal" >编辑交通</span>'+
+                                    '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" >编辑交通</span>'+
                                 '</div>'+
-                           '</a>'+
-                        '</div>';
-            $("#tabContent .tab-pane.active:first").append(strElement);
+                           '</a>';
+
+            $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
         }
 
-        function do_delPoint(listid) {
-            $("#"+listid).remove();
+        function do_delPoint(itemid) {
+            $("#"+itemid).remove();
         }
 
         function do_editDec(decId) {
@@ -91,34 +84,38 @@
             }
         }
 
+        function do_saveAndView() {
+
+        }
+        $("#liCreateTravel").click(function() {
+            $('#saveTravelModal').modal('show');
+            $("#saveTravelModal").on('hidden.bs.modal',function(){
+                alert(1);
+                $( '#saveTravelModal' ).off().on( 'hidden', 'hidden.bs.modal');
+            })
+        });
 
     </script>
 {% endblock %}
 
 {% block navbar %}
-    <div class="container-fluid" >
-        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+{#    <div class="container-fluid" >#}
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" >
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" >
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">西藏9日游</a>
+                <a class="navbar-brand" href="#">自助游行程宝</a>
             </div>
-            <div class="collapse navbar-collapse" style="padding-left: 100px;">
-                <ul class="nav navbar-nav">
-                    <li><a href="#road"><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
-                    <li><a href="#road"><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
-                </ul>
-            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#viewTravel" data-toggle="tab" ><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
+                <li id="liCreateTravel" ><a href="#createTravel"  data-toggle="tab"  ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
+            </ul>
         </div>
-    </div>
+{#    </div>#}
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid"  style="padding-top: 45px;height: 100%; ">
-        <div class="row" style="padding-left: 5px;padding-top: 5px;height: 100%">
+    <div class="container-fluid tab-content"  style="padding-top: 45px;padding-bottom:5px;height: 100%;">
+        <div id="viewTravel" class="tab-pane fade in active" ></div>
+        <div id="createTravel" class="row tab-pane fade" style="padding-left: 5px;padding-top: 5px;height: 100%">
             <div class="col-xs-6 col-md-7" style="padding-top: 10px;padding-left: 0px;padding-right: 5px;height: 100%;">
                 <div class="panel panel-default " style="height: 100%;" >
                     <div class="panel-heading" style="padding: 0px;">
@@ -128,7 +125,6 @@
                             </div>
                             <ul class="nav navbar-nav">
                                 <li class="active" onclick="pointclick()"><a  href="#camera"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
-                                <li><a href="#shop"><span class="glyphicon glyphicon-cutlery"></span> 美食</a></li>
                                 <li onclick="hotelclick()"><a href="#support"><span class="glyphicon glyphicon-home"></span> 酒店</a></li>
                                 <form class="navbar-form navbar-left" role="search">
                                     <div class="input-group">
@@ -141,7 +137,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;overflow-y:auto;height: 85%;">
+                    <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;overflow-y:auto;max-height: 90%;">
                        <a id="10083" href="#" class="list-group-item" >
                             <div class="media">
                                <div class="media-left">
@@ -165,47 +161,86 @@
                     <div id="dipFYIn" style="text-align:right;" ></div>
                 </div>
             </div>
-            <div class="col-xs-6  col-md-5 " style="padding-left: 0px;padding-right: 0px;border: 1px solid #ddd;height: 100%;" >
-                <div style="padding-right: 0px;border-bottom: 1px solid #ddd;background-color: #f5f5f5;">
-                    <button type="button" class="btn btn-default" style="margin: 10px;" onclick="do_addDay()"> 加一天 </button>
-                    <button type="button" class="btn btn-default" style="margin: 10px;float: right;" onclick="do_view()"> 完成查看 </button>
-                </div>
-                <div style="padding: 5px;">
-                    <div class="col-xs-4 col-md-2" style="padding-left: 0px;padding-right: 0px;padding-bottom: 5px;" >
-                        <ul id="listDays" class='list-group list-group-flush' ></ul>
+            <div class="col-xs-6  col-md-5 " style="padding-top: 10px;padding-left: 0px;padding-right: 5px;height: 100%;" >
+                <div class="panel panel-default " style="height: 100%;" >
+                    <div class="panel-heading" style="padding: 0px;">
+                        <span class="btn btn-default" style="margin: 8px;"  >西藏9日游</span>
+                        <button type="button" class="btn btn-default" style="margin: 8px;float: right;" data-toggle="modal" > 完成查看 </button>
                     </div>
-                    <div id="tabContent" class='tab-content col-xs-8 col-md-10' style="padding-left: 5px;padding-right: 0px;">
+                    <div style="padding: 0px;height: 100%;">
+                        <div class="col-xs-4 col-md-2" style="padding: 0px;height: 100%;border-right: 1px solid #ddd;" >
+                            <ul id="listDays" class='list-group list-group-flush' style="padding: 5px;margin-bottom:10px;overflow-y:auto;max-height: 90%;" >
+                                <a  href="#" class="list-group-item list-group-item-nav text-center" data-toggle="tab" >
+                                    第1天<span class="glyphicon glyphicon-trash" style="float: right;"></span>
+                                    <span class="center-block " style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap; " >
+                                        拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨</span>
+                                    </span>
+                                </a>
+                            </ul>
+                            <span type="button" class="btn btn-default center-block" style="margin: 5px;" onclick="do_addDay()"> 加一天 </span>
+                        </div>
+                        <div class="col-xs-8 col-md-10" style="padding-left: 5px;padding-right: 0px;height: 100%;">
+                            <div id="tabContent" class='tab-content' style="overflow-y:auto;max-height: 90%;">
+                            </div>
+                            <p style="margin-left: 15px;margin-top: 10px;">添加自定义 <a href="javascript:;">景点</a>、 <a>餐馆</a>、 <a>交通</a>、 <a>酒店</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal fade" id="saveTravelModal" tabindex="10" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
             <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                    <h4 class="modal-title" id="myModalLabel">编辑交通</h4>
+                    <h4 class="modal-title" id="modalLabel">保存行程</h4>
                   </div>
                   <div class="modal-body">
                         <form class="bs-example bs-example-form" role="form">
                             <div class="input-group">
-                                <span class="input-group-addon">
-                                    <input type="radio" name="identity" checked="checked" >步行
-                                    <input type="radio" name="identity" >公交
-                                    <input type="radio" name="identity" >出租车
-                                </span>
-                                <input type="text" class="form-control" placeholder="输入公里数" >
-                                <input type="text" class="form-control" placeholder="输入所需时间" >
+                                <span class="input-group-addon">名称</span>
+                                <input type="text" required="true" class="form-control" placeholder="输入计划名称">
+                            </div><br>
+                            <div class="input-group">
+                                <span class="input-group-addon">描述</span>
+                                <textarea rows="3" class="form-control" placeholder="输入计划的简介和描述"></textarea>
                             </div>
                         </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">提交更改</button>
+                    <button type="button" class="btn btn-primary" onclick="do_saveAndView()" >保存</button>
                   </div>
-              </div>
+               </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="editTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title" id="myModalLabel">编辑交通</h4>
+              </div>
+              <div class="modal-body">
+                    <form class="bs-example bs-example-form" role="form">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="radio" name="identity" checked="checked" >步行
+                                <input type="radio" name="identity" >公交
+                                <input type="radio" name="identity" >出租车
+                            </span>
+                            <input type="text" class="form-control" placeholder="输入公里数" >
+                            <input type="text" class="form-control" placeholder="输入所需时间" >
+                        </div>
+                    </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+              </div>
+          </div>
+        </div>
+    </div>
+
 {% endblock %}

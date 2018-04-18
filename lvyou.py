@@ -13,6 +13,10 @@ def hello_world():
 def user(name):
     return render_template('user.html', name=name)
 
+@app.route('/test')
+def hello_world1111():
+    return render_template('test.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
