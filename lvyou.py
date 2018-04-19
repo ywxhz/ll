@@ -11,13 +11,10 @@ db = DataServicec()
 def hello_world():
     return render_template('seach.html')
 
-<<<<<<< Updated upstream
 @app.route('/test')
 def hello_world1():
     return render_template('test.html')
 
-@app.route('/test')
-=======
 @app.route('/create-travel',methods=['POST'])
 def create_travel():
     if request.method == 'POST':
@@ -25,7 +22,6 @@ def create_travel():
     return jsonify({'id': id})
 
 @app.route('/user/<name>')
->>>>>>> Stashed changes
 def user(name):
     return render_template('test.html', name=name)
 
