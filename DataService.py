@@ -1,3 +1,4 @@
+#!/usr/bin/env pytho
 # -- coding: UTF-8
 from MySqlCon import MySqlconc
 
@@ -42,7 +43,7 @@ class DataServicec:
         print "sqlstr "+sqlstr
         enum = ms.SQLexecute(sqlstr)
         msg=""
-        msgval= "-1"
+        msgval= -1
         if enum == 0:
             msg=ms.getsqlmsg()
         else:
@@ -53,12 +54,11 @@ class DataServicec:
                 for mid in idval:
                     maxid= mid
             print  maxid
-            msgval=str(maxid)
-        # msg=  msg.decode('raw_unicode-escape').encode('utf-8')
+            msgval=maxid
         dict = {}
         dict['msg'] = msg
         dict['val'] = msgval
-        print  str(dict)
+        print str(dict)
         return dict
 
     # 修改project
