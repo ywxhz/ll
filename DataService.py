@@ -123,6 +123,36 @@ class DataServicec:
         # daynum:第几天
         # name:当天说明
         # 返回值：新增天的ID
+    # 根据计划ID查询该计划下所有天数
+    # jid：计划ID
+    # 返回值：vallist
+    # 链表 ，[0]计划信息、[1]天的信息、[2] 景点信息
+    def QueryInfoByJID(self, jid):
+        vallist = []
+        ms = MySqlconc()
+        sqlstr = "select * from lyproject where id =" + str(jid)
+        print "sqlstr " + sqlstr
+        vallist.append(ms.SQLcumQuert("lyproject", sqlstr));
+        sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ")"
+        print "sqlstr " + sqlstr
+        vallist.append(ms.SQLcumQuert("lyday", sqlstr));
+        sqlstr = "select * from lypoint where id in (select pid from lyrtp did IN (select did from lyrt where jid=" + str(jid) + ")）"
+        print "sqlstr " + sqlstr
+        vallist.append(ms.SQLcumQuert("lypoint", sqlstr));
+
+    #插入point
+        # did：天ID
+        # ---vdct说明 vdct可以传任意字段 **必填
+        # index:景点顺序  **
+        # ptime:预计游玩时间
+        # event：景点简介
+        # name：景点名称 **
+        # type：景点类型
+        # transport：交通工具
+        # trtime：交通用时
+        # trevent：交通描述
+        # picpath：图片路径预留
+
     def NewdDay(self, jid,vdct):
         cum = '';
         val = ''
