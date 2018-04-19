@@ -1,9 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from flask_bootstrap import Bootstrap
+from DataService import DataServicec
 
 app = Flask(__name__)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
+db = DataServicec()
 
 @app.route('/seach')
 def hello_world():
@@ -13,7 +15,13 @@ def hello_world():
 def hello_world1():
     return render_template('test.html')
 
-@app.route('/test')
+@app.route('/create-travel',methods=['POST'])
+def create_travel():
+    if request.method == 'POST':
+        id = db.NewProject(request.form)
+    return jsonify({'id': id})
+
+@app.route('/user/<name>')
 def user(name):
     return render_template('test.html', name=name)
 
