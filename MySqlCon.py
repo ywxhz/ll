@@ -64,7 +64,7 @@ class MySqlconc:
             cnum = 0
             #print valr
             for va in valr:
-                dict["'"+cumlist[cnum]+"'"]= va
+                dict[cumlist[cnum]]= va
                 cnum = cnum + 1
                 #print va
             dictlist.append(dict)
