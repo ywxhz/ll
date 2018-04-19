@@ -22,7 +22,7 @@ class MySqlconc:
         except Exception as e:
             print (str(e))
             if e[0]==1062:
-                self.sqlmsg="IIException:mysql code:1062,The field unique value has already existed"
+                self.sqlmsg="IIException:mysql code:1062,The field unique value has already existed 唯一值存在"
             return effect_row
         # 执行SQL，并返回收影响行数
 

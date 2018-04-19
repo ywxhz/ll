@@ -5,7 +5,7 @@ from DataService import DataServicec
 ds = DataServicec();
 #print 2
 #ds.helloworld()
-dict={'name': '北京7天', 'event': '北京故宫非常好玩，颐和园，长城等地方'}
+dict={'name': '北京71133天', 'event': '北京故宫非常好玩，颐和园，长城等地方'}
 ds.NewProject(dict)
 # dict={'name': '北京7222天', 'event': '北京故宫非常好玩111，颐和园222，长城等地方222'}
 # ds.NewProject(dict)
