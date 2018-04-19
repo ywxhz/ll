@@ -5,17 +5,27 @@ import pymysql
 
 class MySqlconc:
     conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',charset='utf8')
+    sqlmsg="错误"
     def Connopen(self):
         return 0
+    def getsqlmsg(self):
+        return self.sqlmsg
     def SQLexecute(self,sqlstr):
         self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',charset='utf8')
         # 创建连接
         effect_row=0
         # 创建游标
         cursor =self.conn.cursor()
+        try:
+            effect_row = cursor.execute(sqlstr)
+            self.conn.commit()
+        except Exception as e:
+            print (str(e))
+            if e[0]==1062:
+                self.sqlmsg="IIException:mysql code:1062,The field unique value has already existed"
+            return effect_row
         # 执行SQL，并返回收影响行数
-        effect_row = cursor.execute(sqlstr)
-        self.conn.commit()
+
         # 关闭游标
         cursor.close()
         # 关闭连接

@@ -41,14 +41,25 @@ class DataServicec:
         sqlstr = "INSERT INTO lyproject ("+cum+") VALUES ("+val+")"
         print "sqlstr "+sqlstr
         enum = ms.SQLexecute(sqlstr)
-        sqls="select max(id) from lyproject"
-        reid=ms.SQLQuery(sqls)
-        maxid=0
-        for idval in reid:
-            for mid in idval:
-                maxid= mid
-        print  maxid
-        return maxid
+        msg=""
+        msgval= "-1"
+        if enum == 0:
+            msg=ms.getsqlmsg()
+        else:
+            sqls="select max(id) from lyproject"
+            reid=ms.SQLQuery(sqls)
+            maxid=0
+            for idval in reid:
+                for mid in idval:
+                    maxid= mid
+            print  maxid
+            msgval=str(maxid)
+        # msg=  msg.decode('raw_unicode-escape').encode('utf-8')
+        dict = {}
+        dict['msg'] = msg
+        dict['val'] = msgval
+        print  str(dict)
+        return dict
 
     # 修改project
     # jid：计划ID
@@ -262,8 +273,6 @@ class DataServicec:
             return 1
         else:
             return 0
-
-
 
 
     # 根据天ID查询该计划下所有天数
