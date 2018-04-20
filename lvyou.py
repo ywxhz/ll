@@ -24,6 +24,14 @@ def create_travel():
         reslut = db.NewProject(request.form)
     return jsonify(reslut)
 
+@app.route('/do_editDay',methods=['POST'])
+def edit_Day():
+    reslut = {}
+    print  request.form
+    if request.method == 'POST':
+        reslut = db.EidtPoint(11,request.form)
+    return jsonify(reslut)
+
 @app.route('/do_delTravel/<id>',methods=['POST'])
 def del_travel(id):
     reslut = None;

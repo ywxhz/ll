@@ -198,7 +198,7 @@ class DataServicec:
         # 返回值：1 成功，0 失败
     def DelDay(self, did):
         ms = MySqlconc()
-        sqlstr = "DELETE FROM lyday WHERE id in(select did from lyrt where id=" + str(did) + ")"
+        sqlstr = "DELETE FROM lyday WHERE id in(select did from lyrt where did=" + str(did) + ")"
         print "sqlstr " + sqlstr
         enum2 = ms.SQLexecute(sqlstr)
         sqlstr = "DELETE FROM lypoint WHERE id in( select pid from lyrtp where did="+str(did)+") "
@@ -287,7 +287,7 @@ class DataServicec:
         # 删除景点
         # pid：景点id
         # 返回值：1 成功，0 失败
-    def DelDay(self, pid):
+    def DelPoint(self, pid):
         ms = MySqlconc()
         sqlstr = "DELETE FROM lypoint WHERE id=" + str(pid)
         print "sqlstr " + sqlstr
