@@ -76,7 +76,7 @@ class DataServicec:
     # event:计划描述
     #返回值：新增计划的ID
     def NewProject(self,vdct):
-        cum='';
+        cum=''
         val=''
         for key in vdct:
             if self.getlyprojectfs(key):
@@ -197,7 +197,7 @@ class DataServicec:
         # trevent：交通描述
         # picpath：图片路径预留
     def NewdDay(self, jid,vdct):
-        cum = '';
+        cum = ''
         val = ''
         for key in vdct:
             if self.getlydayfs(key):
@@ -229,7 +229,7 @@ class DataServicec:
         # name:当天说明
         # 返回值：返回修改的影响的行数
     def EidtDay(self, did, vdct):
-        setval = '';
+        setval = ''
         for key in vdct:
             if self.getlydayfs(key):
                 setval = setval + key +"='"+vdct[key]+ "',"
@@ -281,7 +281,7 @@ class DataServicec:
         # picpath：图片路径预留
     # 返回值：新增point的ID
     def NewPoint(self, did,vdct):
-        cum = '';
+        cum = ''
         val = ''
         for key in vdct:
             if self.getlypointfs(key):
@@ -320,7 +320,7 @@ class DataServicec:
         # picpath：图片路径预留
     # 返回值：返回修改的影响的行数
     def EidtPoint(self, pid, vdct):
-        setval = '';
+        setval = ''
         for key in vdct:
             if self.getlypointfs(key):
                 setval = setval + key +"='"+vdct[key]+ "',"
