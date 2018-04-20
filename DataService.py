@@ -1,6 +1,8 @@
 #!/usr/bin/env pytho
 # -- coding: UTF-8
 from MySqlCon import MySqlconc
+import json
+import urllib2
 
 
 class DataServicec:
@@ -136,7 +138,7 @@ class DataServicec:
         sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ")"
         print "sqlstr " + sqlstr
         vallist.append(ms.SQLcumQuert("lyday", sqlstr));
-        sqlstr = "select * from lypoint where id in (select pid from lyrtp did IN (select did from lyrt where jid=" + str(jid) + ")）"
+        sqlstr = "select * from lypoint where id in (select pid from lyrtp where did IN (select did from lyrt where jid=" + str(jid) + "))"
         print "sqlstr " + sqlstr
         vallist.append(ms.SQLcumQuert("lypoint", sqlstr));
     #插入point
@@ -304,7 +306,6 @@ class DataServicec:
         else:
             return 0
 
-
     # 根据天ID查询该计划下所有天数
     # did：天id
     # 返回值：
@@ -313,3 +314,44 @@ class DataServicec:
         sqlstr = "select * from lypoint where id in(select pid from lyrtp where did=" + str(did) + ")"
         print "sqlstr " + sqlstr
         return ms.SQLcumQuert("lyproject", sqlstr)
+# 初始行政区数据
+    def CreateXzq(self):
+        jsonShen= urllib2.urlopen('https://route.showapi.com/268-2?showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420103423&showapi_sign=ec15c42275f2b78434ee166f3660c6b7').read()
+        python_to_json = json.loads(jsonShen)
+        # print python_to_json
+        # print type(python_to_json)
+        listitem=python_to_json['showapi_res_body']
+        print listitem
+        items= listitem['list']
+        ms = MySqlconc()
+        print items
+        for item in items:
+           sqlstr=  "INSERT INTO xzqinfo (id,name,pid) VALUES ("+item['id']+",'"+item['name']+"',0)"
+           enum = ms.SQLexecute(sqlstr)
+           self.CreateXzqCity(item['id'])
+           print item
+
+    # 初始行政区数据
+    def CreateXzqCity(self,id):
+        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420103501&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
+        print url
+        jsonShen = urllib2.urlopen(url).read()
+        python_to_json = json.loads(jsonShen)
+        print python_to_json
+        # print type(python_to_json)
+        listitem = python_to_json['showapi_res_body']
+        print listitem
+        items = listitem['list']
+        ms = MySqlconc()
+        print items
+        nowcityid=""
+        for item in items:
+            # if item.has_key('cityId'):
+            #     sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
+            #         'proName'] + "'," + id + ")"
+            if item.has_key('cityId'):
+                sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item['cityName'] + "',"+id+")"
+                enum = ms.SQLexecute(sqlstr)
+        print item
+        # for (k, v) in python_to_json.items():
+        #     print  str(k)+"    "+str(v)
