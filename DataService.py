@@ -101,10 +101,7 @@ class DataServicec:
         sqlstr = "DELETE FROM lyrt WHERE jid=" + str(jid)
         print "sqlstr " + sqlstr
         enum5 = ms.SQLexecute(sqlstr)
-        if enum1 > 0 and enum4 > 0 and enum5 > 0:
-            return 1
-        else:
-            return 0
+        return enum1
     # 查询project
     # qv：按照名称或者是内容的模糊检索值
     # 返回值：所有相关的计划信息list包 dict
@@ -213,10 +210,7 @@ class DataServicec:
         sqlstr = "DELETE FROM lyrt WHERE did="+str(did)+") "
         print "sqlstr " + sqlstr
         enum5 = ms.SQLexecute(sqlstr)
-        if  enum4 > 0 and enum5 > 0:
-            return 1
-        else:
-            return 0
+        return  enum2
 
     # 根据计划ID查询该计划下所有天数
     # jid：计划ID
@@ -301,11 +295,7 @@ class DataServicec:
         sqlstr = "DELETE FROM lyrtp WHERE pid=" + str(pid)
         print "sqlstr " + sqlstr
         enum2 = ms.SQLexecute(sqlstr)
-        if enum1>0 and enum2>0:
-            return 1
-        else:
-            return 0
-
+        return  enum1
     # 根据天ID查询该计划下所有天数
     # did：天id
     # 返回值：
@@ -316,7 +306,7 @@ class DataServicec:
         return ms.SQLcumQuert("lyproject", sqlstr)
 # 初始行政区数据
     def CreateXzq(self):
-        jsonShen= urllib2.urlopen('https://route.showapi.com/268-2?showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420103423&showapi_sign=ec15c42275f2b78434ee166f3660c6b7').read()
+        jsonShen= urllib2.urlopen('https://route.showapi.com/268-2?showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420105736&showapi_sign=29b1434c4e4103f2f61c9107ac14b4d1').read()
         python_to_json = json.loads(jsonShen)
         # print python_to_json
         # print type(python_to_json)
@@ -333,7 +323,7 @@ class DataServicec:
 
     # 初始行政区数据
     def CreateXzqCity(self,id):
-        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420103501&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
+        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420105736&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
         print url
         jsonShen = urllib2.urlopen(url).read()
         python_to_json = json.loads(jsonShen)
@@ -350,8 +340,12 @@ class DataServicec:
             #     sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
             #         'proName'] + "'," + id + ")"
             if item.has_key('cityId'):
-                sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item['cityName'] + "',"+id+")"
-                enum = ms.SQLexecute(sqlstr)
+                if nowcityid!= item['cityId']:
+                    print nowcityid+" "+ item['cityId']
+                    sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
+                        'cityName'] + "'," + id + ")"
+                    enum = ms.SQLexecute(sqlstr)
+                    nowcityid= item['cityId']
         print item
         # for (k, v) in python_to_json.items():
         #     print  str(k)+"    "+str(v)
