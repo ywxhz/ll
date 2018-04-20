@@ -74,12 +74,13 @@ def del_Point():
 @app.route('/do_editPoint',methods=['POST'])
 def edit_Point():
     reslut = {}
-    vals=request.form
+    vals=request.form.to_dict()
     print vals
-    id=vals['id']
-    vals.pop('id')
+    ids=vals['id']
+    del(vals['id'])
+    #vals.pop(id)
     if request.method == 'POST':
-        reslut = db.EidtPoint(id,vals)
+        reslut = db.EidtPoint(ids,vals)
     return jsonify(reslut)
 
 @app.route('/test')

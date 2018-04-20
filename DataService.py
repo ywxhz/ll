@@ -173,17 +173,17 @@ class DataServicec:
     # 返回值：vallist
     # 链表 ，[0]计划信息、[1]天的信息、[2] 景点信息
     def QueryInfoByJID(self, jid):
-        vallist = []
+        vallist = {}
         ms = MySqlconc()
         sqlstr = "select * from lyproject where id =" + str(jid)
         print "sqlstr " + sqlstr
-        vallist.append(ms.SQLcumQuert("lyproject", sqlstr));
+        vallist['lyproject']=ms.SQLcumQuert("lyproject", sqlstr)
         sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ")"
         print "sqlstr " + sqlstr
-        vallist.append(ms.SQLcumQuert("lyday", sqlstr));
+        vallist['lyday'] =ms.SQLcumQuert("lyday", sqlstr)
         sqlstr = "select * from lypoint where id in (select pid from lyrtp where did IN (select did from lyrt where jid=" + str(jid) + "))"
         print "sqlstr " + sqlstr
-        vallist.append(ms.SQLcumQuert("lypoint", sqlstr));
+        vallist['lypoint'] =ms.SQLcumQuert("lypoint", sqlstr)
         return vallist
     #插入point
         # did：天ID

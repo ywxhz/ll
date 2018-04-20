@@ -94,7 +94,7 @@
                                     '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
                                         '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
                                         '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
-                                        '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" onclick="do_eidtPointJT(\''+itemId+'\')" >编辑交通</span>'+
+                                        '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" onclick="do_eidtPointJT(\''+temp+'\')" >编辑交通</span>'+
                                     '</div>'+
                                '</a>';
                 $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
@@ -131,7 +131,7 @@
             var url = "/do_editPoint";
             var params = $("#formPointTL").serializeArray();
             var data = {};
-            data[id] =nowPointID;
+            data['id'] =nowPointID;
             for( x in params ){
                 alert(params[x].name+" "+params[x].value);
                 data[params[x].name] = params[x].value;
