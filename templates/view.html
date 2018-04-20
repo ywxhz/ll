@@ -1,0 +1,135 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}旅游行程宝{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .list-group-item-separate {
+            margin-bottom: 8px;
+        }
+        html,body{
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                overflow-y: hidden;
+        }
+    </style>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+
+        g_TravelData=false;
+
+        function do_saveTravel() {
+            do_travelError();
+            var url = "/do_createTravel";
+            var params = $("#formTravel").serializeArray();
+            var data = {};
+            for( x in params ){
+                data[params[x].name] = params[x].value;
+             }
+            if(!data["name"]){
+                do_travelError("计划名称不能为空。");
+                return;
+            }
+            $.post(url,data,function(result){
+               if (result['val'] <= 0){
+                   do_travelError(result['msg']);
+               } else {
+                    window.location.href="/seach/"+result['val'];
+               }
+            });
+        }
+
+        function do_travelError(mes) {
+            formTravel = $('#formTravelTip');
+            formTravelHelp = $('#formTravelTip > span.help-block:first');
+            if(mes)
+            {
+               formTravel.addClass("has-error");
+               formTravelHelp.text(mes);
+            }
+            else
+            {
+                formTravel.removeClass("has-error");
+                formTravelHelp.text("");
+            }
+        }
+
+        function do_delTravel(travelId){
+            var url = "/do_delTravel/"+travelId;
+            $.post(url,null,function(result){
+                if(result>0){
+                    $("#"+travelId).remove();
+                }
+            });
+        }
+
+    </script>
+{% endblock %}
+
+{% block navbar %}
+{#    <div class="container-fluid" >#}
+        <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" >
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">自助游行程宝</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li id="liCreateTravel" ><a data-toggle="modal" data-target="#saveTravelModal" ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
+            </ul>
+        </div>
+{#    </div>#}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid"  style="padding-top: 45px;padding-bottom:5px;height: 100%;">
+        <div id="viewTravel" class="row" style="padding-top: 50px;">
+            {% for item in items %}
+                <div id="{{ item.id }}" class="col-xs-6 col-sm-4 col-md-2" style="margin-bottom: 20px;">
+                    <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" style="width:150px;">
+                        <div style="position:relative;">
+                            <a class="glyphicon glyphicon-trash" style="position:absolute;top:0px;right: 0px;" onclick="do_delTravel({{ item.id }})"></a>
+                            <a class="glyphicon glyphicon-edit"  href="/seach/{{ item.id }}" style="position:absolute;top:0px;right: 20px;"></a>
+                            <p class="text-center" style="font-size:80px;font-weight:bold;" >{{item.name|truncate(1,true,"")}}</p>
+                            <p class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveTravelModal" tabindex="10" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title" id="modalLabel">新建行程</h4>
+              </div>
+              <div class="modal-body">
+                    <form id="formTravel" class="bs-example bs-example-form" role="form">
+                        <div id="formTravelTip" class="form-group">
+                            <div class="input-group ">
+                                <span class="input-group-addon">名称</span>
+                                <input id="formTravelText" type="text" required="true" class="form-control" name="name" placeholder="输入计划名称">
+                            </div>
+                            <span class="help-block"></span>
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">描述</span>
+                            <textarea id="formTravelTextArea" rows="3" class="form-control" name="event" placeholder="输入计划的简介和描述"></textarea>
+                        </div>
+                    </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="do_saveTravel()" >保存</button>
+              </div>
+           </div>
+        </div>
+    </div>
+{% endblock %}

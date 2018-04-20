@@ -20,7 +20,15 @@
     {{ super() }}
     <script type="application/javascript" src="../static/dataapi.js"></script>
     <script>
+
         function do_addDay() {
+            var url = "/do_addDay";
+            $.post(url,null,function(id){
+                if(id>0){
+
+                }
+            });
+
             len = $("#listDays a").length+1;
             strDayDec = "第"+len+"天";
             tempId = new Date().getTime();
@@ -51,6 +59,7 @@
             $("#day"+selector).remove();
             $("#tab"+selector).remove();
         }
+
         function do_addPoint(pointId) {
             pName = $("#"+pointId+" h4.list-group-item-heading:first").text();
             pDec = $("#"+pointId+" p.list-group-item-text:first").text();
@@ -84,57 +93,6 @@
             }
         }
 
-
-        g_TravelData=false;
-
-        function do_saveTravel() {
-            do_travelError();
-            var url = "/create-travel";
-            var params = $("#formTravel").serializeArray();
-            var data = {};
-            for( x in params ){
-                data[params[x].name] = params[x].value;
-             }
-            if(!data["name"]){
-                do_travelError("计划名称不能为空。");
-                return;
-            }
-            $.post(url,data,function(result){
-               if (result.id <= 0){
-                   do_travelError("计划名称重名。");
-               } else {
-                    g_TravelData = true;
-                    $('#saveTravelModal').modal('hide');
-               }
-            });
-        }
-
-        function do_travelError(mes) {
-            formTravel = $('#formTravelTip');
-            formTravelHelp = $('#formTravelTip > span.help-block:first');
-            if(mes)
-            {
-               formTravel.addClass("has-error");
-               formTravelHelp.text(mes);
-            }
-            else
-            {
-                formTravel.removeClass("has-error");
-                formTravelHelp.text("");
-            }
-        }
-
-        $("#liCreateTravel").click(function() {
-            $('#saveTravelModal').modal('show');
-            $("#saveTravelModal").on('hidden.bs.modal',function(){
-                if(!g_TravelData){
-                    $("#liCreateTravel,#createTravel").removeClass("active");
-                    $('#liViewTravel,#viewTravel').addClass("active");
-                }
-                $( '#saveTravelModal').off().on( 'hidden', 'hidden.bs.modal');
-                g_TravelData=false;
-            })
-        });
     </script>
 {% endblock %}
 
@@ -145,17 +103,15 @@
                 <a class="navbar-brand" href="#">自助游行程宝</a>
             </div>
             <ul class="nav navbar-nav">
-                <li id="liViewTravel" class="active"><a href="#viewTravel" data-toggle="tab" ><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
-                <li id="liCreateTravel" ><a href="#createTravel"  data-toggle="tab"  ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
+                <li id="liViewTravel" ><a href="/view" ><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
             </ul>
         </div>
 {#    </div>#}
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid tab-content"  style="padding-top: 45px;padding-bottom:5px;height: 100%;">
-        <div id="viewTravel" class="tab-pane fade in active" ></div>
-        <div id="createTravel" class="row tab-pane fade" style="padding-left: 5px;padding-top: 5px;height: 100%">
+    <div class="container-fluid"  style="padding-top: 45px;padding-bottom:5px;height: 100%;">
+        <div id="createTravel" class="row" style="padding-left: 5px;padding-top: 5px;height: 100%">
             <div class="col-xs-6 col-md-7" style="padding-top: 10px;padding-left: 0px;padding-right: 5px;height: 100%;">
                 <div class="panel panel-default " style="height: 100%;" >
                     <div class="panel-heading" style="padding: 0px;">
@@ -180,22 +136,17 @@
                     <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;overflow-y:auto;max-height: 90%;">
                        <a id="10083" href="#" class="list-group-item" >
                             <div class="media">
-                               <div class="media-left">
+                               <div class="media-left media-middle">
                                     <img src="" style="width: 85px;height: 85px;">
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="list-group-item-heading">玛吉阿米</h4>
-                                    <p class="list-group-item-text">八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
+                                    <p class="list-group-item-text">八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
                                 </div>
                                <div class="media-right media-middle">
-                                    <span class="badge" onclick="do_addPoint('10083')"><h4>+</h4></span>
+                                    <span class="badge" style="width: 50px;" onclick="do_addPoint('10083')"><h4>+</h4></span>
                                 </div>
                             </div>
-                       </a>
-                       <a id="10084" href="#" class="list-group-item">
-                            <span class="badge" onclick="do_addPoint('10084')"><h4>+</h4></span>
-                            <h4 class="list-group-item-heading">布达拉宫</h4>
-                            <p class="list-group-item-text">看到了美丽而雄伟的布达拉宫，在蓝天白云的映衬下格外辉煌，而且很是壮观。也是藏族人民最神圣的地方，很多虔诚的信徒。承载的是历史变革之中的柔情。藏族同胞都很淳朴，肃穆的心情。</p>
                        </a>
                     </div>
                     <div id="dipFYIn" style="text-align:right;" ></div>
@@ -222,44 +173,13 @@
                         <div class="col-xs-8 col-md-10" style="padding-left: 5px;padding-right: 0px;height: 100%;">
                             <div id="tabContent" class='tab-content' style="overflow-y:auto;max-height: 90%;">
                             </div>
-                            <p style="margin-left: 15px;margin-top: 10px;">添加自定义 <a href="javascript:;">景点</a>、 <a>餐馆</a>、 <a>交通</a>、 <a>酒店</a></p>
+                            <p style="margin-left: 15px;margin-top: 10px;">添加自定义 <a href="javascript:;">景点</a>、 <a>餐馆</a>、 <a>交通</a>、 <a>酒店</a>、 <a>备注</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="saveTravelModal" tabindex="10" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                    <h4 class="modal-title" id="modalLabel">新建行程</h4>
-                  </div>
-                  <div class="modal-body">
-                        <form id="formTravel" class="bs-example bs-example-form" role="form">
-                            <div id="formTravelTip" class="form-group">
-                                <div class="input-group ">
-                                    <span class="input-group-addon">名称</span>
-                                    <input type="text" required="true" class="form-control" name="name" placeholder="输入计划名称">
-                                </div>
-                                <span class="help-block"></span>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <span class="input-group-addon">描述</span>
-                                <textarea rows="3" class="form-control" name="event" placeholder="输入计划的简介和描述"></textarea>
-                            </div>
-                        </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="do_saveTravel()" >保存</button>
-                  </div>
-               </div>
-            </div>
-        </div>
 
     <div class="modal fade" id="editTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
         <div class="modal-dialog">

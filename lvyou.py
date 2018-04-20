@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
 
@@ -7,19 +7,44 @@ Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 db = DataServicec()
 
-@app.route('/seach')
-def hello_world():
+@app.route('/seach/<id>')
+def seach_travel(id):
+    datas = db.QueryInfoByJID(id)
     return render_template('seach.html')
+
+@app.route('/view')
+def view_travel():
+    items = db.QueryProjectByName("")
+    return render_template('view.html', items = items)
+
+@app.route('/do_createTravel',methods=['POST'])
+def create_travel():
+    reslut = {}
+    if request.method == 'POST':
+        reslut = db.NewProject(request.form)
+    return jsonify(reslut)
+
+@app.route('/do_delTravel/<id>',methods=['POST'])
+def del_travel(id):
+    reslut = None;
+    if request.method == 'POST':
+        reslut = db.DelProject(id)
+    return jsonify(reslut)
+
+@app.route('/do_addDay',methods=['POST'])
+def add_Day():
+    reslut = None
+    if request.method == 'POST':
+        reslut = db.NewdDay();
+    return jsonify(reslut)
+
+
+
 
 @app.route('/test')
 def hello_world1():
     return render_template('test.html')
 
-@app.route('/create-travel',methods=['POST'])
-def create_travel():
-    if request.method == 'POST':
-        id = db.NewProject(request.form)
-    return jsonify({'id': id})
 
 @app.route('/user/<name>')
 def user(name):
