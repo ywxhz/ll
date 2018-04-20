@@ -47,6 +47,14 @@ def add_Day():
         reslut = db.NewdDay(jid, request.form)
     return jsonify(reslut)
 
+@app.route('/do_delDay',methods=['POST'])
+def del_Day():
+    reslut = None
+    if request.method == 'POST':
+        did = request.form["dayId"]
+        reslut = db.DelDay(did)
+    return jsonify(reslut)
+
 
 
 

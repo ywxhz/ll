@@ -43,6 +43,8 @@
                                  '</div>';
                     $('#tabContent div').removeClass('active');
                     $("#tabContent").append(strElement);
+                }else{
+{#                 警告删除失败#}
                 }
             });
 
@@ -50,15 +52,18 @@
 
         }
 
-        function do_itemAcitve(item) {
-{#            $('#listDays a').removeClass('active');#}
-{#            $('#tabContent div').removeClass('active');#}
-{#            $(item).addClass('active');#}
-        }
-
-        function do_delDay(selector) {
-            $("#day"+selector).remove();
-            $("#tab"+selector).remove();
+        function do_delDay(dayId) {
+            data = {"dayId":dayId}
+            var url = "/do_delDay";
+            $.post(url,data,function(reslut){
+                if(reslut>=0){
+                    $("#day"+dayId).remove();
+                    $("#tab"+dayId).remove();
+                }
+                else{
+{#                    警告删除失败#}
+                }
+            });
         }
 
         function do_addPoint(pointId) {
