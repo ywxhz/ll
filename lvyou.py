@@ -10,7 +10,7 @@ db = DataServicec()
 @app.route('/seach/<id>')
 def seach_travel(id):
     datas = db.QueryInfoByJID(id)
-    return render_template('seach.html', proId = id)
+    return render_template('seach.html', proId = id, lyproject = datas["lyproject"], lyday = datas["lyday"], lypoint = datas["lypoint"])
 
 @app.route('/view')
 def view_travel():
