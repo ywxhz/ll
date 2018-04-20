@@ -60,7 +60,7 @@ def add_Point():
     reslut = None
     if request.method == 'POST':
         dayId = request.form["dayId"]
-        reslut = db.NewPoint()
+        reslut = db.NewPoint(dayId, request.form)
     return jsonify(reslut)
 
 @app.route('/do_delPoint',methods=['POST'])
