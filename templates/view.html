@@ -88,13 +88,16 @@
     <div class="container-fluid"  style="padding-top: 45px;padding-bottom:5px;height: 100%;">
         <div id="viewTravel" class="row" style="padding-top: 50px;">
             {% for item in items %}
-                <div id="{{ item.id }}" class="col-xs-6 col-sm-4 col-md-2" style="margin-bottom: 20px;">
-                    <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" style="width:150px;">
+                <div id="{{ item.id }}" class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom: 20px;">
+                    <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" style="width:220px;">
                         <div style="position:relative;">
                             <a class="glyphicon glyphicon-trash" style="position:absolute;top:0px;right: 0px;" onclick="do_delTravel({{ item.id }})"></a>
                             <a class="glyphicon glyphicon-edit"  href="/seach/{{ item.id }}" style="position:absolute;top:0px;right: 20px;"></a>
                             <p class="text-center" style="font-size:80px;font-weight:bold;" >{{item.name|truncate(1,true,"")}}</p>
+                            <p style="font-size:15px;font-weight:bold;position:absolute;right: 0px;top: 70px;">10天</p>
                             <p class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
+                            <p style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >行程:拉萨-尼泊尔</p>
+                            <p style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >费用:3250元</p>
                         </div>
                     </div>
                 </div>
