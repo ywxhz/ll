@@ -296,7 +296,7 @@ function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSm
         var htmlstr1="";
         htmlstr1+="<a href=\"#\" class=\"list-group-item\" >";
         htmlstr1+="<div class=\"media\">";
-        htmlstr1+="<div class=\"media-left\">";
+        htmlstr1+="<div class=\"media-left media-middle\">";
         htmlstr1+="<img  src='"+picUrlSmall+"' style=\"height:85px;width:85px;\" />";
         htmlstr1+="</div>";
         htmlstr1+="<div class=\"media-body media-middle\"  id=\""+idindex.toString()+"\">";
