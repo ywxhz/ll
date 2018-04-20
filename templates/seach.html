@@ -175,11 +175,14 @@
             var data = {};
             data['dayId'] =get_activeDayID();
             data['tptrainsp'] =nowJTFS;
-             data['type'] =nowZDYtype;
+            data['type'] =nowZDYtype;
             for( x in params ){
                 //alert(params[x].name+" "+params[x].value);
                 data[params[x].name] = params[x].value;
              }
+            data['name'] = data['stratc']+"-"+data['endc'];
+            data['event'] = "出发时间:"+data['stratt']+"，从"+data['stratc']+data['stratp']+"，乘坐班次"+data['tptrain']+" "+data['tptrainsp']+"，于"+data['endt']+"到达"+data['endc']+data['endp'];
+            //( data['name']+" "+data['event'] );
             $.post(url,data,function(result){
                if (result > 0){
                    //lzh-大交通成功回调
