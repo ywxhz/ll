@@ -184,6 +184,7 @@ class DataServicec:
         sqlstr = "select * from lypoint where id in (select pid from lyrtp where did IN (select did from lyrt where jid=" + str(jid) + "))"
         print "sqlstr " + sqlstr
         vallist.append(ms.SQLcumQuert("lypoint", sqlstr));
+        return vallist
     #插入point
         # did：天ID
         # ---vdct说明 vdct可以传任意字段 **必填
