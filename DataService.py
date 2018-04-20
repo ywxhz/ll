@@ -79,7 +79,7 @@ class DataServicec:
         cum='';
         val=''
         for key in vdct:
-            if self.getlyprojectfs(cum):
+            if self.getlyprojectfs(key):
                 cum=cum+key+","
                 val=val+"'"+vdct[key] + "',"
                 print key+" "+vdct[key]
@@ -200,7 +200,7 @@ class DataServicec:
         cum = '';
         val = ''
         for key in vdct:
-            if self.getlydayfs(cum):
+            if self.getlydayfs(key):
                 cum = cum + key + ","
                 val = val + "'" + vdct[key] + "',"
                 print key + " " + vdct[key]
@@ -284,7 +284,7 @@ class DataServicec:
         cum = '';
         val = ''
         for key in vdct:
-            if self.getlypointfs(cum):
+            if self.getlypointfs(key):
                 cum = cum + key + ","
                 val = val + "'" + vdct[key] + "',"
                 print key + " " + vdct[key]
