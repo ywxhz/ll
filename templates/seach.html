@@ -105,7 +105,7 @@
             var params = $("#formPointTL").serializeArray();
             var data = {};
             for( x in params ){
-                alert(data[params[x].name]+" "+params[x].value);
+                alert(params[x].name+" "+params[x].value);
                 data[params[x].name] = params[x].value;
              }
             $.post(url,data,function(result){
@@ -230,18 +230,12 @@
                                 </div>
                            </form>
               </div>
-{#                        <div id="myTabContent" class="tab-content">#}
-{#                            <div class="tab-pane fade in active" id="TRbs">#}
-{#                                1#}
-{#                            </div>#}
-{#                        </div>#}
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="do_savePointTL()" >提交更改</button>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="do_savePointTL()" >提交更改</button>
+                </div>
               </div>
           </div>
         </div>
-    </div>
 
 {% endblock %}

@@ -7,6 +7,49 @@ import time
 
 
 class DataServicec:
+    fslyday = []
+    fslypoint = []
+    fslyproject = []
+    def getlydayfs(self,filed):
+        fs=[]
+        if len(self.fslyday) == 0:
+            ms = MySqlconc()
+            sqlstr = "select COLUMN_NAME from information_schema.columns where table_name='lyday'"
+            self.fslyday = ms.SQLQuery(sqlstr)
+        fs = self.fslyday
+        hf=False
+        for f in fs:
+            vl=str(f)[3:-3]
+            if  filed ==vl:
+                hf=True
+        return hf
+    def getlypointfs(self,filed):
+        fs=[]
+        if len(self.fslypoint)==0:
+            ms = MySqlconc()
+            sqlstr = "select COLUMN_NAME from information_schema.columns where table_name='lypoint'"
+            self.fslypoint=ms.SQLQuery(sqlstr)
+        fs = self.fslypoint
+        hf=False
+        for f in fs:
+            vl=str(f)[3:-3]
+            if  filed ==vl:
+                hf=True
+        return hf
+    def getlyprojectfs(self,filed):
+        fs=[]
+        if len(self.fslyproject) == 0:
+            ms = MySqlconc()
+            sqlstr = "select COLUMN_NAME from information_schema.columns where table_name='lyproject'"
+            self.fslyproject = ms.SQLQuery(sqlstr)
+        fs = self.fslyproject
+        hf=False
+        for f in fs:
+            vl=str(f)[3:-3]
+            # print filed +" "+vl
+            if  filed ==vl:
+                hf=True
+        return hf
 
     def xx(self):
         ms = MySqlconc()
@@ -36,9 +79,10 @@ class DataServicec:
         cum='';
         val=''
         for key in vdct:
-            cum=cum+key+","
-            val=val+"'"+vdct[key] + "',"
-            print key+" "+vdct[key]
+            if self.getlyprojectfs(cum):
+                cum=cum+key+","
+                val=val+"'"+vdct[key] + "',"
+                print key+" "+vdct[key]
         cum=cum[:-1];
         val = val[:-1];
         ms = MySqlconc()
@@ -74,7 +118,8 @@ class DataServicec:
     def EidtProject(self, jid, vdct):
         setval = '';
         for key in vdct:
-            setval = setval + key + "='" + vdct[key] + "',"
+            if self.getlyprojectfs(key):
+                setval = setval + key + "='" + vdct[key] + "',"
         setval = setval[:-1];
         ms = MySqlconc()
         sqlstr = "UPDATE lyproject SET " + setval + " where id=" + str(jid)
@@ -155,9 +200,10 @@ class DataServicec:
         cum = '';
         val = ''
         for key in vdct:
-            cum = cum + key + ","
-            val = val + "'" + vdct[key] + "',"
-            print key + " " + vdct[key]
+            if self.getlydayfs(cum):
+                cum = cum + key + ","
+                val = val + "'" + vdct[key] + "',"
+                print key + " " + vdct[key]
         cum = cum[:-1];
         val = val[:-1];
         ms = MySqlconc()
@@ -185,7 +231,8 @@ class DataServicec:
     def EidtDay(self, did, vdct):
         setval = '';
         for key in vdct:
-            setval = setval + key +"='"+vdct[key]+ "',"
+            if self.getlydayfs(key):
+                setval = setval + key +"='"+vdct[key]+ "',"
         setval = setval[:-1];
         ms = MySqlconc()
         sqlstr = "UPDATE lyday SET "+setval+" where id="+str(did)
@@ -211,8 +258,6 @@ class DataServicec:
         print "sqlstr " + sqlstr
         enum5 = ms.SQLexecute(sqlstr)
         return  enum2
-
-
     # 根据计划ID查询该计划下所有天数
     # jid：计划ID
     # 返回值：
@@ -239,9 +284,10 @@ class DataServicec:
         cum = '';
         val = ''
         for key in vdct:
-            cum = cum + key + ","
-            val = val + "'" + vdct[key] + "',"
-            print key + " " + vdct[key]
+            if self.getlypointfs(cum):
+                cum = cum + key + ","
+                val = val + "'" + vdct[key] + "',"
+                print key + " " + vdct[key]
         cum = cum[:-1];
         val = val[:-1];
         ms = MySqlconc()
@@ -276,7 +322,8 @@ class DataServicec:
     def EidtPoint(self, pid, vdct):
         setval = '';
         for key in vdct:
-            setval = setval + key +"='"+vdct[key]+ "',"
+            if self.getlypointfs(key):
+                setval = setval + key +"='"+vdct[key]+ "',"
         setval = setval[:-1];
         ms = MySqlconc()
         sqlstr = "UPDATE lypoint SET "+setval+" where id="+str(pid)
