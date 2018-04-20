@@ -18,5 +18,5 @@ ds = DataServicec();
 # ds.EidtDay(8,dict)
 # dict={'daynum': '10', 'name': '北京故宫'}
 # print ds.DelDay(13)
-ds.CreateXzq()
+# ds.CreateXzq()
 # print  ds.QueryProject("2")

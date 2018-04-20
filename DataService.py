@@ -3,6 +3,7 @@
 from MySqlCon import MySqlconc
 import json
 import urllib2
+import time
 
 
 class DataServicec:
@@ -150,7 +151,6 @@ class DataServicec:
         # trtime：交通用时
         # trevent：交通描述
         # picpath：图片路径预留
-
     def NewdDay(self, jid,vdct):
         cum = '';
         val = ''
@@ -306,46 +306,50 @@ class DataServicec:
         return ms.SQLcumQuert("lyproject", sqlstr)
 # 初始行政区数据
     def CreateXzq(self):
-        jsonShen= urllib2.urlopen('https://route.showapi.com/268-2?showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420105736&showapi_sign=29b1434c4e4103f2f61c9107ac14b4d1').read()
+        jsonShen= urllib2.urlopen('https://route.showapi.com/268-2?showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420111616&showapi_sign=ece7531dc98a7584edff4751f6cfaf4a').read()
         python_to_json = json.loads(jsonShen)
         # print python_to_json
         # print type(python_to_json)
         listitem=python_to_json['showapi_res_body']
         print listitem
-        items= listitem['list']
-        ms = MySqlconc()
-        print items
-        for item in items:
-           sqlstr=  "INSERT INTO xzqinfo (id,name,pid) VALUES ("+item['id']+",'"+item['name']+"',0)"
-           enum = ms.SQLexecute(sqlstr)
-           self.CreateXzqCity(item['id'])
-           print item
+        if listitem.has_key('list'):
+            items= listitem['list']
+            ms = MySqlconc()
+            print items
+            for item in items:
+               sqlstr=  "INSERT INTO xzqinfo (id,name,pid) VALUES ("+item['id']+",'"+item['name']+"',0)"
+               enum = ms.SQLexecute(sqlstr)
+               self.CreateXzqCity(item['id'])
+               print item
 
     # 初始行政区数据
     def CreateXzqCity(self,id):
-        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420105736&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
+        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420111649&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
         print url
+        time.sleep(1)
         jsonShen = urllib2.urlopen(url).read()
         python_to_json = json.loads(jsonShen)
         print python_to_json
         # print type(python_to_json)
         listitem = python_to_json['showapi_res_body']
         print listitem
-        items = listitem['list']
-        ms = MySqlconc()
-        print items
-        nowcityid=""
-        for item in items:
-            # if item.has_key('cityId'):
-            #     sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
-            #         'proName'] + "'," + id + ")"
-            if item.has_key('cityId'):
-                if nowcityid!= item['cityId']:
-                    print nowcityid+" "+ item['cityId']
-                    sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
-                        'cityName'] + "'," + id + ")"
-                    enum = ms.SQLexecute(sqlstr)
-                    nowcityid= item['cityId']
-        print item
+        if listitem.has_key('list'):
+            items = listitem['list']
+            ms = MySqlconc()
+            print items
+            nowcityid=""
+            for item in items:
+                # if item.has_key('cityId'):
+                #     sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
+                #         'proName'] + "'," + id + ")"
+                if item.has_key('cityId'):
+                    if nowcityid!= item['cityId']:
+                        print nowcityid+" "+ item['cityId']
+                        sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
+                            'cityName'] + "'," + id + ")"
+                        enum = ms.SQLexecute(sqlstr)
+                        nowcityid= item['cityId']
+            print item
+
         # for (k, v) in python_to_json.items():
         #     print  str(k)+"    "+str(v)
