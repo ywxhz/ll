@@ -32,23 +32,14 @@
             len = $("#listDays a").length+1;
             data = {"daynum":len,"proId":proId}
             var url = "/do_addDay";
-            $.post(url,data,function(id){
+            $.post(url,data,function(data){
+                id = data["id"];
                 if(id>0){
-                    strDayDec = "第"+len+"天";
-                    dayId = "day"+id;
-                    tabId = "tab"+id;
-                    strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(this)">'+strDayDec+
-                                    '<span class="glyphicon glyphicon-trash" style="float: right;" onclick="do_delDay(\''+id+'\')"></span>'+
-                                    '<span class="center-block " style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap; " >拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨</span>'+
-                                 '</a>';
+                    strElement = data["list-day"];
                     $('#listDays a').removeClass('active');
                     $("#listDays").append(strElement);
 
-                    strElement = '<div class="tab-pane fade in active" id="'+tabId+'" value="'+id+'">'+
-                                    '<h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   '+strDayDec+'</h4>'+
-                                    '<div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >'+
-                                    '</div>'+
-                                 '</div>';
+                    strElement = data["list-day-tab"];
                     $('#tabContent div').removeClass('active');
                     $("#tabContent").append(strElement);
                 }else{

@@ -1,3 +1,4 @@
+# -- coding: UTF-8
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
@@ -45,10 +46,15 @@ def del_travel(id):
 
 @app.route('/do_addDay',methods=['POST'])
 def add_Day():
-    reslut = None
+    reslut = {}
     if request.method == 'POST':
         jid = request.form["proId"]
-        reslut = db.NewdDay(jid, request.form)
+        daynum = request.form["daynum"]
+        dayId = db.NewdDay(jid, request.form)
+        reslut["id"] = dayId
+        day_str = u" 第"+str(daynum)+u"天"
+        reslut["list-day"] = render_template('list-day.html', itemDay=reslut, day_active="active", day_str = day_str)
+        reslut["list-day-tab"] = render_template('list-day-tab.html', itemDay=reslut, day_active="active", day_str = day_str)
     return jsonify(reslut)
 
 @app.route('/do_delDay',methods=['POST'])
