@@ -94,7 +94,7 @@
                                     '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
                                         '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
                                         '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
-                                        '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" >编辑交通</span>'+
+                                        '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" onclick="do_eidtPointJT(\''+itemId+'\')" >编辑交通</span>'+
                                     '</div>'+
                                '</a>';
                 $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
@@ -121,12 +121,17 @@
                 $("#"+decId).hide();
             }
         }
-
+        var nowPointID;
+        function do_eidtPointJT(itemid){
+            nowPointID =itemid;
+        }
         function do_savePointTL() {
 {#            do_travelError();#}
-            var url = "/do_editDay";
+
+            var url = "/do_editPoint";
             var params = $("#formPointTL").serializeArray();
             var data = {};
+            data[id] =nowPointID;
             for( x in params ){
                 alert(params[x].name+" "+params[x].value);
                 data[params[x].name] = params[x].value;
@@ -261,7 +266,7 @@
               </div>
           </div>
         </div>
-    <div class="modal fade" id="editJDTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal fade" id="editBigTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
@@ -269,7 +274,7 @@
                 <h4 class="modal-title" id="myModalLabel">编辑交通</h4>
               </div>
               <div class="modal-body">
-                       <ul id="pointJDTLTab" class="nav nav-tabs">
+                       <ul id="pointBigTLTab" class="nav nav-tabs">
                             <li class="active"><a href="#TRbs" data-toggle="tab"><img src="../static/img/bs.png" height="30" width="30"/></a></li>
                             <li><a href="#TRds" data-toggle="tab"> <img src="../static/img/ds.png" height="30" width="30"/></a></li>
                             <li><a href="#TRhc" data-toggle="tab"> <img src="../static/img/hc.png" height="30" width="30"/></a></li>
@@ -278,13 +283,13 @@
                           <form id="formJDPointTL" class="bs-example bs-example-form" role="form">
                                 <div class="input-group ">
                                     <span class="input-group-addon">交通时间</span>
-                                    <input id="formPointTLText" type="text" required="true" class="form-control" name="JDtrtime" placeholder="输入交通时间">
+                                    <input id="formBigPointTLText" type="text" required="true" class="form-control" name="Bigtrtime" placeholder="输入交通时间">
                                 </div>
                            </form>
               </div>
                  <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="do_savePointTL()" >提交更改</button>
+                    <button type="button" class="btn btn-primary" onclick="do_saveBigPointTL()" >提交更改</button>
                 </div>
               </div>
           </div>

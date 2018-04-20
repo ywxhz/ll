@@ -71,7 +71,16 @@ def del_Point():
         reslut = db.DelPoint(pointId)
     return jsonify(reslut)
 
-
+@app.route('/do_editPoint',methods=['POST'])
+def edit_Point():
+    reslut = {}
+    vals=request.form
+    print vals
+    id=vals['id']
+    vals.pop('id')
+    if request.method == 'POST':
+        reslut = db.EidtPoint(id,vals)
+    return jsonify(reslut)
 
 @app.route('/test')
 def hello_world1():
