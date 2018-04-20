@@ -27,9 +27,13 @@ def create_travel():
 @app.route('/do_editDay',methods=['POST'])
 def edit_Day():
     reslut = {}
-    print  request.form
+    vals = request.form.to_dict()
+    print vals
+    ids = vals['id']
+    del (vals['id'])
+    # vals.pop(id)
     if request.method == 'POST':
-        reslut = db.EidtPoint(11,request.form)
+        reslut = db.EidtDay(ids, vals)
     return jsonify(reslut)
 
 @app.route('/do_delTravel/<id>',methods=['POST'])
@@ -61,6 +65,15 @@ def add_Point():
     if request.method == 'POST':
         dayId = request.form["dayId"]
         reslut = db.NewPoint(dayId, request.form)
+    return jsonify(reslut)
+
+@app.route('/do_addPointBJ',methods=['POST'])
+def add_PointBJ():
+    reslut = None;
+    if request.method == 'POST':
+        dayId = request.form["dayId"]
+        reslut = db.NewPoint(dayId, request.form)
+        print reslut
     return jsonify(reslut)
 
 @app.route('/do_delPoint',methods=['POST'])

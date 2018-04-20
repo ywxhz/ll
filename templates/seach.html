@@ -122,28 +122,121 @@
             }
         }
         var nowPointID;
+        var nowJTFS="巴士";
+        var nowZDYtype="";
+        function do_PointTLSL(JTFS){
+            nowJTFS=JTFS;
+            //alert(nowJTFS);
+        }
         function do_eidtPointJT(itemid){
             nowPointID =itemid;
         }
+         function do_ZDYtype(item){
+             $("#myZDYModalLabel").empty();
+             $("#myZDYModalLabel").append(item);
+            nowZDYtype =item;
+        }
         function do_savePointTL() {
 {#            do_travelError();#}
-
             var url = "/do_editPoint";
             var params = $("#formPointTL").serializeArray();
             var data = {};
             data['id'] =nowPointID;
+            data['transport'] =nowJTFS;
             for( x in params ){
-                alert(params[x].name+" "+params[x].value);
+                //alert(params[x].name+" "+params[x].value);
                 data[params[x].name] = params[x].value;
              }
             $.post(url,data,function(result){
-               if (result['val'] <= 0){
-                   do_travelError(result['msg']);
+                //alert(result);
+               if (result <= 0){
+                   alert("修改失败");
                } else {
-                    window.location.href="/seach/"+result['val'];
+                   // window.location.href="/seach/"+result['val'];
+                   if($("#editTrafficModal").is(':hidden')){
+                        $("#editTrafficModal").modal('show');
+                    }else{
+                        $("#editTrafficModal").modal('hide');
+                    }
                }
             });
         }
+        function do_saveBigPointTL() {
+{#            do_travelError();#}
+            var url = "/do_addPointBJ";
+            var params = $("#formBigPointTL").serializeArray();
+            var data = {};
+            data['dayId'] =get_activeDayID();
+            data['tptrainsp'] =nowJTFS;
+             data['type'] =nowZDYtype;
+            for( x in params ){
+                //alert(params[x].name+" "+params[x].value);
+                data[params[x].name] = params[x].value;
+             }
+            $.post(url,data,function(result){
+               if (result > 0){
+                   //lzh-大交通成功回调
+                    //lzh-大交通成功回调
+                   if($("#editJDTrafficModal").is(':hidden')){
+                        $("#editJDTrafficModal").modal('show');
+                    }else{
+                        $("#editJDTrafficModal").modal('hide');
+                    }
+               } else {
+                   alert("添加失败");
+               }
+            });
+        }
+        function do_saveZXDTL() {
+{#            do_travelError();#}
+            var url = "/do_addPoint";
+            var params = $("#formZDYTL").serializeArray();
+            var data = {};
+            data['dayId'] =get_activeDayID();
+            data['type'] =nowZDYtype;
+            for( x in params ){
+                //alert(params[x].name+" "+params[x].value);
+                data[params[x].name] = params[x].value;
+             }
+            $.post(url,data,function(result){
+               if (result > 0){
+                   //lzh-自定义添加成功回调
+                    //lzh-自定义添加成功回调
+                   if($("#editZDYModal").is(':hidden')){
+                        $("#editZDYModal").modal('show');
+                    }else{
+                        $("#editZDYModal").modal('hide');
+                    }
+               } else {
+                   alert("添加失败");
+               }
+            });
+        }
+        function do_saveDayBZ(){
+            var url = "/do_editDay";
+            var params = $("#formDayBZ").serializeArray();
+            var data = {};
+            data['id'] =get_activeDayID();;
+            for( x in params ){
+                //alert(params[x].name+" "+params[x].value);
+                data[params[x].name] = params[x].value;
+             }
+            $.post(url,data,function(result){
+                //alert(result);
+               if (result <= 0){
+                   alert("修改失败");
+               } else {
+                   // window.location.href="/seach/"+result['val'];
+                   if($("#editDayModal").is(':hidden')){
+                        $("#editDayModal").modal('show');
+                    }else{
+                        $("#editDayModal").modal('hide');
+                    }
+               }
+            });
+        }
+
+
     </script>
 {% endblock %}
 
@@ -229,11 +322,11 @@
                             <div id="tabContent" class='tab-content' style="overflow-y:auto;max-height: 90%;">
                             </div>
                             <p style="margin-left: 15px;margin-top: 10px;">添加自定义
-                                <a href="javascript:;">景点</a>、
-                                <a>餐馆</a>、
-                                <a data-toggle="modal" data-target="#editJDTrafficModal" >交通</a>、
-                                <a>酒店</a>、
-                                <a>备注</a>
+                                <a href="javascript:;" data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-景点')">景点</a>、
+                                <a data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-餐馆')">餐馆</a>、
+                                <a data-toggle="modal" data-target="#editJDTrafficModal"  onclick="do_ZDYtype('自定义-交通')">交通</a>、
+                                <a data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-酒店')">酒店</a>、
+                                <a data-toggle="modal" data-target="#editDayModal" >备注</a>
                             </p>
                         </div>
                     </div>
@@ -251,10 +344,10 @@
               </div>
               <div class="modal-body">
                        <ul id="pointTLTab" class="nav nav-tabs">
-                            <li class="active"><a href="#TRbs" data-toggle="tab"><img src="../static/img/bs.png" height="30" width="30"/></a></li>
-                            <li><a href="#TRds" data-toggle="tab"> <img src="../static/img/ds.png" height="30" width="30"/></a></li>
-                            <li><a href="#TRhc" data-toggle="tab"> <img src="../static/img/hc.png" height="30" width="30"/></a></li>
-                            <li><a href="#TRdt" data-toggle="tab"> <img src="../static/img/dt.png" height="30" width="30"/></a></li>
+                            <li  class="active"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" ><img src="../static/img/bs.png" height="30" width="30"/></a></li>
+                            <li onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" > <img src="../static/img/ds.png" height="30" width="30"/></a></li>
+                            <li onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" > <img src="../static/img/hc.png" height="30" width="30"/></a></li>
+                            <li onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁" > <img src="../static/img/dt.png" height="30" width="30"/></a></li>
                         </ul>
                           <form id="formPointTL" class="bs-example bs-example-form" role="form">
                                 <div class="input-group ">
@@ -275,26 +368,100 @@
               </div>
           </div>
         </div>
-    <div class="modal fade" id="editBigTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+
+    <div class="modal fade" id="editZDYModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title" id="myModalLabel">编辑交通</h4>
+                <h4 class="modal-title" id="myZDYModalLabel">编辑交通</h4>
               </div>
               <div class="modal-body">
-                       <ul id="pointBigTLTab" class="nav nav-tabs">
-                            <li class="active"><a href="#TRbs" data-toggle="tab"><img src="../static/img/bs.png" height="30" width="30"/></a></li>
-                            <li><a href="#TRds" data-toggle="tab"> <img src="../static/img/ds.png" height="30" width="30"/></a></li>
-                            <li><a href="#TRhc" data-toggle="tab"> <img src="../static/img/hc.png" height="30" width="30"/></a></li>
-                            <li><a href="#TRdt" data-toggle="tab"> <img src="../static/img/dt.png" height="30" width="30"/></a></li>
-                        </ul>
-                          <form id="formJDPointTL" class="bs-example bs-example-form" role="form">
+                          <form id="formZDYTL" class="bs-example bs-example-form" role="form">
                                 <div class="input-group ">
-                                    <span class="input-group-addon">交通时间</span>
-                                    <input id="formBigPointTLText" type="text" required="true" class="form-control" name="Bigtrtime" placeholder="输入交通时间">
+                                    <span class="input-group-addon">名称</span>
+                                    <input id="formPointTLText" type="text" required="true" class="form-control" name="name" placeholder="输入名称">
+                                </div>
+                                    <span class="help-block"></span>
+                                <div class="input-group">
+                                    <span class="input-group-addon">备注</span>
+                                        <textarea id="formPointTLTextArea" rows="3" class="form-control" name="event" placeholder="输入备注"></textarea>
                                 </div>
                            </form>
+              </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="do_saveZXDTL()" >提交更改</button>
+                </div>
+              </div>
+          </div>
+        </div>
+    <div class="modal fade" id="editDayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title" id="myDayModalLabel">编辑当天备注</h4>
+              </div>
+              <div class="modal-body">
+                          <form id="formDayBZ" class="bs-example bs-example-form" role="form">
+                                    <span class="help-block"></span>
+                                <div class="input-group">
+                                    <span class="input-group-addon">备注</span>
+                                        <textarea id="formPointTLTextArea" rows="3" class="form-control" name="dayevent" placeholder="输入备注"></textarea>
+                                </div>
+                           </form>
+              </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="do_saveDayBZ()" >提交更改</button>
+                </div>
+              </div>
+          </div>
+        </div>
+
+    <div class="modal fade" id="editJDTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title" id="myModalLabel">编辑城际交通</h4>
+              </div>
+              <div class="modal-body">
+                     <ul id="pointBigTLTab" class="nav nav-tabs">
+                        <li  class="active"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" ><img src="../static/img/bs.png" height="30" width="30"/></a></li>
+                        <li onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" > <img src="../static/img/ds.png" height="30" width="30"/></a></li>
+                        <li onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" > <img src="../static/img/hc.png" height="30" width="30"/></a></li>
+                        <li onclick="do_PointTLSL('飞机')"><a href="#TRdt" data-toggle="tab" name="飞机" > <img src="../static/img/fj.png" height="30" width="30"/></a></li>
+                    </ul>
+                      <form id="formBigPointTL" class="bs-example bs-example-form" role="form">
+                            <table style="width:100%;height:100%;border-spacing:10px;cellspacing:10px" >
+                            <tr>
+                                <td>出发城市</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="stratc" placeholder="输入出发城市"></td>
+                                <td>到达城市</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endc" placeholder="输入到达城市"></td>
+                            </tr>
+                            <tr>
+                                <td>出发站点</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="stratp" placeholder="输入出发站点"></td>
+                                <td>到达站点</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endp" placeholder="输入到达站点"></td>
+                            </tr>
+                            <tr>
+                                <td>出发时间</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="stratt" placeholder="输入出发时间"></td>
+                                <td>到达时间</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endt" placeholder="输入到达时间"></td>
+                            </tr>
+                             <tr>
+                                 <td>车次</td>
+                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="tptrain" placeholder="输入车次"></td>
+                            </tr>
+                            </table>
+                                <span class="input-group-addon">交通备注</span>
+                                <textarea id="formPointTLTextArea" rows="3" class="form-control" name="tptrainevent" placeholder="输入交通备注"></textarea>
+                       </form>
               </div>
                  <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

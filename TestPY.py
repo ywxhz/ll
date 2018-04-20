@@ -17,11 +17,11 @@ ds = DataServicec();
 # dict={'daynum': '10', 'name': '北京故宫'}
 # ds.EidtDay(8,dict)
 # dict={'daynum': '10', 'name': '北京故宫'}
-# print ds.DelDay(13)
-print ds.getlydayfs('name')
-print ds.getlypointfs('event')
-print ds.getlyprojectfs('id')
-print ds.getlyprojectfs('xx')
-print ds.getlypointfs('xx')
-print ds.getlydayfs('123')
+print ds.QueryInfoByJID(4)
+# print ds.getlydayfs('name')
+# print ds.getlypointfs('event')
+# print ds.getlyprojectfs('id')
+# print ds.getlyprojectfs('xx')
+# print ds.getlypointfs('xx')
+# print ds.getlydayfs('123')
 # print  ds.QueryProject("2")

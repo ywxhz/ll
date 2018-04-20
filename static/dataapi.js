@@ -257,7 +257,7 @@ function getpointapi(cityid,pointname) {
                                              }
                                              //alert("输出_ "+fi.toString()+" "+content+"  "+picUrlSmall);
                                              //输出每行
-                                             $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,content,picUrlSmall));
+                                             $("#dipIn").append(getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall));
                                              content="";
                                              summary=""
                                          });
@@ -293,6 +293,7 @@ function getpointapi(cityid,pointname) {
         })
 }
 function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSmall) {
+    //alert(summary);
         var htmlstr1="";
         htmlstr1+="<a href=\"#\" class=\"list-group-item\" >";
         htmlstr1+="<div class=\"media\">";
