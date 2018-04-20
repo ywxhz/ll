@@ -55,6 +55,21 @@ def del_Day():
         reslut = db.DelDay(did)
     return jsonify(reslut)
 
+@app.route('/do_addPoint',methods=['POST'])
+def add_Point():
+    reslut = None
+    if request.method == 'POST':
+        dayId = request.form["dayId"]
+        reslut = db.NewPoint()
+    return jsonify(reslut)
+
+@app.route('/do_delPoint',methods=['POST'])
+def del_Point():
+    reslut = None
+    if request.method == 'POST':
+        pointId = request.form["pointId"]
+        reslut = db.DelPoint(pointId)
+    return jsonify(reslut)
 
 
 

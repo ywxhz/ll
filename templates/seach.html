@@ -30,13 +30,14 @@
                     strDayDec = "第"+len+"天";
                     dayId = "day"+id;
                     tabId = "tab"+id;
-                    strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(this)">'+strDayDec+
-                                    '<span class="glyphicon glyphicon-trash" onclick="do_delDay(\''+id+'\')"></span>'+
+                    strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" >'+strDayDec+
+                                    '<span class="glyphicon glyphicon-trash" style="float: right;" onclick="do_delDay(\''+id+'\')"></span>'+
+                                    '<span class="center-block " style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap; " >拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨</span>'+
                                  '</a>';
                     $('#listDays a').removeClass('active');
                     $("#listDays").append(strElement);
 
-                    strElement = '<div class="tab-pane fade in active" id="'+tabId+'">'+
+                    strElement = '<div class="tab-pane fade in active" id="'+tabId+'" value="'+id+'">'+
                                     '<h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   '+strDayDec+'</h4>'+
                                     '<div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >'+
                                     '</div>'+
@@ -66,29 +67,51 @@
             });
         }
 
-        function do_addPoint(pointId) {
-            pName = $("#"+pointId+" h4.list-group-item-heading:first").text();
-            pDec = $("#"+pointId+" p.list-group-item-text:first").text();
-            temp = new Date().getTime();
-            decId = "dec"+temp
-            itemId = "item"+temp;
-            strElement =  '<a id="'+itemId+'"  href="#" class="list-group-item list-group-item-separate" >'+
-                                '<span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint(\''+itemId+'\')" ></span>'+
-                                '<span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editDec(\''+decId+'\')" ></span>'+
-                                '<h4 class="list-group-item-heading">'+pName+'</h4>'+
-                                '<p id="'+decId+'" class="list-group-item-separate" style="display: none;">'+pDec+'</p>'+
-                                '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
-                                    '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
-                                    '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
-                                    '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" >编辑交通</span>'+
-                                '</div>'+
-                           '</a>';
+        function get_activeDayID() {
+            dayId =  $("#tabContent .tab-pane.active:first").attr("value");
+            return dayId;
+        }
 
-            $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+        function do_addPoint(tempPointId) {
+            dayID = get_activeDayID();
+            pName = $("#"+tempPointId+" h4.list-group-item-heading:first").text();
+            pDec = $("#"+tempPointId+" p.list-group-item-text:first").text();
+            data = {"dayId":dayID, "name":pName, "event": pDec}
+            var url = "/do_addPoint";
+            $.post(url,data,function(pointId){
+                if(pointId<=0){
+{#                  警告添加点失败#}
+                    return;
+                }
+                temp = pointId;
+                decId = "dec"+temp;
+                itemId = "item"+temp;
+                strElement =  '<a id="'+itemId+'" value="'+pointId+'"  href="#" class="list-group-item list-group-item-separate" >'+
+                                    '<span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint(\''+itemId+'\')" ></span>'+
+                                    '<span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editDec(\''+decId+'\')" ></span>'+
+                                    '<h4 class="list-group-item-heading">'+pName+'</h4>'+
+                                    '<p id="'+decId+'" class="list-group-item-separate" style="display: none;">'+pDec+'</p>'+
+                                    '<div class="list-group-item-text" style="margin-bottom: 20px;">'+
+                                        '<span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >'+
+                                        '<span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>'+
+                                        '<span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" data-toggle="modal" data-target="#editTrafficModal" >编辑交通</span>'+
+                                    '</div>'+
+                               '</a>';
+                $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+            });
         }
 
         function do_delPoint(itemid) {
-            $("#"+itemid).remove();
+            pointId = $("#"+itemid).attr("value");
+            data = {"pointId":pointId}
+            var url = "/do_delPoint";
+            $.post(url,data,function(reslut){
+                if(reslut<=0){
+{#                  警告删除失败#}
+                    return;
+                }
+                $("#"+itemid).remove();
+            });
         }
 
         function do_editDec(decId) {
@@ -185,9 +208,10 @@
                         <div class="col-xs-4 col-md-2" style="padding: 0px;height: 100%;border-right: 1px solid #ddd;" >
                             <ul id="listDays" class='list-group list-group-flush' style="padding: 5px;margin-bottom:10px;overflow-y:auto;max-height: 90%;" >
                                 <a  href="#" class="list-group-item list-group-item-nav text-center" data-toggle="tab" >
-                                    第1天<span class="glyphicon glyphicon-trash" style="float: right;"></span>
+                                    第1天
+                                    <span class="glyphicon glyphicon-trash" style="float: right;"></span>
                                     <span class="center-block " style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap; " >
-                                        拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨</span>
+                                        拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨
                                     </span>
                                 </a>
                             </ul>
