@@ -10,7 +10,7 @@ db = DataServicec()
 @app.route('/seach/<id>')
 def seach_travel(id):
     datas = db.QueryInfoByJID(id)
-    return render_template('seach.html')
+    return render_template('seach.html', proId = id)
 
 @app.route('/view')
 def view_travel():
@@ -35,7 +35,8 @@ def del_travel(id):
 def add_Day():
     reslut = None
     if request.method == 'POST':
-        reslut = db.NewdDay();
+        jid = request.form["proId"]
+        reslut = db.NewdDay(jid, request.form)
     return jsonify(reslut)
 
 

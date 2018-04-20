@@ -21,32 +21,33 @@
     <script type="application/javascript" src="../static/dataapi.js"></script>
     <script>
 
-        function do_addDay() {
+        function do_addDay(proId) {
+            len = $("#listDays a").length+1;
+            data = {"daynum":len,"proId":proId}
             var url = "/do_addDay";
-            $.post(url,null,function(id){
+            $.post(url,data,function(id){
                 if(id>0){
+                    strDayDec = "第"+len+"天";
+                    dayId = "day"+id;
+                    tabId = "tab"+id;
+                    strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(this)">'+strDayDec+
+                                    '<span class="glyphicon glyphicon-trash" onclick="do_delDay(\''+id+'\')"></span>'+
+                                 '</a>';
+                    $('#listDays a').removeClass('active');
+                    $("#listDays").append(strElement);
 
+                    strElement = '<div class="tab-pane fade in active" id="'+tabId+'">'+
+                                    '<h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   '+strDayDec+'</h4>'+
+                                    '<div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >'+
+                                    '</div>'+
+                                 '</div>';
+                    $('#tabContent div').removeClass('active');
+                    $("#tabContent").append(strElement);
                 }
             });
 
-            len = $("#listDays a").length+1;
-            strDayDec = "第"+len+"天";
-            tempId = new Date().getTime();
-            dayId = "day"+tempId;
-            tabId = "tab"+tempId;
-            strElement = '<a id="'+dayId+'" href="#'+tabId+'" class="list-group-item list-group-item-nav text-center active" data-toggle="tab" onclick="do_itemAcitve(this)">'+strDayDec+
-                            '<span class="glyphicon glyphicon-trash" onclick="do_delDay(\''+tempId+'\')"></span>'+
-                         '</a>';
-            $('#listDays a').removeClass('active');
-            $("#listDays").append(strElement);
 
-            strElement = '<div class="tab-pane fade in active" id="'+tabId+'">'+
-                            '<h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>   '+strDayDec+'</h4>'+
-                            '<div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >'+
-                            '</div>'+
-                         '</div>';
-            $('#tabContent div').removeClass('active');
-            $("#tabContent").append(strElement);
+
         }
 
         function do_itemAcitve(item) {
@@ -141,10 +142,10 @@
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="list-group-item-heading">玛吉阿米</h4>
-                                    <p class="list-group-item-text">八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅。玛吉阿米出自六世达赖喇叭仓央嘉措的情诗。餐厅有非常浓郁的藏式风情，藏餐是改良后的，更加适应游客的口味，但是价格较贵。茶几上有很多留言本，写着世界各地很多旅行者的感受。在里面消费的话，也可以写上自己的心情，什么都行。</p>
+                                    <p class="list-group-item-text" >八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上东南转角处是有名的玛吉阿米餐厅八廓街上。</p>
                                 </div>
                                <div class="media-right media-middle">
-                                    <span class="badge" style="width: 50px;" onclick="do_addPoint('10083')"><h4>+</h4></span>
+                                    <span class="badge" style="width: 50px;margin: 10px 50px;border-radius: 50px;" onclick="do_addPoint('10083')"><h4>+</h4></span>
                                 </div>
                             </div>
                        </a>
@@ -168,7 +169,7 @@
                                     </span>
                                 </a>
                             </ul>
-                            <span type="button" class="btn btn-default center-block" style="margin: 5px;" onclick="do_addDay()"> 加一天 </span>
+                            <span type="button" class="btn btn-default center-block" style="margin: 5px;" onclick="do_addDay({{ proId }})"> 加一天 </span>
                         </div>
                         <div class="col-xs-8 col-md-10" style="padding-left: 5px;padding-right: 0px;height: 100%;">
                             <div id="tabContent" class='tab-content' style="overflow-y:auto;max-height: 90%;">
