@@ -41,7 +41,7 @@ class MySqlconc:
         self.conn.close()
         return  result
 
-    def SQLcumQuert(self,tbName,sqlstr):
+    def SQLcumQuert(self,tbName,sqlstr,customize_fields = []):
         self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',charset='utf8')
         print tbName+" "+sqlstr
         tbcom="select COLUMN_NAME from information_schema.columns where table_name='" + tbName+"'"
@@ -52,7 +52,7 @@ class MySqlconc:
         valcursor.execute(sqlstr)
         cumresult = cumcursor.fetchall()
         valresult = valcursor.fetchall()
-        cumlist = []
+        cumlist = customize_fields
         for rowval in cumresult:
             #print i
             for cumval in rowval:

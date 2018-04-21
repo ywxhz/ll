@@ -181,9 +181,9 @@ class DataServicec:
         sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ")"
         print "sqlstr " + sqlstr
         vallist['lyday'] =ms.SQLcumQuert("lyday", sqlstr)
-        sqlstr = "select * from lypoint where id in (select pid from lyrtp where did IN (select did from lyrt where jid=" + str(jid) + "))"
+        sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)
         print "sqlstr " + sqlstr
-        vallist['lypoint'] =ms.SQLcumQuert("lypoint", sqlstr)
+        vallist['lypoint'] =ms.SQLcumQuert("lypoint", sqlstr, ['jid', 'did'])
         return vallist
     #插入point
         # did：天ID

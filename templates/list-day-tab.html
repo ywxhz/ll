@@ -1,4 +1,15 @@
-<div class="tab-pane {{ day_active }}" id="tab{{ itemDay.id }}" value="'{{ itemDay.id }}'">
-    <h4 style="padding-left: 20px;" ><span class="glyphicon glyphicon-calendar"></span>{{ day_str }}</h4>
-    <div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" ></div>
+<div class="tab-pane {{ day_active }}" id="tab{{ itemDay.id }}" value="'{{ itemDay.id }}'"  >
+    <h4 id="tabDayHeader{{ itemDay.id }}" dayname="{{ itemDay.name }}" style="padding-left: 20px;"  >
+        <span class="glyphicon glyphicon-calendar"></span>
+        {{ day_str }}   {{ itemDay.name }}
+        <span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editDay('{{ itemDay.id }}')" ></span>
+    </h4>
+    <div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >
+        {% for itemPoint in lypoint %}
+            {% if itemPoint.did == itemDay.id %}
+                {% include 'list-point.html' %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <p id="tabDayDec{{ itemDay.id }}"  style="padding-left: 20px;padding-top: 10px;">{{ itemDay.dayevent }}</p>
 </div>

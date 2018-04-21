@@ -1,5 +1,5 @@
 <a id="day{{ itemDay.id }}" href="'" tabId="tab{{ itemDay.id }}" class="list-group-item list-group-item-nav text-center  {{ day_active }}" data-toggle="tab" onclick="do_itemAcitve(this)" >
     {{ day_str }}
     <span class="glyphicon glyphicon-trash" style="float: right;" onclick="do_delDay({{ itemDay.id }})"></span>
-    <span class="center-block " style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap; " >拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨拉萨</span>
+    <span class="center-block " style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap; " >{{ itemDay.name }}</span>
 </a>

@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<a id="itemPoint{{ itemPoint.id }}" value="{{ itemPoint.id }}"  href="#" class="list-group-item list-group-item-separate" >
+    <span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint('itemPoint{{ itemPoint.id }}')" ></span>
+    <span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editPoint('{{ itemPoint.id }}')" ></span>
+    <span class="glyphicon glyphicon-chevron-down"  style="float: right;margin-right: 30px" onclick="do_showPointDec('itemPointDec{{ itemPoint.id }}')" ></span>
+    <h4 id="itemPointName{{ itemPoint.id }}" class="list-group-item-heading">{{ itemPoint.name }}</h4>
+    <p id="itemPointDec{{ itemPoint.id }}" class="list-group-item-separate" style="display: none;">{{ itemPoint.event }}</p>
+    <div class="list-group-item-text" style="margin-bottom: 20px;">
+        <span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >
+        <span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>
+        <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >
+            编辑交通
+        </span>
+    </div>
+</a>

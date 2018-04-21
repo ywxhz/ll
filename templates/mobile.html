@@ -1,0 +1,28 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}旅游行程宝{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" style="padding:0px;height: 100%;width: 100%;">
+        <div class="row-fluid" style="position: relative;background-color: #f5f5f5;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;" >
+            <div class="glyphicon glyphicon-list-alt" style="padding-left:10px;height:20px;position: absolute;top: 0px;bottom: 0px;margin: auto;">行程详情</div>
+            <div class="text-center" style="padding-top: 5px;margin-bottom: -5px;">
+                <p style="font-size: 15px;margin-bottom: -5px;font-weight:bold;">第三天</p>
+                <p class="glyphicon glyphicon-chevron-down" style="margin: 0px;"></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
