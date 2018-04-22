@@ -77,11 +77,11 @@ def add_Point():
     if request.method == 'POST':
         dayId = request.form["dayId"]
         pId = db.NewPoint(dayId, request.form)
-        reslut["id"] = pId
+        tempData = request.form.to_dict()
+        tempData["id"] = pId
         if pId > 0:
-            reslut["name"] = request.form["name"]
-            reslut["event"] = request.form["event"]
-            reslut["list-Point"] = render_template('list-point.html', itemPoint=reslut)
+            tempData["list-Point"] = render_template('list-point.html', itemPoint=tempData)
+            reslut = tempData
         return jsonify(reslut)
 
 @app.route('/do_delPoint',methods=['POST'])
@@ -118,4 +118,4 @@ def hello_world1111():
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.3.66')
+    app.run(host='127.0.0.1')

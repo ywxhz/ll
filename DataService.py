@@ -183,7 +183,8 @@ class DataServicec:
         vallist['lyday'] =ms.SQLcumQuert("lyday", sqlstr)
         sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)
         print "sqlstr " + sqlstr
-        vallist['lypoint'] =ms.SQLcumQuert("lypoint", sqlstr, ['jid', 'did'])
+        vallist['lypoint'] =ms.SQLcumQuert1("lypoint", sqlstr, ['jid', 'did'])
+        print vallist
         return vallist
     #插入point
         # did：天ID
