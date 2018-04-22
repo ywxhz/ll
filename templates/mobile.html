@@ -5,24 +5,105 @@
 {% block head %}
     {{ super() }}
     <style type="text/css">
+        .header{
+            position: relative;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .header-icon{
+            padding-left:10px;
+            height:20px;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        .header-center{
+            color: #333;
+            padding-top: 5px;
+            margin-bottom: -3px;
+        }
+
+        .header-text{
+            font-size: 15px;
+            margin-bottom: -8px;
+            font-weight:bold;
+        }
+
+        .header-text-icon{
+            margin: 0px;
+            font-size: 10px;
+        }
+
+        .item-text{
+            font-size: 15px;
+            font-weight:bold;
+        }
+
+        .item{
+            padding-left: 30px;padding-right: 30px;padding-bottom: 10px;
+        }
+
+        .item-hr-text{
+            float: left;
+            color: #428bca;
+            padding-left: 15px;
+            padding-right: 10px;
+        }
+
+        .note{
+            color: #999;
+            margin: 15px;
+        }
+
     </style>
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
     <script>
-
+        function div_collapse(id) {
+            $("#list"+id).collapse('toggle');
+        }
     </script>
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid" style="padding:0px;height: 100%;width: 100%;">
-        <div class="row-fluid" style="position: relative;background-color: #f5f5f5;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;" >
-            <div class="glyphicon glyphicon-list-alt" style="padding-left:10px;height:20px;position: absolute;top: 0px;bottom: 0px;margin: auto;">行程详情</div>
-            <div class="text-center" style="padding-top: 5px;margin-bottom: -5px;">
-                <p style="font-size: 15px;margin-bottom: -5px;font-weight:bold;">第三天</p>
-                <p class="glyphicon glyphicon-chevron-down" style="margin: 0px;"></p>
+    <div class="container-fluid" style="padding: 10px 0px;height: 100%;width: 100%;">
+        {% for itemDay in lyday %}
+            {% set day_str = "  第"+loop.index|string+"天" %}
+            <div class="row-fluid">
+                <div id="header" class="header" onclick="div_collapse('{{ itemDay.id }}')" >
+                    <p class="header-icon glyphicon glyphicon-list-alt">行程详情</p>
+                    <div class="header-center text-center" >
+                        <p class="header-text">{{ day_str }} {{ itemDay.name }}</p>
+                        <p class="header-text-icon glyphicon glyphicon-chevron-down" ></p>
+                    </div>
+                </div>
+                <div id="list{{ itemDay.id }}" class="collapse in" >
+                    <br>
+                    {% for itemPoint in lypoint %}
+                        {% if itemPoint.did == itemDay.id %}
+                            <div id="point" class="item" >
+                                <p class="item-text">{{ itemPoint.name }}</p>
+                                <p style="color: #999;" >备注：{{ itemPoint.event }}</p>
+                                <p class="item-hr-text">{{ itemPoint.treventds }}</p>
+                                <hr style="margin-left: 15px;" >
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if not itemDay.dayevent %}
+                        <div id="note">
+                            <hr style="margin-bottom: 0px;" >
+                            <p class="note">备注：{{ itemDay.dayevent }}</p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock %}
