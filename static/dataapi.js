@@ -30,11 +30,15 @@ function formatterDateTime() {
 function hotelclick() {
     var cityname='长沙';
     var hotalname= $("#apitxtin").val() ;
+    $("#dataapinavHotel").addClass("active");
+    $("#dataapinavJD").removeClass("active");
     gethotelapi(cityname,hotalname);
 }
 function pointclick() {
     var cityid='199';
     var pointname='';
+    $("#dataapinavJD").addClass("active");
+    $("#dataapinavHotel").removeClass("active");
     getpointapi(cityid,pointname);
 }
 function gethotelpic(hotalid) {
@@ -144,11 +148,11 @@ function gethotelrowhtml(proName,cityName,hotalName,hotalpic) {
         htmlstr1+="<img  src='"+hotalpic+"' style=\"height:85px;width:85px;\" />";
         htmlstr1+="</div>";
         htmlstr1+="<div class=\"media-body media-middle\">";
-        htmlstr1+="<h4  class=\"list-group-item-heading\">"+hotalName+"</h4>";
+        htmlstr1+="<h4   class=\"list-group-item-heading\">"+hotalName+"</h4>";
         htmlstr1+="<p class=\"list-group-item-text\">省份:"+proName+"   城市:"+cityName+"</p>";
         htmlstr1+="</div>";
         htmlstr1+="<div class=\"media-right media-middle\">";
-        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="<span style=\"width: 50px;margin: 10px 50px;border-radius: 50px;\" class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
         htmlstr1+="</div>";
         htmlstr1+="</div>";
         htmlstr1+="</a>";
@@ -160,7 +164,7 @@ function gethotelFYhtml(cityname,hotalname) {
         htmlstr1+="<button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','B')\")>上一页</button><button onclick=\"do_FYHotelF('"+cityname+"','"+hotalname+"','F')\" >下一页</button> 当前第"+currentPage.toString()+"页，总共"+allPages.toString()+"页&nbsp&nbsp";
         return htmlstr1;
 }
-function  do_FYHotelF(cityname,hotalname,action) {
+function do_FYHotelF(cityname,hotalname,action) {
     if(action=="B"){
         if(parseInt(currentPage)!=1){
             currentPage--;
@@ -306,7 +310,7 @@ function getpointrowhtml(name,areaName,proName,cityName,address,summary,picUrlSm
         htmlstr1+="<p class=\"list-group-item-text\">"+proName+"   "+cityName+"   "+areaName+"   "+address+" </p>";
         htmlstr1+="</div>";
         htmlstr1+="<div class=\"media-right media-middle\">";
-        htmlstr1+="<span class=\"badge\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
+        htmlstr1+="<span class=\"badge\" style=\"width: 50px;margin: 10px 50px;border-radius: 50px;\" onclick=\"do_addPoint('"+idindex.toString()+"')\"><h4>+</h4></span>";
         htmlstr1+="</div>";
         htmlstr1+="</div>";
         htmlstr1+="</a>";
