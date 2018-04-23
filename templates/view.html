@@ -1,6 +1,5 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}旅游行程宝{% endblock %}
 {% block head %}
     {{ super() }}
     <style type="text/css">
@@ -66,6 +65,16 @@
 
         function clearModal() {
             $("#formTravelText,#formTravelDay,#formTravelPrice,#formTravelTextArea").val("")
+        }
+
+        function do_search(txtId) {
+            searchVal = $("#"+txtId).val()
+            data = {"val":searchVal}
+            url = "/do_search_travel";
+            $.post(url,data,function(result){
+                $("#viewTravel").empty();
+                $("#viewTravel").append(result);
+            });
         }
     
         g_TravelData=false;
@@ -138,6 +147,14 @@
             </div>
             <ul class="nav navbar-nav">
                 <li id="liCreateTravel" ><a onclick="do_addProject()" ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="input-group">
+                      <input id="txtSearch" type="text" class="form-control" placeholder="输入需要查询的行程内容">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="do_search('txtSearch')">查询</button>
+                      </span>
+                    </div>
+                </form>
             </ul>
         </div>
 {#    </div>#}
@@ -146,22 +163,7 @@
 {% block content %}
     <div class="container-fluid"  style="padding-top: 45px;padding-bottom:5px;height: 100%;">
         <div id="viewTravel" class="row" style="padding-top: 50px;">
-            {% for item in items %}
-                <div id="{{ item.id }}" class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom: 20px;">
-                    <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" style="width:220px;">
-                        <div style="position:relative;">
-                            <a class="icon-edit glyphicon glyphicon-edit" onclick="do_editTravel({{ item.id }})"></a>
-                            <a class="icon-day glyphicon glyphicon-share"  href="/seach/{{ item.id }}" ></a>
-                            <a class="icon-del glyphicon glyphicon-trash" onclick="do_delTravel({{ item.id }})"></a>
-                            <p class="text-center" style="font-size:80px;font-weight:bold;" >{{item.name|truncate(1,true,"")}}</p>
-                            <p id="txtProName" class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
-                            <p id="txtProDay" style="font-size:15px;font-weight:bold;position:absolute;right: 0px;top: 70px;">{{ item.day }}</p>
-                            <p id="txtProEvent" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >行程:{{ item.event }}</p>
-                            <p id="txtProPrice" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >费用:{{ item.price }}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            {% include 'list-project.html' %}
         </div>
     </div>
 

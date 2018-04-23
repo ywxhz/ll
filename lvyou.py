@@ -26,6 +26,16 @@ def view_travel():
     items = db.QueryProjectByName("")
     return render_template('view.html', items = items)
 
+@app.route('/do_search_travel',methods=['POST'])
+def search_travel():
+    reslut = ""
+    if request.method == 'POST':
+        val = request.form["val"]
+        items = db.QueryProjectByName(val)
+        if len(items) > 0:
+            reslut = render_template('list-project.html', items = items)
+    return reslut
+
 @app.route('/do_createTravel',methods=['POST'])
 def create_travel():
     reslut = None
