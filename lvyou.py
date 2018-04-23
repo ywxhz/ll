@@ -2,11 +2,16 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
+from flask_cors import *
+
+
+
 # import sys
 # reload(sys)
 # sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 db = DataServicec()
@@ -145,6 +150,6 @@ def user(name):
 def hello_world1111():
     return render_template('test.html')
 
-
 if __name__ == '__main__':
-    app.run(host='192.168.3.66')
+    app.run(host='0.0.0.0')
+    # app.run(host='127.0.0.1')
