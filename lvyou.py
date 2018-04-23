@@ -2,16 +2,8 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
-from flask_cors import *
-
-
-
-# import sys
-# reload(sys)
-# sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 db = DataServicec()

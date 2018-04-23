@@ -223,6 +223,7 @@
         }
 
         function do_qrcodeShow(proId) {
+            $('#divModalQrcode').empty();
             url = "http://"+window.location.host+"/mobile/"+proId;
             $('#divModalQrcode').qrcode(url);
             $("#modalQrcode").modal("show");
