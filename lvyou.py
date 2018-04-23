@@ -2,6 +2,9 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -106,6 +109,8 @@ def edit_Point():
     print vals
     ids=vals['id']
     del(vals['id'])
+    if vals.has_key('transport') and vals.has_key('trtime') and vals.has_key('trevent') and vals.has_key('trdistance'):
+        vals['treventds']= "乘坐"+vals['transport']+"，花费"+vals['trtime']+"，距离"+vals['trdistance']+"需要注意的是："+vals['trevent']
     if request.method == 'POST':
         reslut = db.EidtPoint(ids,vals)
     return jsonify(reslut)
