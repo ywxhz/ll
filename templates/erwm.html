@@ -1,0 +1,19 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}旅游行程宝{% endblock %}
+{% block scripts %}
+{{ super() }}
+    <script type="application/javascript" src="../static/dataapi.js"></script>
+    <script type="application/javascript" src="../static/jquery.qrcode.min.js"></script>
+    <script>
+<script type="text/javascript">
+    jQuery('#qrcode').qrcode("http://www.cnblogs.com/HtmlCss3/");
+</script>
+    </script>
+{% endblock %}
+
+{% block content %}
+    <img src="http://qrcoder.sinaapp.com?t=http://www.163.com" />
+    <div id="qrcode"></div>
+
+{% endblock %}

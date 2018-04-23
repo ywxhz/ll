@@ -109,6 +109,23 @@ class DataServicec:
         print str(dict)
         return dict
 
+    def Queryxzq(self):
+        # Fstr = '';
+        # for key in vdct:
+        #     Fstr = Fstr + key +" like '%"+vdct[key]+"%' or"
+        #     print Fstr
+        # Fstr = Fstr[:-2];
+        ms = MySqlconc()
+        sqlstr = "select * from xzqinfo ORDER BY szm"
+        print "sqlstr " + sqlstr
+        return ms.SQLQuery(sqlstr)
+
+        # 插入day
+        # jid：计划ID
+        # ---vdct说明 vdct可以传任意字段
+        # daynum:第几天
+        # name:当天说明
+        # 返回值：新增天的ID
     # 修改project
     # jid：计划ID
     # ---vdct说明，vdct可以传任意字段
@@ -158,7 +175,7 @@ class DataServicec:
         #     print Fstr
         # Fstr = Fstr[:-2];
         ms = MySqlconc()
-        sqlstr = "select * from lyproject where name like '%"+qv+"%' or event like '%"+qv+"%'"
+        sqlstr = "select * from lyproject where name like '%"+qv+"%' or event like '%"+qv+"%' or price like '%"+qv+"%'"
         print "sqlstr " + sqlstr
         return   ms.SQLcumQuert("lyproject",sqlstr)
 
@@ -175,13 +192,13 @@ class DataServicec:
     def QueryInfoByJID(self, jid):
         vallist = {}
         ms = MySqlconc()
-        sqlstr = "select * from lyproject where id =" + str(jid)
+        sqlstr = "select * from lyproject where id =" + str(jid)+" ORDER BY id "
         print "sqlstr " + sqlstr
         vallist['lyproject']=ms.SQLcumQuert("lyproject", sqlstr)
-        sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ")"
+        sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ") ORDER BY daynum"
         print "sqlstr " + sqlstr
         vallist['lyday'] =ms.SQLcumQuert("lyday", sqlstr)
-        sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)
+        sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)+" ORDER BY lypoint.index "
         print "sqlstr " + sqlstr
         vallist['lypoint'] =ms.SQLcumQuert1("lypoint", sqlstr, ['jid', 'did'])
         print vallist

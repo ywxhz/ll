@@ -2,9 +2,9 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+# import sys
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -41,6 +41,13 @@ def create_travel():
     reslut = None
     if request.method == 'POST':
         reslut = db.NewProject(request.form)
+    return jsonify(reslut)
+
+@app.route('/qruey_xzq',methods=['POST'])
+def qruey_xzq():
+    reslut = None
+    if request.method == 'POST':
+        reslut = db.Queryxzq()
     return jsonify(reslut)
 
 @app.route('/do_editTravel/<id>',methods=['POST'])
@@ -120,7 +127,7 @@ def edit_Point():
     ids=vals['id']
     del(vals['id'])
     if vals.has_key('transport') and vals.has_key('trtime') and vals.has_key('trevent') and vals.has_key('trdistance'):
-        vals['treventds']= "乘坐"+vals['transport']+"，花费"+vals['trtime']+"，距离"+vals['trdistance']+"需要注意的是："+vals['trevent']
+        vals['treventds']= u"乘坐"+vals['transport']+u"，花费"+vals['trtime']+u"，距离"+vals['trdistance']+u"需要注意的是："+vals['trevent']
     if request.method == 'POST':
         reslut = db.EidtPoint(ids, vals)
     return jsonify(reslut)
