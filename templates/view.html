@@ -6,13 +6,7 @@
         .icon-edit{
             position:absolute;
             top:0px;
-            right: 60px;
-        }
-
-        .icon-day{
-            position:absolute;
-            top:0px;
-            right: 30px;
+            right: 40px;
         }
 
         .icon-del{
@@ -61,6 +55,10 @@
             $("#btnSaveTravel").one("click", data, do_saveTravel);
             $("#modalLabel").text("修改行程");
             modalTravel.modal('show');
+        }
+
+        function do_toTravel(id) {
+            window.location.href = "/seach/" + id;
         }
 
         function clearModal() {
@@ -143,7 +141,7 @@
 {#    <div class="container-fluid" >#}
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" >
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">自助游行程宝</a>
+                <a class="navbar-brand" href="#">有趣行程</a>
             </div>
             <ul class="nav navbar-nav">
                 <li id="liCreateTravel" ><a onclick="do_addProject()" ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
