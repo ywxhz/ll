@@ -25,14 +25,21 @@ def view_travel():
 
 @app.route('/do_createTravel',methods=['POST'])
 def create_travel():
-    reslut = {}
+    reslut = None
     if request.method == 'POST':
         reslut = db.NewProject(request.form)
     return jsonify(reslut)
 
+@app.route('/do_editTravel/<id>',methods=['POST'])
+def edit_travel(proId):
+    reslut = None
+    if request.method == 'POST':
+        reslut = db.EidtProject(proId, request.form)
+    return jsonify(reslut)
+
 @app.route('/do_delTravel/<id>',methods=['POST'])
 def del_travel(id):
-    reslut = None;
+    reslut = None
     if request.method == 'POST':
         reslut = db.DelProject(id)
     return jsonify(reslut)

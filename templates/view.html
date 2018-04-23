@@ -4,10 +4,6 @@
 {% block head %}
     {{ super() }}
     <style type="text/css">
-        .list-group-item-separate {
-            margin-bottom: 8px;
-        }
-
         .icon-edit{
             position:absolute;
             top:0px;
@@ -40,11 +36,38 @@
     {{ super() }}
     <script>
 
+        function do_addProject() {
+            do_travelError();
+            modalTravel = $("#modalTravel");
+            data = {"url":"/do_createTravel"};
+            $("#btnSaveTravel").one("click", data, do_saveTravel);
+            $("#modalLabel").text("新建行程");
+            modalTravel.modal('show');
+        }
+
+        function  do_editTravel(id) {
+            do_travelError();
+            modalTravel = $("#modalTravel");
+            data = {"url":"/do_editTravel/"+id};
+
+            proName = $("#txtProName").text()
+            proDay = $("#txtProDay").text()
+            proEvent = $("#txtProEvent").text()
+            proPrice = $("#txtProPrice").text()
+            $("#formTravelText").val(proName)
+            $("#formTravelDay").val(proDay)
+            $("#formTravelPrice").val(proPrice)
+            $("#formTravelTextArea").text(proEvent)
+
+            $("#btnSaveTravel").one("click", data, do_saveTravel);
+            $("#modalLabel").text("修改行程");
+            modalTravel.modal('show');
+        }
+    
         g_TravelData=false;
 
-        function do_saveTravel() {
-            do_travelError();
-            var url = "/do_createTravel";
+        function do_saveTravel(event) {
+            var url = event.data.url;
             var params = $("#formTravel").serializeArray();
             var data = {};
             for( x in params ){
@@ -97,7 +120,7 @@
                 <a class="navbar-brand" href="#">自助游行程宝</a>
             </div>
             <ul class="nav navbar-nav">
-                <li id="liCreateTravel" ><a data-toggle="modal" data-target="#modalTravel" ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
+                <li id="liCreateTravel" ><a onclick="do_addProject()" ><span class="glyphicon glyphicon-plus-sign"></span> 新建行程</a></li>
             </ul>
         </div>
 {#    </div>#}
@@ -110,14 +133,14 @@
                 <div id="{{ item.id }}" class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom: 20px;">
                     <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" style="width:220px;">
                         <div style="position:relative;">
-                            <a class="icon-edit glyphicon glyphicon-edit"></a>
-                            <a class="icon-day glyphicon glyphicon-list-alt"  href="/seach/{{ item.id }}" ></a>
+                            <a class="icon-edit glyphicon glyphicon-edit" onclick="do_editTravel({{ item.id }})"></a>
+                            <a class="icon-day glyphicon glyphicon-share"  href="/seach/{{ item.id }}" ></a>
                             <a class="icon-del glyphicon glyphicon-trash" onclick="do_delTravel({{ item.id }})"></a>
                             <p class="text-center" style="font-size:80px;font-weight:bold;" >{{item.name|truncate(1,true,"")}}</p>
-                            <p style="font-size:15px;font-weight:bold;position:absolute;right: 0px;top: 70px;">10天</p>
-                            <p class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
-                            <p style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >行程:拉萨-尼泊尔</p>
-                            <p style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >费用:3250元</p>
+                            <p id="txtProName" class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
+                            <p id="txtProDay" style="font-size:15px;font-weight:bold;position:absolute;right: 0px;top: 70px;">{{ item.day }}</p>
+                            <p id="txtProEvent" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >行程:{{ item.event }}</p>
+                            <p id="txtProPrice" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >费用:{{ item.price }}</p>
                         </div>
                     </div>
                 </div>
@@ -159,7 +182,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="do_saveTravel()" >保存</button>
+                <button id="btnSaveTravel" type="button" class="btn btn-primary" >保存</button>
               </div>
            </div>
         </div>
