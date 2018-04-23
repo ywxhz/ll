@@ -9,7 +9,7 @@
     <span class="glyphicon glyphicon-chevron-down"  style="float: right;margin-right: 30px" onclick="do_showPointDec('itemPointDec{{ itemPoint.id }}')" ></span>
     <h4 id="itemPointName{{ itemPoint.id }}" class="list-group-item-heading">{{ itemPoint.name }}</h4>
     <p id="itemPointDec{{ itemPoint.id }}" class="list-group-item-separate" style="display: none;">{{ itemPoint.event }}</p>
-    <div class="list-group-item-text" style="margin-bottom: 20px;">
+    <div class="list-group-item-text" style="margin-bottom: 35px;">
         {% with icon_class = "" %}
             {% if itemPoint.transport == "自驾" %}
                 {% set icon_class = "fas fa-car" %}
@@ -26,11 +26,11 @@
             {% else %}
                 {% set icon_class = "fas fa-car" %}
             {% endif %}
-            <span class="{{ icon_class }}" id="itemptransport{{ itemPoint.id }}"  style="float: left;margin-left: 15px"></span >
+            <span class="{{ icon_class }}" id="itemptransport{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
         {% endwith %}
-        <span id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
+        <span id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px"></span >
         <span class="glyphicon glyphicon-time" id="itemptrtime{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trtime }}</span >
-        <span class="glyphicon glyphicon-saved" id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;pxoverflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ itemPoint.trevent }}</span>
-        <span  style="float: left;margin-left: 15px" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >
+        <span id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;pxoverflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ itemPoint.trevent }}</span>
+        <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px;" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >编辑</span>
     </div>
 </a>
