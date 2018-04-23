@@ -41,6 +41,21 @@ function pointclick() {
     $("#dataapinavHotel").removeClass("active");
     getpointapi(cityid,pointname);
 }
+var XZQdata;
+function initxzq() {
+        var url = "/do_addPoint";
+
+        $.post(url,'',function(repData){
+            $("#editZDYModal").modal('hide');
+            pointId = repData["id"];
+            if(pointId<=0){
+                alert("添加失败");
+                return;
+            }
+            strElement =  repData["list-Point"];
+            $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+        });
+}
 function gethotelpic(hotalid) {
     var hotelpicurl;
     var xx=formatterDateTime();
