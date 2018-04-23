@@ -37,31 +37,35 @@
     <script>
 
         function do_addProject() {
+            clearModal();
             do_travelError();
             modalTravel = $("#modalTravel");
-            data = {"url":"/do_createTravel"};
+            data = {"id":id, "type":"add", "url":"/do_createTravel"};
             $("#btnSaveTravel").one("click", data, do_saveTravel);
             $("#modalLabel").text("新建行程");
             modalTravel.modal('show');
         }
 
         function  do_editTravel(id) {
-            do_travelError();
             modalTravel = $("#modalTravel");
-            data = {"url":"/do_editTravel/"+id};
+            data = {"id":id, "type":"edit", "url":"/do_editTravel/"+id};
 
-            proName = $("#txtProName").text()
-            proDay = $("#txtProDay").text()
-            proEvent = $("#txtProEvent").text()
-            proPrice = $("#txtProPrice").text()
+            proName = $("#"+id+" p[id='txtProName']").text()
+            proDay = $("#"+id+" p[id='txtProDay']").text()
+            proEvent = $("#"+id+" p[id='txtProEvent']").text().substring(3)
+            proPrice = $("#"+id+" p[id='txtProPrice']").text().substring(3)
             $("#formTravelText").val(proName)
             $("#formTravelDay").val(proDay)
             $("#formTravelPrice").val(proPrice)
-            $("#formTravelTextArea").text(proEvent)
+            $("#formTravelTextArea").val(proEvent)
 
             $("#btnSaveTravel").one("click", data, do_saveTravel);
             $("#modalLabel").text("修改行程");
             modalTravel.modal('show');
+        }
+
+        function clearModal() {
+            $("#formTravelText,#formTravelDay,#formTravelPrice,#formTravelTextArea").val("")
         }
     
         g_TravelData=false;
@@ -81,7 +85,20 @@
                if (result['val'] <= 0){
                    do_travelError(result['msg']);
                } else {
-                    window.location.href="/seach/"+result['val'];
+                   if(event.data.type == "add") {
+                        window.location.href = "/seach/" + result['val'];
+                   }else if(event.data.type == "edit") {
+                        $("#"+event.data.id+" p[id='txtProName']").text(data.name)
+                        $("#"+event.data.id+" p[id='txtProDay']").text(data.day)
+                        $("#"+event.data.id+" p[id='txtProEvent']").text("费用:"+data.price)
+                        $("#"+event.data.id+" p[id='txtProPrice']").text("行程:"+data.event)
+                        modalTravel = $("#modalTravel")
+                        if(modalTravel.is(':hidden')){
+                            modalTravel.modal('show');
+                        }else{
+                            modalTravel.modal('hide');
+                        }
+                   }
                }
             });
         }

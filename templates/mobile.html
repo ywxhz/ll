@@ -96,7 +96,7 @@
                             </div>
                         {% endif %}
                     {% endfor %}
-                    {% if not itemDay.dayevent %}
+                    {% if itemDay.dayevent != "" %}
                         <div id="note">
                             <hr style="margin-bottom: 0px;" >
                             <p class="note">备注：{{ itemDay.dayevent }}</p>

@@ -31,10 +31,10 @@ def create_travel():
     return jsonify(reslut)
 
 @app.route('/do_editTravel/<id>',methods=['POST'])
-def edit_travel(proId):
-    reslut = None
+def edit_travel(id):
+    reslut = {"val": -1}
     if request.method == 'POST':
-        reslut = db.EidtProject(proId, request.form)
+        reslut["val"] = db.EidtProject(id, request.form)
     return jsonify(reslut)
 
 @app.route('/do_delTravel/<id>',methods=['POST'])
@@ -107,7 +107,7 @@ def edit_Point():
     ids=vals['id']
     del(vals['id'])
     if request.method == 'POST':
-        reslut = db.EidtPoint(ids,vals)
+        reslut = db.EidtPoint(ids, vals)
     return jsonify(reslut)
 
 @app.route('/test')
@@ -125,4 +125,4 @@ def hello_world1111():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1')
+    app.run(host='192.168.3.66')

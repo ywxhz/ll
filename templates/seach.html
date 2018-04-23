@@ -20,6 +20,7 @@
     {{ super() }}
     <script type="application/javascript" src="../static/dataapi.js"></script>
     <script>
+
         function do_itemAcitve(item) {
             $('#listDays a').removeClass('active');
             $('#tabContent div').removeClass('active');
@@ -46,9 +47,6 @@
                     alert("删除失败");
                 }
             });
-
-
-
         }
 
         function do_delDay(dayId) {
@@ -100,6 +98,35 @@
             });
         }
 
+        function do_editDay(dayId){
+            tabDayName = $("#tabDayName"+dayId);
+            tabDayDec = $("#tabDayDec"+dayId);
+            modalEditPointOrDay = $("#modalEditPointOrDay");
+            $("#modalEditPointOrDay input[id='txtName']:first").val(tabDayName.text());
+            $("#modalEditPointOrDay textarea[id='areaEvent']:first").val(tabDayDec.text());
+            $("#modalEditPointOrDay button[id='btnSubmit']:first").one("click",function(){
+                var url = "/do_editDay";
+                var params = $("#formEditPointOrDay").serializeArray();
+                var data = {};
+                for( x in params ){
+                    data[params[x].name] = params[x].value;
+                }
+                data['id'] = dayId;
+                data['dayevent'] = data['event'];
+                $.post(url,data,function(result){
+                    modalEditPointOrDay.modal('hide');
+                    if (result <= 0){
+                       alert("修改失败");
+                    } else {
+                        tabDayName.text(data["name"]);
+                        $("#lblDayName"+dayId).text(data["name"]);
+                        tabDayDec.text(data["event"]);
+                    }
+                });
+            });
+            modalEditPointOrDay.modal('show');
+        }
+
         function do_showPointDec(decId) {
             if($("#"+decId).is(':hidden')){
                 $("#"+decId).show();
@@ -139,7 +166,6 @@
                 $("#"+id).addClass("active");
                 //交通方式
                 nowBigLTMDType="edit";
-                $("#editJDTrafficModal1").is(':hidden')
                 if($("#editJDTrafficModal1").is(':hidden')){
                     $("#editJDTrafficModal1").modal('show');
                 }else{
@@ -171,58 +197,18 @@
                         data[params[x].name] = params[x].value;
                     }
                     $.post(url,data,function(result){
+                        modalEditPointOrDay.modal('hide');
                         if (result <= 0){
                            alert("修改失败");
                         } else {
                             itemPointName.text(data["name"]);
                             itemPointDec.text(data["event"]);
-                            if(modalEditPointOrDay.is(':hidden')){
-                                modalEditPointOrDay.modal('show');
-                            }else{
-                                modalEditPointOrDay.modal('hide');
-                            }
                         }
                     });
                 });
                 modalEditPointOrDay.modal('show');
             }
 
-        }
-
-        function do_editDay(dayId){
-            tabDayHeader = $("#tabDayHeader"+dayId);
-            dayname = tabDayHeader.attr("dayname");
-
-            tabDayDec = $("#tabDayDec"+dayId);
-            modalEditPointOrDay = $("#modalEditPointOrDay");
-            $("#modalEditPointOrDay input[id='txtName']:first").val(dayname);
-            $("#modalEditPointOrDay textarea[id='areaEvent']:first").val(tabDayDec.text());
-            $("#modalEditPointOrDay button[id='btnSubmit']:first").one("click",function(){
-                var url = "/do_editDay";
-                var params = $("#formEditPointOrDay").serializeArray();
-                var data = {};
-                for( x in params ){
-                    data[params[x].name] = params[x].value;
-                }
-                data['id'] = dayId;
-                data['dayevent'] = data['event'];
-                $.post(url,data,function(result){
-                    if (result <= 0){
-                       alert("修改失败");
-                    } else {
-                        strHeader = tabDayHeader.text();
-                        strHeader = strHeader.replace(dayname,data["name"]);
-                        tabDayHeader.text(strHeader);
-                        tabDayDec.text(data["event"]);
-                        if(modalEditPointOrDay.is(':hidden')){
-                            modalEditPointOrDay.modal('show');
-                        }else{
-                            modalEditPointOrDay.modal('hide');
-                        }
-                    }
-                });
-            });
-            modalEditPointOrDay.modal('show');
         }
 
         var nowPointID;
@@ -266,13 +252,13 @@
             $("#formPointTLTexttrdistance").val(itemPoint.attr("ptrdistance"));
         }
 
-         function do_ZDYtype(item){
+        function do_ZDYtype(item){
             $("#editZDYModal input").val('');
             $("#editZDYModal textarea").val('');
             nowZDYtype =item;
-
         }
-         function do_ZDYtypeJT(item){
+
+        function do_ZDYtypeJT(item){
              $("#editJDTrafficModal1 input[name='stratt']").val('');
              $("#editJDTrafficModal1 input[name='stratc']").val('');
              $("#editJDTrafficModal1 input[name='stratp']").val('');
@@ -296,6 +282,7 @@
                 data[params[x].name] = params[x].value;
              }
             $.post(url,data,function(result){
+                $("#editTrafficModal").modal('hide');
                if (result <= 0){
                    alert("修改失败");
                } else {
@@ -303,11 +290,6 @@
                    itemPoint.attr("ptransport",data['transport']);
                    itemPoint.attr("ptrdistance",data['trdistance']);
                    itemPoint.attr("ptrevent",data['trevent']);
-                   if($("#editTrafficModal").is(':hidden')){
-                        $("#editTrafficModal").modal('show');
-                    }else{
-                        $("#editTrafficModal").modal('hide');
-                    }
                }
             });
         }
@@ -327,6 +309,7 @@
             if(nowBigLTMDType=="add"){
                 var url = "/do_addPoint";
                 $.post(url,data,function(repData){
+                    $("#editJDTrafficModal1").modal('hide');
                     pointId = repData["id"];
                     if(pointId<=0){
                         alert("添加失败");
@@ -334,17 +317,13 @@
                     }
                     strElement =  repData["list-Point"];
                     $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
-                    if($("#editJDTrafficModal1").is(':hidden')){
-                        $("#editJDTrafficModal1").modal('show');
-                    }else{
-                        $("#editJDTrafficModal1").modal('hide');
-                    }
                 });
             }
             if(nowBigLTMDType=="edit"){
                 data['id'] =nowPointID;
                 var url = "/do_editPoint";
                 $.post(url,data,function(repData){
+                    $("#editJDTrafficModal1").modal('hide');
                     pointId = repData["id"];
                     if(pointId<=0){
                         alert("添加失败");
@@ -368,11 +347,6 @@
                         itemPoint.attr("ptptrainevent",data['tptrainevent']);
                         itemPoint.attr("ptptrainsp",data['tptrainsp']);
                         itemPoint.attr("ptrdistance",data['trdistance']);
-                        if($("#editJDTrafficModal1").is(':hidden')){
-                            $("#editJDTrafficModal1").modal('show');
-                        }else{
-                            $("#editJDTrafficModal1").modal('hide');
-                        }
                     }
                 });
             }
@@ -388,6 +362,7 @@
                 data[params[x].name] = params[x].value;
              }
             $.post(url,data,function(repData){
+                $("#editZDYModal").modal('hide');
                 pointId = repData["id"];
                 if(pointId<=0){
                     alert("添加失败");
@@ -395,14 +370,8 @@
                 }
                 strElement =  repData["list-Point"];
                 $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
-                if($("#editZDYModal").is(':hidden')){
-                    $("#editZDYModal").modal('show');
-                }else{
-                    $("#editZDYModal").modal('hide');
-                }
             });
         }
-
 
     </script>
 {% endblock %}
@@ -452,7 +421,7 @@
             <div class="col-xs-6  col-md-6 " style="padding-top: 10px;padding-left: 0px;padding-right: 5px;height: 100%;" >
                 <div class="panel panel-default " style="height: 100%;" >
                     <div class="panel-heading" style="padding: 0px;height: 51px;">
-                        <span class="btn " style="margin: 8px;font-size: 14px;font-weight: bold;"  >{{ lyproject.name }}</span>
+                        <span  style="line-height: 51px;font-size: 18px;font-weight: bold;padding-left: 20px;"  >{{ lyproject[0].name }}</span>
                         <button type="button" class="btn btn-default" style="margin: 8px;float: right;" data-toggle="modal" > 完成查看 </button>
                     </div>
                     <div style="padding: 0px;height: 100%;">
