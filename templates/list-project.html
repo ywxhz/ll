@@ -1,11 +1,10 @@
 {% for item in items %}
     <div id="{{ item.id }}" class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom: 20px;">
-        <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" style="width:220px;">
+        <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}" onclick="do_toTravel({{ item.id }})" style="width:220px;">
             <div style="position:relative;">
                 <a class="icon-edit glyphicon glyphicon-edit" onclick="do_editTravel({{ item.id }})"></a>
-                <a class="icon-day glyphicon glyphicon-share"  href="/seach/{{ item.id }}" ></a>
                 <a class="icon-del glyphicon glyphicon-trash" onclick="do_delTravel({{ item.id }})"></a>
-                <p class="text-center" style="font-size:80px;font-weight:bold;" >{{item.name|truncate(1,true,"")}}</p>
+                <p class="text-center" style="font-size:80px;font-weight:bold;overflow: hidden;white-space: nowrap;width: 80px;" >{{ item.name }}</p>
                 <p id="txtProName" class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
                 <p id="txtProDay" style="font-size:15px;font-weight:bold;position:absolute;right: 0px;top: 70px;">{{ item.day }}</p>
                 <p id="txtProEvent" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >行程:{{ item.event }}</p>
