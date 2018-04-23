@@ -10,10 +10,12 @@
     <h4 id="itemPointName{{ itemPoint.id }}" class="list-group-item-heading">{{ itemPoint.name }}</h4>
     <p id="itemPointDec{{ itemPoint.id }}" class="list-group-item-separate" style="display: none;">{{ itemPoint.event }}</p>
     <div class="list-group-item-text" style="margin-bottom: 20px;">
-        <span class="glyphicon glyphicon-dashboard" style="float: left;margin-left: 15px">300米</span >
-        <span class="glyphicon glyphicon-time" style="float: left;margin-left: 15px">5分钟</span>
+        <span class="glyphicon glyphicon-send" id="itemptransport{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.transport }}</span >
+        <span class="glyphicon glyphicon-time" id="itemptrtime{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trtime }}</span >
+        <span class="glyphicon glyphicon-dashboard" id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
+        <span class="glyphicon glyphicon-saved" id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trevent }}</span>
         <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >
-            编辑交通
+            编辑
         </span>
     </div>
 </a>

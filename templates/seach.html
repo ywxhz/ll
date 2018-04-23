@@ -256,6 +256,7 @@
             $("#editZDYModal input").val('');
             $("#editZDYModal textarea").val('');
             nowZDYtype =item;
+
         }
 
         function do_ZDYtypeJT(item){
@@ -290,6 +291,19 @@
                    itemPoint.attr("ptransport",data['transport']);
                    itemPoint.attr("ptrdistance",data['trdistance']);
                    itemPoint.attr("ptrevent",data['trevent']);
+                   $("#itemptrtime"+nowPointID).empty();
+                   $("#itemptrtime"+nowPointID).append(data['trtime']);
+                   $("#itemptransport"+nowPointID).empty();
+                   $("#itemptransport"+nowPointID).append(data['transport']);
+                   $("#itemptrdistance"+nowPointID).empty();
+                   $("#itemptrdistance"+nowPointID).append(data['trdistance']);
+                   $("#itemptrevent"+nowPointID).empty();
+                   $("#itemptrevent"+nowPointID).append(data['trevent']);
+                   if($("#editTrafficModal").is(':hidden')){
+                        $("#editTrafficModal").modal('show');
+                    }else{
+                        $("#editTrafficModal").modal('hide');
+                    }
                }
             });
         }
@@ -397,7 +411,14 @@
                     <div class="panel-heading" style="padding: 0px;height: 51px;">
                         <div class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;border: 0px;">
                             <div class="navbar-header">
-                                <a class="navbar-brand" href="#">城市</a>
+                                <a class="navbar-brand" data-toggle="dropdown" href="#">城市</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">功能撒大声地是速度速度速度速度是多岁的撒大声地所颠三倒四撒大声地是撒大声地速度速度速度是</a></li>
+                                    <li><a href="#">另一个功能</a></li>
+                                    <li><a href="#">其他</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">分离的链接</a></li>
+                                </ul>
                             </div>
                             <ul class="nav navbar-nav">
                                 <li class="active"  id="dataapinavJD" onclick="pointclick()"><a  href="#camera"><span class="glyphicon glyphicon-camera"></span> 景点</a></li>
