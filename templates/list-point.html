@@ -30,12 +30,7 @@
         {% endwith %}
         <span id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
         <span class="glyphicon glyphicon-time" id="itemptrtime{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trtime }}</span >
-        <span class="glyphicon glyphicon-saved" id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trevent }}</span>
+        <span class="glyphicon glyphicon-saved" id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;pxoverflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ itemPoint.trevent }}</span>
         <span  style="float: left;margin-left: 15px" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >
-        <span class="glyphicon glyphicon-flag" id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
-        <span class="glyphicon glyphicon-saved" id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ itemPoint.trevent }}</span>
-        <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >
-            编辑
-        </span>
     </div>
 </a>
