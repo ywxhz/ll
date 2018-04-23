@@ -109,34 +109,84 @@
         }
 
         function do_editPoint(pointId) {
-            itemPointName = $("#itemPointName"+pointId);
-            itemPointDec = $("#itemPointDec"+pointId);
-            modalEditPointOrDay = $("#modalEditPointOrDay");
-            $("#modalEditPointOrDay input[id='txtName']:first").val(itemPointName.text());
-            $("#modalEditPointOrDay textarea[id='areaEvent']:first").val(itemPointDec.text());
-            $("#modalEditPointOrDay button[id='btnSubmit']:first").one("click",function(){
-                var url = "/do_editPoint";
-                var params = $("#formEditPointOrDay").serializeArray();
-                var data = {};
-                data['id'] =pointId;
-                for( x in params ){
-                    data[params[x].name] = params[x].value;
-                }
-                $.post(url,data,function(result){
-                    if (result <= 0){
-                       alert("修改失败");
-                    } else {
-                        itemPointName.text(data["name"]);
-                        itemPointDec.text(data["event"]);
-                        if(modalEditPointOrDay.is(':hidden')){
-                            modalEditPointOrDay.modal('show');
-                        }else{
-                            modalEditPointOrDay.modal('hide');
-                        }
-                    }
+            itemPoint = $("#itemPoint"+pointId);
+            nowPointID=pointId;
+            var ptype=itemPoint.attr("ptype");
+            //alert("t2 "+ptype);
+            if(ptype=="自定义-交通")
+            {
+                //交通方式-
+                //-lzh调试-错误
+                $("#pointBigTLTab>li").each(function(){
+                    $(this).removeClass("active");
                 });
-            });
-            modalEditPointOrDay.modal('show');
+                 //-lzh调试-错误
+                nowJTFS=itemPoint.attr("ptptrainsp");
+                nowZDYtype="自定义-交通";
+                var id="BigLtlibs";
+                if(nowJTFS=="火车"){
+                     id="BigLtlihc";
+                }
+                if(nowJTFS=="飞机"){
+                      id="BigLtlifj";
+                }
+                if(nowJTFS=="巴士"){
+                     id="BigLtlibs";
+                }
+                if(nowJTFS=="的士"){
+                    id="BigLtlids";
+                }
+                $("#"+id).addClass("active");
+                //交通方式
+                nowBigLTMDType="edit";
+                $("#editJDTrafficModal1").is(':hidden')
+                if($("#editJDTrafficModal1").is(':hidden')){
+                    $("#editJDTrafficModal1").modal('show');
+                }else{
+                    $("#editJDTrafficModal1").modal('hide');
+                }
+                 $("#editJDTrafficModal1 input[name='stratt']").val(itemPoint.attr("pstratt"));
+                 $("#editJDTrafficModal1 input[name='stratc']").val(itemPoint.attr("pstratc"));
+                 $("#editJDTrafficModal1 input[name='stratp']").val(itemPoint.attr("pstratp"));
+                 $("#editJDTrafficModal1 input[name='endc']").val(itemPoint.attr("pendc"));
+                 $("#editJDTrafficModal1 input[name='endt']").val(itemPoint.attr("pendt"));
+                 $("#editJDTrafficModal1 input[name='endp']").val(itemPoint.attr("pendp"));
+                 $("#editJDTrafficModal1 input[name='tptrain']").val(itemPoint.attr("ptptrain"));
+                 $("#editJDTrafficModal1 textarea[name='tptrainevent']").val(itemPoint.attr("ptptrainevent"));
+                 $("#editJDTrafficModal1 input[name='tptrainsp']").val(itemPoint.attr("ptptrainsp"));
+            }
+            else
+            {
+                itemPointName = $("#itemPointName"+pointId);
+                itemPointDec = $("#itemPointDec"+pointId);
+                modalEditPointOrDay = $("#modalEditPointOrDay");
+                $("#modalEditPointOrDay input[id='txtName']:first").val(itemPointName.text());
+                $("#modalEditPointOrDay textarea[id='areaEvent']:first").val(itemPointDec.text());
+                $("#modalEditPointOrDay button[id='btnSubmit']:first").one("click",function(){
+                    var url = "/do_editPoint";
+                    var params = $("#formEditPointOrDay").serializeArray();
+                    var data = {};
+                    data['id'] =pointId;
+                    for( x in params ){
+                        data[params[x].name] = params[x].value;
+                    }
+                    $.post(url,data,function(result){
+                        if (result <= 0){
+                           alert("修改失败");
+                        } else {
+                            itemPointName.text(data["name"]);
+                            itemPointDec.text(data["event"]);
+                            if(modalEditPointOrDay.is(':hidden')){
+                                modalEditPointOrDay.modal('show');
+                            }else{
+                                modalEditPointOrDay.modal('hide');
+                            }
+                        }
+                    });
+                });
+                modalEditPointOrDay.modal('show');
+            }
+
         }
 
         function do_editDay(dayId){
@@ -178,22 +228,62 @@
         var nowPointID;
         var nowJTFS="巴士";
         var nowZDYtype="";
+        var nowBigLTMDType="add";
+       // var nowZDYJTType="add";
         function do_PointTLSL(JTFS){
             nowJTFS=JTFS;
             //alert(nowJTFS);
         }
 
         function do_eidtPointJT(itemid){
+            //alert("t1 "+itemid);
             nowPointID =itemid;
+            var itemPoint = $("#itemPoint"+nowPointID);
+            //交通方式-
+            //-lzh调试-错误
+            $("#pointTLTab").children().each(function(){
+                $(this).removeClass("active");
+            });
+             //-lzh调试-错误
+
+            nowJTFS=itemPoint.attr("ptransport");
+            var id="BigLtlibs";
+            if(nowJTFS=="火车"){
+                 id="smLtlihc";
+            }
+            if(nowJTFS=="地铁"){
+                  id="smLtlidt";
+            }
+            if(nowJTFS=="巴士"){
+                 id="smLtlibs";
+            }
+            if(nowJTFS=="的士"){
+                id="smLtlids";
+            }
+            $("#"+id).addClass("active");
+            $("#formPointTLTexttrtime").val(itemPoint.attr("ptrtime"));
+            $("#formPointTLTextAreatrevent").val(itemPoint.attr("ptrevent"));
+            $("#formPointTLTexttrdistance").val(itemPoint.attr("ptrdistance"));
         }
 
          function do_ZDYtype(item){
-             $("#myZDYModalLabel").empty();
-             $("#myZDYModalLabel").append(item);
+            nowZDYtype =item;
+        }
+         function do_ZDYtypeJT(item){
+             $("#editJDTrafficModal1 input[name='stratt']").val('');
+             $("#editJDTrafficModal1 input[name='stratc']").val('');
+             $("#editJDTrafficModal1 input[name='stratp']").val('');
+             $("#editJDTrafficModal1 input[name='endc']").val('');
+             $("#editJDTrafficModal1 input[name='endt']").val('');
+             $("#editJDTrafficModal1 input[name='endp']").val('');
+             $("#editJDTrafficModal1 input[name='tptrain']").val('');
+             $("#editJDTrafficModal1 textarea[name='tptrainevent']").val('');
+             $("#editJDTrafficModal1 input[name='tptrainsp']").val('');
             nowZDYtype =item;
         }
 
         function do_savePointTL() {
+            var itemPoint = $("#itemPoint"+nowPointID);
             var url = "/do_editPoint";
             var params = $("#formPointTL").serializeArray();
             var data = {};
@@ -206,6 +296,10 @@
                if (result <= 0){
                    alert("修改失败");
                } else {
+                   itemPoint.attr("ptrtime",data['trtime']);
+                   itemPoint.attr("ptransport",data['transport']);
+                   itemPoint.attr("ptrdistance",data['trdistance']);
+                   itemPoint.attr("ptrevent",data['trevent']);
                    if($("#editTrafficModal").is(':hidden')){
                         $("#editTrafficModal").modal('show');
                     }else{
@@ -216,32 +310,69 @@
         }
 
         function do_saveBigPointTL() {
-            var url = "/do_addPoint";
             var params = $("#formBigPointTL").serializeArray();
             var data = {};
             data['dayId'] =get_activeDayID();
             data['tptrainsp'] =nowJTFS;
             data['type'] =nowZDYtype;
+            //alert("t1 "+nowBigLTMDType);
             for( x in params ){
                 data[params[x].name] = params[x].value;
              }
             data['name'] = data['stratc']+"-"+data['endc'];
             data['event'] = "出发时间:"+data['stratt']+"，从"+data['stratc']+data['stratp']+"，乘坐班次"+data['tptrain']+" "+data['tptrainsp']+"，于"+data['endt']+"到达"+data['endc']+data['endp'];
-            $.post(url,data,function(repData){
-                pointId = repData["id"];
-                if(pointId<=0){
-                    alert("添加失败");
-                    return;
-                }
-                strElement =  repData["list-Point"];
-                $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
-
-                if($("#editJDTrafficModal").is(':hidden')){
-                    $("#editJDTrafficModal").modal('show');
-                }else{
-                    $("#editJDTrafficModal").modal('hide');
-                }
-            });
+            if(nowBigLTMDType=="add"){
+                var url = "/do_addPoint";
+                $.post(url,data,function(repData){
+                    pointId = repData["id"];
+                    if(pointId<=0){
+                        alert("添加失败");
+                        return;
+                    }
+                    strElement =  repData["list-Point"];
+                    $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+                    if($("#editJDTrafficModal1").is(':hidden')){
+                        $("#editJDTrafficModal1").modal('show');
+                    }else{
+                        $("#editJDTrafficModal1").modal('hide');
+                    }
+                });
+            }
+            if(nowBigLTMDType=="edit"){
+                data['id'] =nowPointID;
+                var url = "/do_editPoint";
+                $.post(url,data,function(repData){
+                    pointId = repData["id"];
+                    if(pointId<=0){
+                        alert("添加失败");
+                        return;
+                    }
+                    else{
+                        var itemPoint = $("#itemPoint"+nowPointID);
+                        var itemPointName = $("#itemPointName"+nowPointID);
+                        var itemPointDec = $("#itemPointDec"+nowPointID);
+                        itemPointName.empty();
+                        itemPointName.append(data['name']);
+                        itemPointDec.empty();
+                        itemPointDec.append(data['event'] );
+                        itemPoint.attr("pstratt",data['stratt']);
+                        itemPoint.attr("pstratc",data['stratc']);
+                        itemPoint.attr("pstratp",data['stratp']);
+                        itemPoint.attr("pendc",data['endc']);
+                        itemPoint.attr("pendt",data['endt']);
+                        itemPoint.attr("pendp",data['endp']);
+                        itemPoint.attr("ptptrain",data['tptrain']);
+                        itemPoint.attr("ptptrainevent",data['tptrainevent']);
+                        itemPoint.attr("ptptrainsp",data['tptrainsp']);
+                        itemPoint.attr("ptrdistance",data['trdistance']);
+                        if($("#editJDTrafficModal1").is(':hidden')){
+                            $("#editJDTrafficModal1").modal('show');
+                        }else{
+                            $("#editJDTrafficModal1").modal('hide');
+                        }
+                    }
+                });
+            }
         }
 
         function do_saveZXDTL() {
@@ -351,7 +482,7 @@
                             <p style="margin-left: 15px;margin-top: 10px;">添加自定义
                                 <a href="javascript:;" data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-景点')">景点</a>、
                                 <a data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-餐馆')">餐馆</a>、
-                                <a data-toggle="modal" data-target="#editJDTrafficModal"  onclick="do_ZDYtype('自定义-交通')">交通</a>、
+                                <a data-toggle="modal"  data-target="#editJDTrafficModal1" onclick="do_ZDYtypeJT('自定义-交通')">交通</a>、
                                 <a data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-酒店')">酒店</a>
                             </p>
                         </div>
@@ -398,24 +529,24 @@
               </div>
               <div class="modal-body">
                        <ul id="pointTLTab" class="nav nav-tabs">
-                            <li  class="active"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" ><img src="../static/img/bs.png" height="30" width="30"/></a></li>
-                            <li onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" > <img src="../static/img/ds.png" height="30" width="30"/></a></li>
-                            <li onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" > <img src="../static/img/hc.png" height="30" width="30"/></a></li>
-                            <li onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁" > <img src="../static/img/dt.png" height="30" width="30"/></a></li>
+                            <li   id="smLtlibs" class="active"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" ><img src="../static/img/bs.png" height="30" width="30"/></a></li>
+                            <li   id="smLtlids"  onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" > <img src="../static/img/ds.png" height="30" width="30"/></a></li>
+                            <li   id="smLtlihc"  onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" > <img src="../static/img/hc.png" height="30" width="30"/></a></li>
+                            <li   id="smLtlidt"  onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁" > <img src="../static/img/dt.png" height="30" width="30"/></a></li>
                         </ul>
                           <form id="formPointTL" class="bs-example bs-example-form" role="form">
                                 <div class="input-group ">
                                     <span class="input-group-addon">交通时间</span>
-                                    <input id="formPointTLText" type="text" required="true" class="form-control" name="trtime" placeholder="输入交通时间">
+                                    <input id="formPointTLTexttrtime" type="text" required="true" class="form-control" name="trtime">
                                 </div>
                                 <div class="input-group ">
                                     <span class="input-group-addon">交通距离</span>
-                                    <input id="formPointTLText" type="text" required="true" class="form-control" name="trdistance" placeholder="输入交通距离">
+                                    <input id="formPointTLTexttrdistance" type="text" required="true" class="form-control" name="trdistance">
                                 </div>
                                     <span class="help-block"></span>
                                 <div class="input-group">
                                     <span class="input-group-addon">交通备注</span>
-                                        <textarea id="formPointTLTextArea" rows="3" class="form-control" name="trevent" placeholder="输入交通备注"></textarea>
+                                        <textarea id="formPointTLTextAreatrevent" rows="3" class="form-control" name="trevent" ></textarea>
                                 </div>
                            </form>
               </div>
@@ -455,7 +586,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editJDTrafficModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal fade" id="editJDTrafficModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
@@ -464,10 +595,10 @@
               </div>
               <div class="modal-body">
                      <ul id="pointBigTLTab" class="nav nav-tabs">
-                        <li  class="active"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" ><img src="../static/img/bs.png" height="30" width="30"/></a></li>
-                        <li onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" > <img src="../static/img/ds.png" height="30" width="30"/></a></li>
-                        <li onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" > <img src="../static/img/hc.png" height="30" width="30"/></a></li>
-                        <li onclick="do_PointTLSL('飞机')"><a href="#TRdt" data-toggle="tab" name="飞机" > <img src="../static/img/fj.png" height="30" width="30"/></a></li>
+                        <li  class="active" id="BigLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" ><img src="../static/img/bs.png" height="30" width="30"/></a></li>
+                        <li  id="BigLtlids" onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" > <img src="../static/img/ds.png" height="30" width="30"/></a></li>
+                        <li  id="BigLtlihc" onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" > <img src="../static/img/hc.png" height="30" width="30"/></a></li>
+                        <li id="BigLtlifj" onclick="do_PointTLSL('飞机')"><a href="#TRdt" data-toggle="tab" name="飞机" > <img src="../static/img/fj.png" height="30" width="30"/></a></li>
                     </ul>
                       <form id="formBigPointTL" class="bs-example bs-example-form" role="form">
                             <table style="width:100%;height:100%;border-spacing:10px;cellspacing:10px" >
@@ -495,7 +626,7 @@
                             </tr>
                             </table>
                                 <span class="input-group-addon">交通备注</span>
-                                <textarea id="formPointTLTextArea" rows="3" class="form-control" name="tptrainevent" placeholder="输入交通备注"></textarea>
+                                <textarea id="formPointTLTextAreabigtptrainevent" rows="3" class="form-control" name="tptrainevent" placeholder="输入交通备注"></textarea>
                        </form>
               </div>
                  <div class="modal-footer">
