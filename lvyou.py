@@ -8,6 +8,8 @@ Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 db = DataServicec()
 
+
+
 @app.route('/seach/<id>')
 def view_day(id):
     datas = db.QueryInfoByJID(id)
