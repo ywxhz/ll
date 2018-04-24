@@ -10,7 +10,7 @@
     <h4 id="itemPointName{{ itemPoint.id }}" style="margin-bottom: 13px;" class="list-group-item-heading">{{ itemPoint.name }}</h4>
     <p id="itemPointDec{{ itemPoint.id }}" class="list-group-item-separate" style="display: none;">{{ itemPoint.event }}</p>
     <div class="list-group-item-text" style="margin-bottom: 30px;">
-        {% with icon_class = "" %}
+        {% if itemPoint.type != "自定义-交通" %}
             {% if itemPoint.transport == "自驾" %}
                 {% set icon_class = "fas fa-car" %}
             {% elif itemPoint.transport == "的士" %}
@@ -27,9 +27,9 @@
                 {% set icon_class = "fas fa-car" %}
             {% endif %}
             <span class="{{ icon_class }}" id="itemptrdistance{{ itemPoint.id }}"  style="float:left;margin-left: 25px;color: #286090"> {{ itemPoint.trdistance }}</span >
-        {% endwith %}
-        <span class="glyphicon glyphicon-time" id="itemptrtime{{ itemPoint.id }}"  style="float:left;margin-left: 20px;color: #286090"> {{ itemPoint.trtime }}</span >
-        <span id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;pxoverflow: hidden;text-overflow:ellipsis;white-space: nowrap;color: #286090"></span>
-        <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px;color: #286090" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  > &nbsp编辑</span>
+            <span class="fas fa-hourglass-half" id="itemptrtime{{ itemPoint.id }}"  style="float:left;margin-left: 20px;color: #286090"> {{ itemPoint.trtime }}</span >
+            <span id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;pxoverflow: hidden;text-overflow:ellipsis;white-space: nowrap;color: #286090"></span>
+            <span class="fas fa-edit" style="float: left;margin-left: 15px;color: #286090" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  > 编辑</span>
+        {% endif %}
     </div>
 </a>

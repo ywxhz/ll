@@ -2,13 +2,16 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
+from gevent import monkey
+from gevent.pywsgi import WSGIServer
+import time
 
+monkey.patch_all()
 app = Flask(__name__)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
+app.config.update(DEBUG=True)
 db = DataServicec()
-
-
 
 @app.route('/seach/<id>')
 def view_day(id):
@@ -143,7 +146,6 @@ def edit_Point():
 def hello_world1():
     return render_template('test.html')
 
-
 @app.route('/user/<name>')
 def user(name):
     return render_template('test.html', name=name)
@@ -153,5 +155,7 @@ def hello_world1111():
     return render_template('test.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
+    # app.run(host='0.0.0.0')
     # app.run(host='127.0.0.1')

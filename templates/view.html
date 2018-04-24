@@ -44,7 +44,8 @@
             do_travelError();
             modalTravel = $("#modalTravel");
             data = {"type":"add", "url":"/do_createTravel"};
-            $("#btnSaveTravel").one("click", data, do_saveTravel);
+            $("#btnSaveTravel").off("click", data, do_saveTravel);
+            $("#btnSaveTravel").on("click", data, do_saveTravel);
             $("#modalLabel").text("新建行程");
             modalTravel.modal('show');
         }
@@ -62,6 +63,7 @@
             $("#formTravelPrice").val(proPrice)
             $("#formTravelTextArea").val(proEvent)
 
+            $("#btnSaveTravel").off("click", data, do_saveTravel);
             $("#btnSaveTravel").one("click", data, do_saveTravel);
             $("#modalLabel").text("修改行程");
             modalTravel.modal('show');
