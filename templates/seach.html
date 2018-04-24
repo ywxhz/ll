@@ -430,7 +430,7 @@
 {#    <div class="container-fluid" >#}
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" >
             <div class="navbar-header">
-                <a class="navbar-brand" href="/view">有趣行程</a>
+                <a class="navbar-brand" href="/view">首页</a>
             </div>
             <ul class="nav navbar-nav">
                 <li id="liViewTravel" ><a href="/view" ><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
@@ -469,7 +469,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;overflow-y:auto;max-height: 90%;">
+                    <div id="dipIn" class="list-group" style="padding-left: 0px;padding-right: 0px;overflow-y:auto;max-height: 85%;">
                     </div>
                     <div id="dipFYIn" style="text-align:right;" ></div>
                 </div>
@@ -482,7 +482,7 @@
                     </div>
                     <div style="padding: 0px;height: 100%;">
                         <div class="col-xs-4 col-md-2" style="padding: 0px;height: 100%;border-right: 1px solid #ddd;" >
-                            <ul id="listDays" class='list-group list-group-flush' style="padding: 5px;margin-bottom:10px;overflow-y:auto;max-height: 90%;" >
+                            <ul id="listDays" class='list-group list-group-flush' style="padding: 5px;margin-bottom:10px;overflow-y:auto;max-height: 85%;" >
                                 {% for itemDay in lyday %}
                                     {% with day_active = "active" %}
                                         {% if not loop.first %}
@@ -496,7 +496,7 @@
                             <span type="button" class="btn btn-default center-block" style="margin: 5px;" onclick="do_addDay({{ proId }})"> 加一天 </span>
                         </div>
                         <div class="col-xs-8 col-md-10" style="padding-left: 5px;padding-right: 0px;height: 100%;">
-                            <div id="tabContent" class='tab-content' style="overflow-y:auto;max-height: 90%;">
+                            <div id="tabContent" class='tab-content' style="overflow-y:auto;max-height: 85%;">
                                 {% for itemDay in lyday %}
                                     {% with day_active = "active" %}
                                         {% if not loop.first %}
