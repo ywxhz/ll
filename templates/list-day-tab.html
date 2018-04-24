@@ -1,6 +1,6 @@
 <div class="tab-pane {{ day_active }}" id="tab{{ itemDay.id }}" value="'{{ itemDay.id }}'"  >
     <h4 style="padding-left: 20px;height: 20px;"  >
-        <span class="glyphicon glyphicon-edit" style="padding-right: 10px;" onclick="do_editDay('{{ itemDay.id }}')" ></span>
+        <span class="glyphicon glyphicon-edit" style="padding-right: 10px;cursor: pointer;" onclick="do_editDay('{{ itemDay.id }}')" ></span>
         {{ day_str }}
         <span id="tabDayName{{ itemDay.id }}" style="padding-left: 10px;" >{{ itemDay.name }}</span>
     </h4>
