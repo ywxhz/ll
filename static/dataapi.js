@@ -441,37 +441,27 @@ function  do_FYpointF(cityid,pointname,action) {
 
     }
 }
+//------seach页面一些相关的方法
 
-
-// //通过景点名称查询景点
-// function getjdapi(jname) {
-//     var xx=formatterDateTime();
-//     alert(xx.toString());
-//     var strurl="https://route.showapi.com/268-1?areaId=&cityId=&keyword="+jname+"&page=&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-//     $.ajax({url:strurl,success:function(result){
-//         alert(result.toString());
-//     }});
-// }
-
-
-// //通过城市名称查询酒店
-// function gethotelapi(cityname) {
-//     // alert("1");
-//    // var cityname="长沙";
-//     var xx=formatterDateTime();
-//     alert(xx.toString());
-//     var strurl="https://route.showapi.com/1450-1?cityName="+cityname+"&hotalId=&hotalName=&page=&proName=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-//     $.ajax({url:strurl,success:function(result){
-//         alert(result.toString());
-//     }});
-// }
-// //通过景点名称查询景点
-// function getjdapi(jname) {
-//     var xx=formatterDateTime();
-//     alert(xx.toString());
-//     var strurl="https://route.showapi.com/268-1?areaId=&cityId=&keyword="+jname+"&page=&proId=&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp="+formatterDateTime()+"&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c";
-//     $.ajax({url:strurl,success:function(result){
-//         alert(result.toString());
-//     }});
-// }
+  function getjtfs(zwtr){
+        if (zwtr == "自驾"){
+            return "fas fa-car";
+        }
+        if (zwtr == "的士"){
+            return "fas fa-taxi";
+        }
+        if (zwtr == "巴士"){
+            return "fas fa-bus";
+        }
+        if (zwtr == "地铁"){
+            return "fas fa-subway";
+        }
+        if (zwtr == "火车"){
+            return "fas fa-train";
+        }
+        if (zwtr == "飞机"){
+            return "fas fa-plane";
+        }
+         return "fas fa-car";
+  }
 

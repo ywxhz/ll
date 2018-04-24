@@ -287,7 +287,6 @@
              $("#editJDTrafficModal1 input[name='tptrainsp']").val('');
             nowZDYtype =item;
         }
-
         function do_savePointTL() {
             var itemPoint = $("#itemPoint"+nowPointID);
             var url = "/do_editPoint";
@@ -303,10 +302,13 @@
                if (result <= 0){
                    alert("修改失败");
                } else {
+
                    itemPoint.attr("ptrtime",data['trtime']);
                    itemPoint.attr("ptransport",data['transport']);
                    itemPoint.attr("ptrdistance",data['trdistance']);
                    itemPoint.attr("ptrevent",data['trevent']);
+                   $("#itemptrdistance"+nowPointID).removeClass();
+                   $("#itemptrdistance"+nowPointID).addClass(getjtfs(data['transport']));
                    $("#itemptrtime"+nowPointID).empty();
                    $("#itemptrtime"+nowPointID).append(data['trtime']);
                    $("#itemptrdistance"+nowPointID).empty();
@@ -325,6 +327,11 @@
         function do_saveBigPointTL() {
             var params = $("#formBigPointTL").serializeArray();
             var data = {};
+            if(get_activeDayID()=='undefined'){
+                alert("当前没选中天 不能添加");
+                return "";
+                $("#editJDTrafficModal1").modal('hide');
+            }
             data['dayId'] =get_activeDayID();
             data['tptrainsp'] =nowJTFS;
             data['type'] =nowZDYtype;
@@ -384,7 +391,13 @@
             var url = "/do_addPoint";
             var params = $("#formZDYTL").serializeArray();
             var data = {};
+            if(get_activeDayID()=='undefined'){
+                alert("当前没选中天 不能添加");
+                return "";
+                $("#editZDYModal").modal('hide');
+            }
             data['dayId'] =get_activeDayID();
+
             data['type'] =nowZDYtype;
             for( x in params ){
                 data[params[x].name] = params[x].value;

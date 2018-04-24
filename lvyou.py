@@ -124,7 +124,7 @@ def edit_Point():
     ids=vals['id']
     del(vals['id'])
     if vals.has_key('transport') and vals.has_key('trtime') and vals.has_key('trevent') and vals.has_key('trdistance'):
-        vals['treventds']= u"乘坐"+vals['transport']+u"，花费"+vals['trtime']+u"，距离"+vals['trdistance']+u"需要注意的是："+vals['trevent']
+        vals['treventds']= vals['transport']+u"  "+vals['trtime']+u"  "+vals['trdistance']+u"  "+vals['trevent']
     if request.method == 'POST':
         reslut = db.EidtPoint(ids, vals)
     return jsonify(reslut)
