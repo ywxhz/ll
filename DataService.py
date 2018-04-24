@@ -233,11 +233,29 @@ class DataServicec:
     def NewdDay(self, jid,vdct):
         cum = ''
         val = ''
+        ms = MySqlconc()
+        # 获取最大index
+        sqls = "select max(daynum) from lyday WHERE id IN (select did from lyrt WHERE jid=" + jid + ")"
+        reid = ms.SQLQuery(sqls)
+        maxindex = 0
+        for idval in reid:
+            for mid in idval:
+                if not mid is None:
+                    maxindex = mid
+        print  maxindex
+        # 获取最大index
+        vdct = vdct.to_dict()
+        print type(vdct)
+        vdct['daynum'] = maxindex + 100
         for key in vdct:
             if self.getlydayfs(key):
-                cum = cum + key + ","
-                val = val + "'" + vdct[key] + "',"
-                # print key + " " + vdct[key]
+                if key == "daynum":
+                    cum = cum + key + ","
+                    val = val + str(vdct[key]) + ","
+                else:
+                    cum = cum + key + ","
+                    val = val + "'" + vdct[key] + "',"
+                    # print key + " " + vdct[key]
         cum = cum[:-1];
         val = val[:-1];
         ms = MySqlconc()
@@ -324,15 +342,16 @@ class DataServicec:
         maxindex = 0
         for idval in reid:
             for mid in idval:
-                maxindex = mid
+                if not mid is None:
+                    maxindex = mid
         print  maxindex
         # 获取最大index
         vdct=vdct.to_dict()
         print type(vdct)
-        vdct['index']=maxindex+100
+        vdct['indexnum']=maxindex+100
         for key in vdct:
             if self.getlypointfs(key):
-                if key=='index':
+                if key=="indexnum":
                     cum = cum + key + ","
                     val = val + str(vdct[key]) + ","
                 else:

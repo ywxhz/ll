@@ -313,8 +313,8 @@
                    $("#itemptrtime"+nowPointID).append(data['trtime']);
                    $("#itemptrdistance"+nowPointID).empty();
                    $("#itemptrdistance"+nowPointID).append(data['trdistance']);
-                   $("#itemptrevent"+nowPointID).empty();
-                   $("#itemptrevent"+nowPointID).append(data['trevent']);
+{#                   $("#itemptrevent"+nowPointID).empty();#}
+{#                   $("#itemptrevent"+nowPointID).append(data['trevent']);#}
                    if($("#editTrafficModal").is(':hidden')){
                         $("#editTrafficModal").modal('show');
                     }else{
@@ -636,7 +636,9 @@
                             </tr>
                             <tr>
                                 <td>出发时间</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="stratt" placeholder="输入出发时间"></td>
+                                <td>
+                                    <input id="formPointTLText" type="text" required="true" class="form-control" name="stratt" placeholder="输入出发时间">
+                                </td>
                                 <td>到达时间</td>
                                 <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endt" placeholder="输入到达时间"></td>
                             </tr>
