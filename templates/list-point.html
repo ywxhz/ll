@@ -26,9 +26,8 @@
             {% else %}
                 {% set icon_class = "fas fa-car" %}
             {% endif %}
-            <span class="{{ icon_class }}" id="itemptransport{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
+            <span class="{{ icon_class }}" id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trdistance }}</span >
         {% endwith %}
-        <span id="itemptrdistance{{ itemPoint.id }}"  style="float: left;margin-left: 15px"></span >
         <span class="glyphicon glyphicon-time" id="itemptrtime{{ itemPoint.id }}"  style="float: left;margin-left: 15px">{{ itemPoint.trtime }}</span >
         <span id="itemptrevent{{ itemPoint.id }}"  style="float: left;margin-left: 15px;pxoverflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ itemPoint.trevent }}</span>
         <span class="glyphicon glyphicon-edit" style="float: left;margin-left: 15px;" onclick="do_eidtPointJT('{{ itemPoint.id }}')" data-toggle="modal" data-target="#editTrafficModal"  >编辑</span>
