@@ -198,9 +198,24 @@ class DataServicec:
         sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ") ORDER BY daynum"
         print "sqlstr " + sqlstr
         vallist['lyday'] =ms.SQLcumQuert("lyday", sqlstr)
-        sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)+" ORDER BY lypoint.index "
+        sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)+" ORDER BY lypoint.indexnum  "
         print "sqlstr " + sqlstr
         vallist['lypoint'] =ms.SQLcumQuert1("lypoint", sqlstr, ['jid', 'did'])
+        # print vallist
+        return vallist
+
+    def QueryInfoByJIDdesc(self, jid):
+        vallist = {}
+        ms = MySqlconc()
+        sqlstr = "select * from lyproject where id =" + str(jid) + " ORDER BY id "
+        print "sqlstr " + sqlstr
+        vallist['lyproject'] = ms.SQLcumQuert("lyproject", sqlstr)
+        sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ") ORDER BY daynum"
+        print "sqlstr " + sqlstr
+        vallist['lyday'] = ms.SQLcumQuert("lyday", sqlstr)
+        sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid) + " ORDER BY lypoint.indexnum "
+        print "sqlstr " + sqlstr
+        vallist['lypoint'] = ms.SQLcumQuert1("lypoint", sqlstr, ['jid', 'did'])
         # print vallist
         return vallist
     #插入point
@@ -302,14 +317,30 @@ class DataServicec:
     def NewPoint(self, did,vdct):
         cum = ''
         val = ''
+        ms = MySqlconc()
+        # 获取最大index
+        sqls = "select max(indexnum) from lypoint WHERE id IN (select pid from lyrtp WHERE did=" + did + ")"
+        reid = ms.SQLQuery(sqls)
+        maxindex = 0
+        for idval in reid:
+            for mid in idval:
+                maxindex = mid
+        print  maxindex
+        # 获取最大index
+        vdct=vdct.to_dict()
+        print type(vdct)
+        vdct['index']=maxindex+100
         for key in vdct:
             if self.getlypointfs(key):
-                cum = cum + key + ","
-                val = val + "'" + vdct[key] + "',"
+                if key=='index':
+                    cum = cum + key + ","
+                    val = val + str(vdct[key]) + ","
+                else:
+                    cum = cum + key + ","
+                    val = val + "'" + vdct[key] + "',"
                 # print key + " " + vdct[key]
-        cum = cum[:-1];
-        val = val[:-1];
-        ms = MySqlconc()
+        cum = cum[:-1]
+        val = val[:-1]
         sqlstr = "INSERT INTO lypoint (" + cum + ") VALUES (" + val + ")"
         print "sqlstr " + sqlstr
         enum = ms.SQLexecute(sqlstr)
@@ -321,7 +352,7 @@ class DataServicec:
                 maxdid = mid
         print  maxdid
         sqlstr = "INSERT INTO lyrtp (did,pid) VALUES ("+ str(did)+","+str(maxdid)+")"
-        print   sqlstr
+        print  sqlstr
         enum = ms.SQLexecute(sqlstr)
         return maxdid
 
