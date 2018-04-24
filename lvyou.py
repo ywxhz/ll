@@ -18,7 +18,20 @@ def view_day(id):
 @app.route('/mobile/<id>')
 def view_mobile(id):
     datas = db.QueryInfoByJID(id)
+    for day in datas["lyday"]:
+        temp = ""
+        for point in datas["lypoint"]:
+            if day["id"] == point["did"] and point["type"] != "自定义-交通":
+                temp += point["name"]+"，"
+        day["daypointsname"] = temp.rstrip('，')
     return render_template('mobile.html', proId = id, lyproject = datas["lyproject"], lyday = datas["lyday"], lypoint = datas["lypoint"])
+
+@app.route('/cover/<id>/<name>')
+def view_mobile_cover(id, name):
+    reslut = ""
+    days = db.QueryDayByJID(id)
+    reslut = render_template('mobile-cover.html',name = name,days = days)
+    return reslut
 
 @app.route('/view')
 def view_travel():

@@ -103,6 +103,15 @@
 {% block scripts %}
     {{ super() }}
     <script>
+        $(document).one("touchmove",function(){
+            $(document).one("touchend",function(){
+              $("#divImg").hide();
+              $("#divText").hide();
+              $("#divBtn").hide();
+              $("#divContent").show();
+            });
+        });
+
         function div_collapse(id) {
             list = $("#list"+id);
             header = $("#header"+id);
@@ -118,7 +127,20 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid" style="padding: 10px 0px;height: 100%;width: 100%;">
+    <div id="divImg" style="position:absolute; left:0px; top:0px; width:100%; height:100%;z-index: -100;">
+        <img src="/static/img/mbg.jpg" width="100%" height="100%" />
+    </div>
+    <div id="divText" style="left:0px; top:0px; width:100%; height:100%;padding-left: 30px;padding-right: 30px;padding-top: 70px;padding-bottom: 20px;">
+        <p class="item-traffic-text" style="font-size: 30px;font-weight: bold;color: #ffffff;">{{ lyproject[0].name }}</p>
+        {% for itemDay in lyday %}
+            {% set day_str = "  第"+loop.index|string+"天" %}
+            {% if itemDay.daypointsname != "" %}
+                <p class="item-traffic-text" style="font-size: 16px;color: #ffffff;margin: 0px;">{{ day_str }}：{{ itemDay.daypointsname }}</p>
+            {% endif %}
+        {% endfor %}
+     </div>
+    <span id="divBtn" class="fas fa-angle-down fade" style="font-size: 80px;text-align: center;display: block;display: none;" ></span>
+    <div id="divContent" class="container-fluid" style="padding: 10px 0px;height: 100%;width: 100%;display: none;">
         {% for itemDay in lyday %}
             {% set day_str = "  第"+loop.index|string+"天" %}
             <div class="row-fluid">

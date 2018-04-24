@@ -72,6 +72,10 @@
 
         function do_addPoint(tempPointId) {
             dayID = get_activeDayID();
+            if(dayID.trim()==""){
+                alert("必须要选中某天才能添加。");
+                return;
+            }
             pName = $("#"+tempPointId+" h4.list-group-item-heading:first").text();
             pDec = $("#"+tempPointId+" p.list-group-item-text:first").text();
             data = {"dayId":dayID, "name":pName, "event": pDec}
@@ -221,6 +225,11 @@
         }
 
         function do_qrcodeShow(proId) {
+{#            $('#divModalQrcode').empty();#}
+{#            name =  $("#txtProjectName").text()#}
+{#            url = "http://"+window.location.host+"/cover/"+proId+"/"+encodeURIComponent(name);#}
+{#            $('#divModalQrcode').qrcode(url);#}
+{#            $("#modalQrcode").modal("show");#}
             $('#divModalQrcode').empty();
             url = "http://"+window.location.host+"/mobile/"+proId;
             $('#divModalQrcode').qrcode(url);
@@ -421,7 +430,7 @@
 {#    <div class="container-fluid" >#}
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" >
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">有趣行程</a>
+                <a class="navbar-brand" href="/view">有趣行程</a>
             </div>
             <ul class="nav navbar-nav">
                 <li id="liViewTravel" ><a href="/view" ><span class="glyphicon glyphicon-tags"></span> 我的行程</a></li>
@@ -469,8 +478,8 @@
             <div class="col-xs-6  col-md-6 " style="padding-top: 10px;padding-left: 0px;padding-right: 5px;height: 100%;" >
                 <div class="panel panel-default " style="height: 100%;" >
                     <div class="panel-heading" style="padding: 0px;height: 51px;">
-                        <span  style="line-height: 51px;font-size: 18px;font-weight: bold;padding-left: 20px;"  >{{ lyproject[0].name }}</span>
-                        <span class="glyphicon glyphicon-qrcode" onclick="do_qrcodeShow({{ lyproject[0].id }})" style="float: right;height: 51px;line-height: 51px;font-size: 35px;margin-right: 10px;"></span>
+                        <span id="txtProjectName" style="line-height: 51px;font-size: 18px;font-weight: bold;padding-left: 20px;"  >{{ lyproject[0].name }}</span>
+                        <span class="glyphicon glyphicon-qrcode" onclick="do_qrcodeShow({{ lyproject[0].id }})" style="float: right;height: 51px;line-height: 51px;font-size: 35px;margin-right: 10px;cursor: pointer;"></span>
                     </div>
                     <div style="padding: 0px;height: 100%;">
                         <div class="col-xs-4 col-md-2" style="padding: 0px;height: 100%;border-right: 1px solid #ddd;" >
@@ -500,10 +509,10 @@
                                 {% endfor %}
                             </div>
                             <p style="margin-left: 15px;margin-top: 10px;">添加自定义
-                                <a href="javascript:;" data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-景点')">景点</a>、
-                                <a data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-餐馆')">餐馆</a>、
-                                <a data-toggle="modal"  data-target="#editJDTrafficModal1" onclick="do_ZDYtypeJT('自定义-交通')">交通</a>、
-                                <a data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-酒店')">酒店</a>
+                                <a style="cursor: pointer;" data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-景点')">景点</a>、
+                                <a style="cursor: pointer;" data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-餐馆')">餐馆</a>、
+                                <a style="cursor: pointer;" data-toggle="modal"  data-target="#editJDTrafficModal1" onclick="do_ZDYtypeJT('自定义-交通')">交通</a>、
+                                <a style="cursor: pointer;" data-toggle="modal" data-target="#editZDYModal" onclick="do_ZDYtype('自定义-酒店')">酒店</a>
                             </p>
                         </div>
                     </div>
