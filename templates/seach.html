@@ -144,6 +144,7 @@
             //alert("t2 "+ptype);
             if(ptype=="自定义-交通")
             {
+                nowBigLTMDType="edit";
                 //交通方式-
                 //-lzh调试-错误
                 $("#pointBigTLTab>li").each(function(){
@@ -161,22 +162,19 @@
                 }
                 if(nowJTFS=="巴士"){
                      id="BigLtlibs";
+
                 }
                 if(nowJTFS=="的士"){
                     id="BigLtlids";
                 }
                 if(nowJTFS=="自驾"){
-
-{#                    新增加类型 未写代码#}
-                    id="";
+                    id="BigLtlizj";
                 }
                 if(nowJTFS=="地铁"){
-{#                    新增加类型 未写代码#}
-                    id="";
+                    id="BigLtlidt";
                 }
                 $("#"+id).addClass("active");
                 //交通方式
-                nowBigLTMDType="edit";
                 if($("#editJDTrafficModal1").is(':hidden')){
                     $("#editJDTrafficModal1").modal('show');
                 }else{
@@ -249,7 +247,6 @@
                 $(this).removeClass("active");
             });
              //-lzh调试-错误
-
             nowJTFS=itemPoint.attr("ptransport");
             var id="BigLtlibs";
             if(nowJTFS=="自驾"){
@@ -278,6 +275,7 @@
         }
 
         function do_ZDYtypeJT(item){
+             nowBigLTMDType="add";
              $("#editJDTrafficModal1 input[name='stratt']").val('');
              $("#editJDTrafficModal1 input[name='stratc']").val('');
              $("#editJDTrafficModal1 input[name='stratp']").val('');
@@ -311,8 +309,6 @@
                    itemPoint.attr("ptrevent",data['trevent']);
                    $("#itemptrtime"+nowPointID).empty();
                    $("#itemptrtime"+nowPointID).append(data['trtime']);
-                   $("#itemptransport"+nowPointID).empty();
-                   $("#itemptransport"+nowPointID).append(data['transport']);
                    $("#itemptrdistance"+nowPointID).empty();
                    $("#itemptrdistance"+nowPointID).append(data['trdistance']);
                    $("#itemptrevent"+nowPointID).empty();
@@ -542,7 +538,7 @@
                        <ul id="pointTLTab" class="nav nav-tabs">
                             <li   id="smLtlizj" class="active"  onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" class="fas fa-car" style="font-size: 25px;" name="的士"></a> </li>
                             <li   id="smLtlids"  onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" class="fas fa-taxi" style="font-size: 25px;"  > </a></li>
-                            <li   id="smLtlihc"  onclick="do_PointTLSL('巴士')"><a href="#TRhc" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;"  > </a></li>
+                            <li   id="smLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRhc" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;"  > </a></li>
                             <li   id="smLtlidt"  onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁"  class="fas fa-subway" style="font-size: 25px;" > </a></li>
                         </ul>
                           <form id="formPointTL" class="bs-example bs-example-form" role="form">
@@ -607,7 +603,7 @@
               <div class="modal-body">
                      <ul id="pointBigTLTab" class="nav nav-tabs">
                         <li  class="active" id="BigLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;" ></a></li>
-                        <li  id="BigLtlids" onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" name="的士" class="fas fa-car" style="font-size: 25px;"></a></li>
+                        <li  id="BigLtlizj" onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" name="自驾" class="fas fa-car" style="font-size: 25px;"></a></li>
                         <li  id="BigLtlihc" onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" class="fas fa-train" style="font-size: 25px;"> </a></li>
                         <li id="BigLtlifj" onclick="do_PointTLSL('飞机')"><a href="#TRdt" data-toggle="tab" name="飞机" class="fas fa-plane" style="font-size: 25px;"> </a></li>
                     </ul>
