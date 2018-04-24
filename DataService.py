@@ -175,7 +175,7 @@ class DataServicec:
         #     print Fstr
         # Fstr = Fstr[:-2];
         ms = MySqlconc()
-        sqlstr = "select * from lyproject where name like '%"+qv+"%' or event like '%"+qv+"%' or price like '%"+qv+"%'"
+        sqlstr = "select * from lyproject where name like '%"+qv+"%' or event like '%"+qv+"%' or price like '%"+qv+"%' ORDER BY id DESC limit 20 "
         print "sqlstr " + sqlstr
         return   ms.SQLcumQuert("lyproject",sqlstr)
 
@@ -192,7 +192,7 @@ class DataServicec:
     def QueryInfoByJID(self, jid):
         vallist = {}
         ms = MySqlconc()
-        sqlstr = "select * from lyproject where id =" + str(jid)+" ORDER BY id "
+        sqlstr = "select * from lyproject where id =" + str(jid)+" ORDER BY id DESC"
         print "sqlstr " + sqlstr
         vallist['lyproject']=ms.SQLcumQuert("lyproject", sqlstr)
         sqlstr = "select * from lyday where id in(select did from lyrt where jid=" + str(jid) + ") ORDER BY daynum"
