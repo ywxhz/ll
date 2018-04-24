@@ -45,6 +45,7 @@ def qruey_xzq():
     reslut = None
     if request.method == 'POST':
         reslut = db.Queryxzq()
+        print  reslut
     return jsonify(reslut)
 
 @app.route('/do_editTravel/<id>',methods=['POST'])

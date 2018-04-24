@@ -118,7 +118,7 @@ class DataServicec:
         ms = MySqlconc()
         sqlstr = "select * from xzqinfo ORDER BY szm"
         print "sqlstr " + sqlstr
-        return ms.SQLQuery(sqlstr)
+        return ms.SQLcumQuert('xzqinfo',sqlstr)
 
         # 插入day
         # jid：计划ID
@@ -391,7 +391,7 @@ class DataServicec:
 
     # 初始行政区数据
     def CreateXzqCity(self,id):
-        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180420111649&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
+        url="https://route.showapi.com/268-3?proId="+id+"&showapi_appid=59865&showapi_test_draft=false&showapi_timestamp=20180424110843&showapi_sign=1c0eda05ab15436d8c6b5c9dbe1e023c"
         print url
         time.sleep(1)
         jsonShen = urllib2.urlopen(url).read()

@@ -27,33 +27,124 @@ function formatterDateTime() {
                         .getSeconds());
         return datetime;
 }
+var nowxzqcityname="";
+var nowxzqcityid="";
+var nowdataapitype="point";
 function hotelclick() {
-    var cityname='长沙';
-    var hotalname= $("#apitxtin").val() ;
+    nowdataapitype="hotel";
+    var cityname=nowxzqcityname;
+    var hotalname= $("#dataapitxtin").val() ;
     $("#dataapinavHotel").addClass("active");
     $("#dataapinavJD").removeClass("active");
     gethotelapi(cityname,hotalname);
 }
 function pointclick() {
-    var cityid='199';
-    var pointname='';
+    nowdataapitype="point";
+    var cityid=nowxzqcityid;
+    var pointname=$("#dataapitxtin").val() ;
     $("#dataapinavJD").addClass("active");
     $("#dataapinavHotel").removeClass("active");
     getpointapi(cityid,pointname);
 }
-var XZQdata="";
+$(document).ready(function () {
+    initxzq();
+})
+function Dictionary(){//字典类
+    var items={};//存储在一个Object的实例中
+
+    this.has=function(key){//验证一个key是否是items对象的一个属性
+        return key in items;
+    };
+    this.set=function(key,value){//设置属性
+        items[key]=value;
+    };
+    this.remove=function(key){//移除key属性
+        if(this.has(key)){
+            delete items[key];
+            return true;
+        }
+        return false;
+    };
+    this.get=function(key){//查找特定属性
+        return this.has(key) ? items[key]:undefined;
+    };
+    this.values=function(){//返回所有value实例的值
+        var values=new Array();//存到数组中返回
+        for(var k in items){
+            if(this.has(k)){
+                values.push(items[k]);
+            }
+        }
+        return values;
+    };
+    this.getItems=function(){//获取
+        return items;
+    };
+    this.clear = function () {//清除
+        items = {};
+    };
+    this.size = function () {//获取属性的多少
+        return Object.keys(items).length;
+    };
+}
+
+function xzqgetcity(cname,cid){
+    nowxzqcityname=cname;
+    nowxzqcityid=cid;
+    $("#xqznowselected").empty();
+    if(cname==''){
+        $("#xqznowselected").append('全国');
+    }else {
+        $("#xqznowselected").append(cname);
+    }
+}
+function dataapifind(){
+    if(nowdataapitype=="hotel"){
+        hotelclick();
+    }
+    if(nowdataapitype=="point"){
+        pointclick();
+    }
+}
 function initxzq() {
-        alert("g1");
-        // var url = "/qruey_xzq";
-        // if(XZQdata==""){
-        //     $("#xzqaddul").empty();
-        //     $.post(url,'',function(repData){
-        //         XZQdata=repData;
-        //          $.each(data, function(key, field){
-        //                 alert("2_" + field.toString() + " " + key.toString()+" i"+i.toString());
-        //          })
-        //     });
-        // }
+        var url = "/qruey_xzq";
+        $("#xzqaddul").empty();
+         var htmstr1="<a href=\"#\" style=\"font-size: small;color: #0f0f0f\" onclick=\"xzqgetcity('','')\" >全国</a>&nbsp&nbsp";
+         $("#xzqaddul").append(htmstr1);
+         $.post(url,function(repData){
+            nowXZQdata=repData;
+            //alert("2_" +repData);
+             var nowszm=''
+             var htmstr="";
+             $.each(repData, function(key,field){
+                   // alert("2_" + key.toString()+"-----"+field.toString());
+                        var dictionary= new Dictionary();//new一个对象
+                       $.each(field, function(key1, field1) {
+                             //alert("3_" + key1.toString()+"-----"+field1.toString());
+                            //设置属性
+                            dictionary.set(key1.toString(),field1.toString());
+                        });
+
+                      if(dictionary.get('szm')!=nowszm&&dictionary.get('pid')=="0") {
+                                nowszm=dictionary.get('szm');
+                                htmstr='';
+                                htmstr+="<li class=\"divider\"></li>";
+                                htmstr+="<a href=\"#\" style=\"font-size: medium;\" >"+nowszm+"</a><br />";
+                                $("#xzqaddul").append(htmstr);
+
+                      }
+                      if(dictionary.get('pid')=="0"){
+                            htmstr='';
+                            htmstr+="<a href=\"#\" style=\"font-size: medium;\" >"+dictionary.get('name')+"</a><br/><div id=\"xzqpid"+dictionary.get('id')+"\"></div>";
+                           $("#xzqaddul").append(htmstr);
+                      }
+                       if(dictionary.get('pid')!="0"){
+                            htmstr='';
+                            htmstr+="<a href=\"#\" style=\"font-size: small;color: #0f0f0f\" onclick=\"xzqgetcity('"+dictionary.get('name')+"','"+dictionary.get('id')+"')\" >"+dictionary.get('name')+"</a>&nbsp&nbsp";
+                           $("#xzqpid"+dictionary.get('pid')).append(htmstr);
+                       }
+             });
+        });
 }
 function gethotelpic(hotalid) {
     var hotelpicurl;
@@ -90,7 +181,6 @@ function gethotelpic(hotalid) {
     //alert("hotelpicurl "+hotelpicurl)
     return  hotelpicurl;
 }
-
 //通过城市名称查询酒店
 function gethotelapi(cityname,hotalname) {
     // alert("1");
