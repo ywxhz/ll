@@ -201,7 +201,7 @@ class DataServicec:
         sqlstr = "select lyrt.jid,lyrtp.did,lypoint.* from lyrtp,lyrt,lypoint where lyrtp.did=lyrt.did and lyrtp.pid=lypoint.id and lyrt.jid=" + str(jid)+" ORDER BY lypoint.index "
         print "sqlstr " + sqlstr
         vallist['lypoint'] =ms.SQLcumQuert1("lypoint", sqlstr, ['jid', 'did'])
-        print vallist
+        # print vallist
         return vallist
     #插入point
         # did：天ID
@@ -222,7 +222,7 @@ class DataServicec:
             if self.getlydayfs(key):
                 cum = cum + key + ","
                 val = val + "'" + vdct[key] + "',"
-                print key + " " + vdct[key]
+                # print key + " " + vdct[key]
         cum = cum[:-1];
         val = val[:-1];
         ms = MySqlconc()
@@ -306,7 +306,7 @@ class DataServicec:
             if self.getlypointfs(key):
                 cum = cum + key + ","
                 val = val + "'" + vdct[key] + "',"
-                print key + " " + vdct[key]
+                # print key + " " + vdct[key]
         cum = cum[:-1];
         val = val[:-1];
         ms = MySqlconc()
@@ -382,12 +382,12 @@ class DataServicec:
         if listitem.has_key('list'):
             items= listitem['list']
             ms = MySqlconc()
-            print items
+            # print items
             for item in items:
                sqlstr=  "INSERT INTO xzqinfo (id,name,pid) VALUES ("+item['id']+",'"+item['name']+"',0)"
                enum = ms.SQLexecute(sqlstr)
                self.CreateXzqCity(item['id'])
-               print item
+               # print item
 
     # 初始行政区数据
     def CreateXzqCity(self,id):
@@ -396,14 +396,14 @@ class DataServicec:
         time.sleep(1)
         jsonShen = urllib2.urlopen(url).read()
         python_to_json = json.loads(jsonShen)
-        print python_to_json
+        # print python_to_json
         # print type(python_to_json)
         listitem = python_to_json['showapi_res_body']
-        print listitem
+        # print listitem
         if listitem.has_key('list'):
             items = listitem['list']
             ms = MySqlconc()
-            print items
+            # print items
             nowcityid=""
             for item in items:
                 # if item.has_key('cityId'):
@@ -411,12 +411,12 @@ class DataServicec:
                 #         'proName'] + "'," + id + ")"
                 if item.has_key('cityId'):
                     if nowcityid!= item['cityId']:
-                        print nowcityid+" "+ item['cityId']
+                        # print nowcityid+" "+ item['cityId']
                         sqlstr = "INSERT INTO xzqinfo (id,name,pid) VALUES (" + item['cityId'] + ",'" + item[
                             'cityName'] + "'," + id + ")"
                         enum = ms.SQLexecute(sqlstr)
                         nowcityid= item['cityId']
-            print item
+            # print item
 
         # for (k, v) in python_to_json.items():
         #     print  str(k)+"    "+str(v)

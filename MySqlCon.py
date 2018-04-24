@@ -48,20 +48,20 @@ class MySqlconc:
         self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',charset='utf8')
         print tbName+" "+sqlstr
         tbcom="select COLUMN_NAME from information_schema.columns where table_name='" + tbName+"'"
-        print tbcom
+        # print tbcom
         cumcursor = self.conn.cursor()
         valcursor= self.conn.cursor()
         cumcursor.execute(tbcom)
         valcursor.execute(sqlstr)
         cumresult = cumcursor.fetchall()
         valresult = valcursor.fetchall()
-        print tbName
-        print customize_fields
+        # print tbName
+        # print customize_fields
         cumlist = customize_fields
-        print cumlist
-        print cumresult
+        # print cumlist
+        # print cumresult
         for rowval in cumresult:
-            #print i
+            ## print i
             for cumval in rowval:
                 cumlist.append(cumval)
                 #print cumlist
@@ -70,15 +70,15 @@ class MySqlconc:
             dict = {}
             cnum = 0
             #print valr
-            print "--------" + tbName + "----------------"
-            print cumlist
+            # print "--------" + tbName + "----------------"
+            # print cumlist
             for va in valr:
                 if va==None:
                     va=''
                 dict[cumlist[cnum]]= va
                 cnum = cnum + 1
                 #print va
-            print "--------" + tbName + "----------------"
+            # print "--------" + tbName + "----------------"
             dictlist.append(dict)
 
         self.conn.commit()
