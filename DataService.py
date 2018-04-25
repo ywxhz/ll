@@ -141,6 +141,29 @@ class DataServicec:
         sqlstr = "UPDATE lyproject SET " + setval + " where id=" + str(jid)
         print "sqlstr " + sqlstr
         enum = ms.SQLexecute(sqlstr)
+        msg = ""
+        msgval = -1
+        if enum == 0:
+            msg = ms.getsqlmsg()
+        else:
+            msg = "修改成功"
+            msgval = jid
+        dict = {}
+        dict['msg'] = msg
+        dict['val'] = msgval
+        print str(dict)
+        return dict
+
+    def EidtProjectEnum(self, jid, vdct):
+        setval = '';
+        for key in vdct:
+            if self.getlyprojectfs(key):
+                setval = setval + key + "='" + vdct[key] + "',"
+        setval = setval[:-1];
+        ms = MySqlconc()
+        sqlstr = "UPDATE lyproject SET " + setval + " where id=" + str(jid)
+        print "sqlstr " + sqlstr
+        enum = ms.SQLexecute(sqlstr)
         return enum
 
     # 删除project
@@ -469,7 +492,7 @@ class DataServicec:
     # 复制数据
     # 输入要复制的projectid
     # newname新的名称
-    def copyDataByPid(self,id,newname):
+    def copyDataByPid(self,id,vdct):
         ms = MySqlconc()
         #插入新project行
         sqls = "insert into lyproject(day,event,keywords,picpath,price) select day,event,keywords,picpath,price from lyproject where id="+str(id)
@@ -482,9 +505,10 @@ class DataServicec:
             for mid in idval:
                 maxjid = mid
         # 获取最大jid--}
-        sqlstr = "UPDATE lyproject SET name='"+newname+"' where id ="+str(maxjid)
-        #  返回值------------------
-        enumR = ms.SQLexecute(sqlstr)
+        # sqlstr = "UPDATE lyproject SET name='"+newname+"' where id ="+str(maxjid)
+        # #  返回值------------------
+        # enumR = ms.SQLexecute(sqlstr)
+        enumR=self.EidtProjectEnum(maxjid,vdct)
         msgval = -1
         dict = {}
         if enumR == 0:
