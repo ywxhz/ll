@@ -2,11 +2,10 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
-# from gevent import monkey
+from gevent import monkey
 from gevent.pywsgi import WSGIServer
-import time
 
-# monkey.patch_all()
+monkey.patch_all()
 app = Flask(__name__)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
@@ -53,20 +52,26 @@ def create_travel():
         reslut = db.NewProject(request.form)
     return jsonify(reslut)
 
+@app.route('/do_editTravel/<id>',methods=['POST'])
+def edit_travel(id):
+    reslut = None
+    if request.method == 'POST':
+        reslut = db.EidtProject(id, request.form)
+    return jsonify(reslut)
+
+@app.route('/do_cloneTravel/<id>',methods=['POST'])
+def clone_travel(id):
+    reslut = None
+    if request.method == 'POST':
+        reslut = db.copyDataByPid(id, request.form)
+    return jsonify(reslut)
+
 @app.route('/qruey_xzq',methods=['POST'])
 def qruey_xzq():
     reslut = None
     if request.method == 'POST':
         reslut = db.Queryxzq()
     return jsonify(reslut)
-
-@app.route('/do_editTravel/<id>',methods=['POST'])
-def edit_travel(id):
-    reslut = {"val": -1}
-    if request.method == 'POST':
-        reslut["val"] = db.EidtProject(id, request.form)
-    return jsonify(reslut)
-
 
 @app.route('/do_delTravel/<id>',methods=['POST'])
 def del_travel(id):
@@ -163,7 +168,8 @@ def hello_world1111():
     return render_template('test.html')
 
 if __name__ == '__main__':
-    # http_server = WSGIServer(('', 5000), app)
-    # http_server.serve_forever()
-    app.run(host='0.0.0.0')
+    print "Start Lv !!! "
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
+    # app.run(host='0.0.0.0')
     # app.run(host='127.0.0.1')

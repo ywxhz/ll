@@ -2,6 +2,7 @@
     <div id="{{ item.id }}" class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom: 20px;">
         <div class="btn btn-default center-block list-group-item-{{("success","info","warning","danger")|random()}}"  style="width:220px;">
             <div style="position:relative;">
+                <a class="icon-clone glyphicon glyphicon-tags" onclick="do_cloneTravel({{ item.id }})"></a>
                 <a class="icon-day glyphicon glyphicon-new-window" onclick="do_toTravel({{ item.id }})"></a>
                 <a class="icon-edit glyphicon glyphicon-edit" onclick="do_editTravel({{ item.id }})"></a>
                 <a class="icon-del glyphicon glyphicon-trash" onclick="do_delTravel({{ item.id }})"></a>

@@ -112,7 +112,9 @@
             modalEditPointOrDay = $("#modalEditPointOrDay");
             $("#modalEditPointOrDay input[id='txtName']:first").val(tabDayName.text());
             $("#modalEditPointOrDay textarea[id='areaEvent']:first").val(tabDayDec.text());
-            $("#modalEditPointOrDay button[id='btnSubmit']:first").one("click",function(){
+            btnSubmit = $("#modalEditPointOrDay button[id='btnSubmit']:first");
+            btnSubmit.off("click");
+            btnSubmit.on("click",function(){
                 var url = "/do_editDay";
                 var params = $("#formEditPointOrDay").serializeArray();
                 var data = {};
@@ -203,7 +205,9 @@
                 modalEditPointOrDay = $("#modalEditPointOrDay");
                 $("#modalEditPointOrDay input[id='txtName']:first").val(itemPointName.text());
                 $("#modalEditPointOrDay textarea[id='areaEvent']:first").val(itemPointDec.text());
-                $("#modalEditPointOrDay button[id='btnSubmit']:first").one("click",function(){
+                btnSubmit = $("#modalEditPointOrDay button[id='btnSubmit']:first");
+                btnSubmit.off("click");
+                btnSubmit.on("click",function(){
                     var url = "/do_editPoint";
                     var params = $("#formEditPointOrDay").serializeArray();
                     var data = {};

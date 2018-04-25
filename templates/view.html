@@ -4,17 +4,24 @@
     {{ super() }}
     <style type="text/css">
 
+        .icon-clone{
+            position:absolute;
+            top:30px;
+            right: 40px;
+            font-size: 18px;
+        }
+
         .icon-day{
             position:absolute;
-            top:0px;
-            right: 60px;
+            top:30px;
+            right: 0px;
             font-size: 18px;
         }
 
         .icon-edit{
             position:absolute;
             top:0px;
-            right: 30px;
+            right: 40px;
             font-size: 18px;
         }
 
@@ -53,9 +60,19 @@
         }
 
         function  do_editTravel(id) {
-            modalTravel = $("#modalTravel");
             data = {"id":id, "type":"edit", "url":"/do_editTravel/"+id};
+            $("#modalLabel").text("修改行程");
+            cloneOrEditTravel(id, data);
+        }
 
+        function do_cloneTravel(id) {
+            data = {"id":id, "type":"clone", "url":"/do_cloneTravel/"+id};
+            $("#modalLabel").text("克隆行程");
+            cloneOrEditTravel(id, data);
+        }
+
+        function  cloneOrEditTravel(id, data) {
+            modalTravel = $("#modalTravel");
             proName = $("#"+id+" p[id='txtProName']").text()
             proDay = $("#"+id+" p[id='txtProDay']").text()
             proEvent = $("#"+id+" p[id='txtProEvent']").text().substring(3)
@@ -64,10 +81,8 @@
             $("#formTravelDay").val(proDay)
             $("#formTravelPrice").val(proPrice)
             $("#formTravelTextArea").val(proEvent)
-
             $("#btnSaveTravel").off("click", data, do_saveTravel);
-            $("#btnSaveTravel").one("click", data, do_saveTravel);
-            $("#modalLabel").text("修改行程");
+            $("#btnSaveTravel").on("click", data, do_saveTravel);
             modalTravel.modal('show');
         }
 
@@ -106,7 +121,7 @@
                if (result['val'] <= 0){
                    do_travelError(result['msg']);
                } else {
-                   if(event.data.type == "add") {
+                   if(event.data.type == "add" || event.data.type == "clone") {
                         window.location.href = "/seach/" + result['val'];
                    }else if(event.data.type == "edit") {
                         $("#"+event.data.id+" p[id='txtProName']").text(data.name)
