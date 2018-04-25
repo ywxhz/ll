@@ -2,11 +2,11 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
-from gevent import monkey
+# from gevent import monkey
 from gevent.pywsgi import WSGIServer
 import time
 
-monkey.patch_all()
+# monkey.patch_all()
 app = Flask(__name__)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
@@ -67,13 +67,13 @@ def edit_travel(id):
         reslut["val"] = db.EidtProject(id, request.form)
     return jsonify(reslut)
 
+
 @app.route('/do_delTravel/<id>',methods=['POST'])
 def del_travel(id):
     reslut = None
     if request.method == 'POST':
         reslut = db.DelProject(id)
     return jsonify(reslut)
-
 @app.route('/do_addDay',methods=['POST'])
 def add_Day():
     reslut = {}
@@ -142,6 +142,14 @@ def edit_Point():
         reslut = db.EidtPoint(ids, vals)
     return jsonify(reslut)
 
+@app.route('/checkin')
+def checkin():
+    pasd='000'
+    if str(pasd)==str(request.args.get('psd')):
+        return '1'
+    else:
+        return '0'
+
 @app.route('/test')
 def hello_world1():
     return render_template('test.html')
@@ -157,5 +165,5 @@ def hello_world1111():
 if __name__ == '__main__':
     # http_server = WSGIServer(('', 5000), app)
     # http_server.serve_forever()
-     app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0')
     # app.run(host='127.0.0.1')

@@ -442,8 +442,8 @@ function  do_FYpointF(cityid,pointname,action) {
     }
 }
 //------seach页面一些相关的方法
-
-  function getjtfs(zwtr){
+//获取交通方式--
+function getjtfs(zwtr){
         if (zwtr == "自驾"){
             return "fas fa-car";
         }
@@ -464,4 +464,6 @@ function  do_FYpointF(cityid,pointname,action) {
         }
          return "fas fa-car";
   }
+
+
 
