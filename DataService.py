@@ -105,7 +105,6 @@ class DataServicec:
         dict = {}
         dict['msg'] = msg
         dict['val'] = msgval
-
         print str(dict)
         return dict
 
@@ -303,7 +302,7 @@ class DataServicec:
         sqlstr = "DELETE FROM lypoint WHERE id in( select pid from lyrtp where did="+str(did)+") "
         print "sqlstr " + sqlstr
         enum3 = ms.SQLexecute(sqlstr)
-        sqlstr = "DELETE FROM lyrtp WHERE did =did="+str(did)+") "
+        sqlstr = "DELETE FROM lyrtp WHERE did ="+str(did)+") "
         print "sqlstr " + sqlstr
         enum4 = ms.SQLexecute(sqlstr)
         sqlstr = "DELETE FROM lyrt WHERE did="+str(did)+") "
@@ -467,6 +466,63 @@ class DataServicec:
                         enum = ms.SQLexecute(sqlstr)
                         nowcityid= item['cityId']
             # print item
-
+    # 复制数据
+    # 输入要复制的projectid
+    # newname新的名称
+    def copyDataByPid(self,id,newname):
+        ms = MySqlconc()
+        #插入新project行
+        sqls = "insert into lyproject(day,event,keywords,picpath,price) select day,event,keywords,picpath,price from lyproject where id="+str(id)
+        reid = ms.SQLexecute(sqls)
+        # 获取最大jid---{
+        sqls = "select max(id) from lyproject"
+        reidQ = ms.SQLQuery(sqls)
+        maxjid = 0
+        for idval in reidQ:
+            for mid in idval:
+                maxjid = mid
+        # 获取最大jid--}
+        sqlstr = "UPDATE lyproject SET name='"+newname+"' where id ="+str(maxjid)
+        #  返回值------------------
+        enumR = ms.SQLexecute(sqlstr)
+        msgval = -1
+        dict = {}
+        if enumR == 0:
+            sqlstr = "DELETE FROM lyproject WHERE id=" + str(maxjid)
+            ms.SQLexecute(sqlstr)
+            dict['msg'] = ms.getsqlmsg()
+            dict['msg'] = ms.getsqlmsg()
+            dict['val'] = msgval
+            print str(dict)
+            return dict
+        else:
+            msgval = maxjid
+            dict['msg'] = '成功'
+            dict['val'] = msgval
+        sqls = "select lyrt.did from lyrt,lyday WHERE lyday.id=lyrt.did AND lyrt.jid="+str(id)
+        reidQ = ms.SQLQuery(sqls)
+        print reidQ
+        for idval in reidQ:
+            print idval
+            for did in idval:
+                sqls = "insert into lyday(daynum,dayevent,name,picpath) select daynum,dayevent,name,picpath from lyday where id=" + str(did)
+                reid = ms.SQLexecute(sqls)
+                #  j d 插入关系表--
+                sqls = "insert into lyrt(lyrt.jid,lyrt.did) select max(lyproject.id),max(lyday.id) from lyday,lyproject"
+                reid = ms.SQLexecute(sqls)
+                #循环插入point--
+                sqls = "select lyrtp.pid from lyrtp,lypoint WHERE  lypoint.id=lyrtp.pid AND did=" + str(did)
+                reidQ2 = ms.SQLQuery(sqls)
+                print reidQ2
+                for idval2 in reidQ2:
+                    print idval2
+                    for pid in idval2:
+                        sqls = "insert into lypoint(indexnum,ptime,event,name,type,transport,trtime,treventds,picpath,stratt,stratc,stratp,endc,endt,endp,tptrain,tptrainevent,tptrainsp,trdistance) select indexnum,ptime,event,name,type,transport,trtime,treventds,picpath,stratt,stratc,stratp,endc,endt,endp,tptrain,tptrainevent,tptrainsp,trdistance from lypoint where id=" + str(pid)
+                        reid = ms.SQLexecute(sqls)
+                        #  dp 插入关系表--
+                        sqls = "insert into lyrtp(did,pid) select max(lyday.id),max(lypoint.id) from lyday,lypoint"
+                        reid = ms.SQLexecute(sqls)
+        print str(dict)
+        return dict
         # for (k, v) in python_to_json.items():
         #     print  str(k)+"    "+str(v)

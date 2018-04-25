@@ -11,6 +11,7 @@ class MySqlconc:
     def getsqlmsg(self):
         return self.sqlmsg
     def SQLexecute(self,sqlstr):
+        print sqlstr
         self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',charset='utf8')
         # 创建连接
         effect_row=0
@@ -29,7 +30,7 @@ class MySqlconc:
         # 关闭游标
         cursor.close()
         # 关闭连接
-        self.conn.close()
+        # self.conn.close()
         return effect_row
 
     def SQLQuery(self,sqlstr):
@@ -38,7 +39,8 @@ class MySqlconc:
         cursor = self.conn.cursor()
         cursor.execute(sqlstr)
         result = cursor.fetchall()
-        self.conn.close()
+        # self.conn.close()
+
         return  result
 
     def SQLcumQuert(self, tbName, sqlstr):
@@ -84,6 +86,6 @@ class MySqlconc:
         self.conn.commit()
         valcursor.close()
         cumcursor.close()
-        self.conn.close()
+        # self.conn.close()
         return  dictlist
 
