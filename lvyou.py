@@ -4,7 +4,6 @@ from flask_bootstrap import Bootstrap
 from DataService import DataServicec
 from gevent import monkey
 from gevent.pywsgi import WSGIServer
-import time
 
 monkey.patch_all()
 app = Flask(__name__)
@@ -157,5 +156,6 @@ def hello_world1111():
 if __name__ == '__main__':
     http_server = WSGIServer(('', 5000), app)
     http_server.serve_forever()
+    print  "Start lv!!!!!"
     # app.run(host='0.0.0.0')
     # app.run(host='127.0.0.1')
