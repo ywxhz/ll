@@ -515,7 +515,6 @@ class DataServicec:
             sqlstr = "DELETE FROM lyproject WHERE id=" + str(maxjid)
             ms.SQLexecute(sqlstr)
             dict['msg'] = ms.getsqlmsg()
-            dict['msg'] = ms.getsqlmsg()
             dict['val'] = msgval
             print str(dict)
             return dict
