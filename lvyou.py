@@ -12,18 +12,20 @@ db = DataServicec()
 
 @app.route('/seach/<id>')
 def view_day(id):
+    print "--------seach-------QueryInfoByJID--------"
     datas = db.QueryInfoByJID(id)
     return render_template('seach.html', proId = id, lyproject = datas["lyproject"], lyday = datas["lyday"], lypoint = datas["lypoint"])
 
 @app.route('/mobile/<id>')
 def view_mobile(id):
+    print "--------view_mobile--------mobile-------"
     datas = db.QueryInfoByJID(id)
     for day in datas["lyday"]:
         temp = ""
         for point in datas["lypoint"]:
             if day["id"] == point["did"] and point["type"] != "自定义-交通":
-                temp += point["name"]+"，"
-        day["daypointsname"] = temp.rstrip('，')
+                temp += point["name"]+u"，"
+        day["daypointsname"] = temp.rstrip(u'，')
     return render_template('mobile.html', proId = id, lyproject = datas["lyproject"], lyday = datas["lyday"], lypoint = datas["lypoint"])
 
 @app.route('/cover/<id>/<name>')
@@ -35,6 +37,7 @@ def view_mobile_cover(id, name):
 
 @app.route('/view')
 def view_travel():
+    print "--------view--QueryProjectByName-------------"
     items = db.QueryProjectByName("")
     return render_template('view.html', items = items)
 

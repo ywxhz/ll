@@ -17,7 +17,7 @@ ds = DataServicec();
 # dict={'daynum': '10', 'name': '北京故宫'}
 # ds.EidtDay(8,dict)
 # dict={'daynum': '10', 'name': '北京故宫'}
-# print ds.QueryInfoByJID(4)
+print ds.copyDataByPid(190,"南昌复制11")
 # print ds.CreateXzqCity('14')
 # print ds.getlydayfs('name')
 # print ds.getlypointfs('event')
