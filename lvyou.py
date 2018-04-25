@@ -2,42 +2,37 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_bootstrap import Bootstrap
 from DataService import DataServicec
+from gevent import monkey
+from gevent.pywsgi import WSGIServer
+import time
 
+monkey.patch_all()
 app = Flask(__name__)
 Bootstrap(app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
+app.config.update(DEBUG=True)
 db = DataServicec()
-
-
 
 @app.route('/seach/<id>')
 def view_day(id):
-    print "--------seach-------QueryInfoByJID--------"
     datas = db.QueryInfoByJID(id)
     return render_template('seach.html', proId = id, lyproject = datas["lyproject"], lyday = datas["lyday"], lypoint = datas["lypoint"])
 
 @app.route('/mobile/<id>')
 def view_mobile(id):
-    print "--------view_mobile--------mobile-------"
     datas = db.QueryInfoByJID(id)
     for day in datas["lyday"]:
         temp = ""
         for point in datas["lypoint"]:
             if day["id"] == point["did"] and point["type"] != "自定义-交通":
                 temp += point["name"]+u"，"
+                if len(temp) > 200:
+                    return
         day["daypointsname"] = temp.rstrip(u'，')
     return render_template('mobile.html', proId = id, lyproject = datas["lyproject"], lyday = datas["lyday"], lypoint = datas["lypoint"])
 
-@app.route('/cover/<id>/<name>')
-def view_mobile_cover(id, name):
-    reslut = ""
-    days = db.QueryDayByJID(id)
-    reslut = render_template('mobile-cover.html',name = name,days = days)
-    return reslut
-
 @app.route('/view')
 def view_travel():
-    print "--------view--QueryProjectByName-------------"
     items = db.QueryProjectByName("")
     return render_template('view.html', items = items)
 
@@ -151,7 +146,6 @@ def edit_Point():
 def hello_world1():
     return render_template('test.html')
 
-
 @app.route('/user/<name>')
 def user(name):
     return render_template('test.html', name=name)
@@ -161,5 +155,7 @@ def hello_world1111():
     return render_template('test.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
+    # app.run(host='0.0.0.0')
     # app.run(host='127.0.0.1')
