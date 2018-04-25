@@ -28,7 +28,6 @@ function initcookie() {
     // strthml += "<button type=\"button\" onclick=\"setcookie()\" >确认</button></div>";
     // strthml += "</div>";
 }
-
 function setcookie(){
     //$(document.body).empty();
     var cval= $("#cookieinpsd").val()
