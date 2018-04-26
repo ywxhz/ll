@@ -149,7 +149,7 @@ def edit_Point():
 
 @app.route('/checkin')
 def checkin():
-    pasd='000'
+    pasd='jyh31278'
     if str(pasd)==str(request.args.get('psd')):
         return '1'
     else:
@@ -163,9 +163,9 @@ def hello_world1():
 def user(name):
     return render_template('test.html', name=name)
 
-@app.route('/test')
+@app.route('/test1')
 def hello_world1111():
-    return render_template('test.html')
+    return render_template('erwm.html')
 
 if __name__ == '__main__':
     print "Start Lv !!! "

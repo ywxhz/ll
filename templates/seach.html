@@ -3,6 +3,7 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="/static/clockpicker/bootstrap-clockpicker.min.css">
     <style type="text/css">
         .list-group-item-separate {
             margin-bottom: 8px;
@@ -20,10 +21,11 @@
     {{ super() }}
     <script type="application/javascript" src="../static/dataapi.js"></script>
     <script type="application/javascript" src="../static/jquery.qrcode.min.js"></script>
+    <script type="application/javascript" src="../static/clockpicker/bootstrap-clockpicker.min.js"></script>
     <script type="text/javascript" src="../static/jquery.cookie.js"></script>
-     <script type="text/javascript" src="../static/cookieinit.js"></script>
+    <script type="text/javascript" src="../static/cookieinit.js"></script>
     <script>
-
+        $('.clockpicker').clockpicker();
 
         function do_itemAcitve(item) {
             $('#listDays a').removeClass('active');
@@ -302,6 +304,7 @@
              $("#editJDTrafficModal1 input[name='tptrainsp']").val('');
             nowZDYtype =item;
         }
+
         function do_savePointTL() {
             var itemPoint = $("#itemPoint"+nowPointID);
             var url = "/do_editPoint";
@@ -567,27 +570,28 @@
                 <h4 class="modal-title" id="myModalLabel">编辑交通</h4>
               </div>
               <div class="modal-body">
-                       <ul id="pointTLTab" class="nav nav-tabs">
-                            <li   id="smLtlizj" class="active"  onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" class="fas fa-car" style="font-size: 25px;" name="的士"></a> </li>
-                            <li   id="smLtlids"  onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" class="fas fa-taxi" style="font-size: 25px;"  > </a></li>
-                            <li   id="smLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRhc" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;"  > </a></li>
-                            <li   id="smLtlidt"  onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁"  class="fas fa-subway" style="font-size: 25px;" > </a></li>
-                        </ul>
-                          <form id="formPointTL" class="bs-example bs-example-form" role="form">
-                                <div class="input-group ">
-                                    <span class="input-group-addon">交通时间</span>
-                                    <input id="formPointTLTexttrtime" type="text" required="true" class="form-control" name="trtime">
-                                </div>
-                                <div class="input-group ">
-                                    <span class="input-group-addon">交通距离</span>
-                                    <input id="formPointTLTexttrdistance" type="text" required="true" class="form-control" name="trdistance">
-                                </div>
-                                    <span class="help-block"></span>
-                                <div class="input-group">
-                                    <span class="input-group-addon">交通备注</span>
-                                        <textarea id="formPointTLTextAreatrevent" rows="3" class="form-control" name="trevent" ></textarea>
-                                </div>
-                           </form>
+                    <ul id="pointTLTab" class="nav nav-tabs" style="margin-bottom: 20px;">
+                        <li   id="smLtlizj" class="active"  onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" class="fas fa-car" style="font-size: 25px;" name="的士"></a> </li>
+                        <li   id="smLtlids"  onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" class="fas fa-taxi" style="font-size: 25px;"  > </a></li>
+                        <li   id="smLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRhc" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;"  > </a></li>
+                        <li   id="smLtlidt"  onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁"  class="fas fa-subway" style="font-size: 25px;" > </a></li>
+                    </ul>
+                    <form id="formPointTL" class="bs-example bs-example-form" role="form">
+                        <div class="form-group">
+                            <div class="input-group form-inline">
+                                <span class="input-group-addon">交通时间</span>
+                                <input id="formPointTLTexttrtime" type="text" required="true" class="form-control" name="trtime" placeholder="输入时间及单位">
+                                <span class="input-group-addon">交通距离</span>
+                                <input id="formPointTLTexttrdistance" type="text" required="true" class="form-control" name="trdistance"  placeholder="输入距离及单位">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">交通备注</span>
+                                <textarea id="formPointTLTextAreatrevent" rows="3" class="form-control" name="trevent" ></textarea>
+                            </div>
+                        </div>
+                    </form>
               </div>
                  <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -633,42 +637,60 @@
                 <h4 class="modal-title" id="myModalLabel">编辑城际交通</h4>
               </div>
               <div class="modal-body">
-                     <ul id="pointBigTLTab" class="nav nav-tabs">
-                        <li  class="active" id="BigLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;" ></a></li>
-                        <li  id="BigLtlizj" onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" name="自驾" class="fas fa-car" style="font-size: 25px;"></a></li>
-                        <li  id="BigLtlihc" onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" class="fas fa-train" style="font-size: 25px;"> </a></li>
-                        <li id="BigLtlifj" onclick="do_PointTLSL('飞机')"><a href="#TRdt" data-toggle="tab" name="飞机" class="fas fa-plane" style="font-size: 25px;"> </a></li>
-                    </ul>
-                      <form id="formBigPointTL" class="bs-example bs-example-form" role="form">
-                            <table style="width:100%;height:100%;border-spacing:10px;cellspacing:10px" >
-                            <tr>
-                                <td>出发城市</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="stratc" placeholder="输入出发城市"></td>
-                                <td>到达城市</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endc" placeholder="输入到达城市"></td>
-                            </tr>
-                            <tr>
-                                <td>出发站点</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="stratp" placeholder="输入出发站点"></td>
-                                <td>到达站点</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endp" placeholder="输入到达站点"></td>
-                            </tr>
-                            <tr>
-                                <td>出发时间</td>
-                                <td>
-                                    <input id="formPointTLText" type="text" required="true" class="form-control" name="stratt" placeholder="输入出发时间">
-                                </td>
-                                <td>到达时间</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="endt" placeholder="输入到达时间"></td>
-                            </tr>
-                             <tr>
-                                 <td>车次</td>
-                                <td><input id="formPointTLText" type="text" required="true" class="form-control" name="tptrain" placeholder="输入车次"></td>
-                            </tr>
-                            </table>
-                                <span class="input-group-addon">交通备注</span>
-                                <textarea id="formPointTLTextAreabigtptrainevent" rows="3" class="form-control" name="tptrainevent" placeholder="输入交通备注"></textarea>
-                       </form>
+                 <ul id="pointBigTLTab" class="nav nav-tabs" style="margin-bottom: 20px;">
+                    <li  class="active" id="BigLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRbs" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;" ></a></li>
+                    <li  id="BigLtlizj" onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" name="自驾" class="fas fa-car" style="font-size: 25px;"></a></li>
+                    <li  id="BigLtlihc" onclick="do_PointTLSL('火车')"><a href="#TRhc" data-toggle="tab" name="火车" class="fas fa-train" style="font-size: 25px;"> </a></li>
+                    <li id="BigLtlifj" onclick="do_PointTLSL('飞机')"><a href="#TRdt" data-toggle="tab" name="飞机" class="fas fa-plane" style="font-size: 25px;"> </a></li>
+                </ul>
+                <form id="formBigPointTL" class="bs-example bs-example-form">
+                    <div class="form-group">
+                        <div class="input-group form-inline">
+                            <span class="input-group-addon">出发城市</span>
+                            <input type="text" required="true" class="form-control" name="stratc" placeholder="输入出发城市">
+                            <span class="input-group-addon">到达城市</span>
+                            <input type="text" required="true" class="form-control" name="endc" placeholder="输入到达城市">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group form-inline">
+                            <span class="input-group-addon">出发站点</span>
+                            <input type="text" required="true" class="form-control" name="stratp" placeholder="输入出发站点">
+                            <span class="input-group-addon">到达站点</span>
+                            <input type="text" required="true" class="form-control" name="endp" placeholder="输入到达站点">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group form-inline">
+                            <span class="input-group-addon">出发时间</span>
+                            <div class="input-group clockpicker" data-autoclose="true" >
+                                <input type="text" class="form-control" name="stratt" placeholder="输入出发时间" >
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                            <span class="input-group-addon">到达时间</span>
+                            <div class="input-group clockpicker"  data-autoclose="true" >
+                                <input type="text" class="form-control" name="endt" placeholder="输入到达时间"  >
+                                <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group ">
+                            <span class="input-group-addon">乘坐车次</span>
+                            <input type="text" required="true" class="form-control" name="tptrain" placeholder="输入车次">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group ">
+                            <span class="input-group-addon">交通备注</span>
+                            <textarea rows="3" class="form-control" name="tptrainevent" placeholder="输入交通备注"></textarea>
+                        </div>
+                    </div>
+                </form>
               </div>
                  <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
