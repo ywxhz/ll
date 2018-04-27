@@ -25,9 +25,8 @@ class MySqlconc:
             if e[0]==1062:
                 self.sqlmsg="IIException:mysql code:1062,The field unique value has already existed 唯一值存在"
             self.sqlmsg=str(e)
-            return effect_row
+        return effect_row
         # 执行SQL，并返回收影响行数
-
     def SQLexecuteSW(self,sqllist):
         # 创建连接
         self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',
