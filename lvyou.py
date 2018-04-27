@@ -115,11 +115,10 @@ def edit_Day():
 
 @app.route('/do_daySort',methods=['POST'])
 def sort_Day():
-    reslut = {}
-    vals = request.form.to_dict()
+    reslut = None
     if request.method == 'POST':
-        ids = request.form["ids"]
-    reslut["val"] = 1
+        ids = tuple(request.form["ids"].split(","))
+        reslut = db.updatedaynum(ids)
     return jsonify(reslut)
 
 @app.route('/do_addPoint',methods=['POST'])
@@ -160,8 +159,8 @@ def edit_Point():
 def sort_Point():
     reslut = None
     if request.method == 'POST':
-        ids = request.form["ids"]
-    reslut["val"] = 1;
+        ids = tuple(request.form["ids"].split(","))
+        reslut = db.updatepiontnum(ids)
     return jsonify(reslut)
 
 

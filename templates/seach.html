@@ -38,7 +38,7 @@
             sortedIDs  = $(event.currentTarget).sortable( "toArray", { attribute: "value" } );
             tempDay = $(event.currentTarget).filter("[id='listDays']");
             url = (tempDay.length>=1)? "/do_daySort" : "/do_pointSort";
-            data = {"ids":sortedIDs};
+            data = {"ids":sortedIDs.join(',')};
             $.post(url,data,function(data){
                 if (data['val'] <= 0){
                    alert("数据的排序数据异常,无法排序。");
@@ -46,7 +46,7 @@
                     return;
                 }
                 if(tempDay.length>=1){
-                    days = ui.sibling();
+                    days = ui.item.sibling();
                     for(var i in  days)
                     {
                         days[i].text("  第"+i+"天");
