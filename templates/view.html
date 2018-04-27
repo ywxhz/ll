@@ -46,7 +46,7 @@
             do_travelError();
             modalTravel = $("#modalTravel");
             data = {"type":"add", "url":"/do_createTravel"};
-            $("#btnSaveTravel").off("click", data, do_saveTravel);
+            $("#btnSaveTravel").off("click", do_saveTravel);
             $("#btnSaveTravel").on("click", data, do_saveTravel);
             $("#modalLabel").text("新建行程");
             modalTravel.modal('show');
@@ -74,7 +74,7 @@
             $("#formTravelDay").val(proDay)
             $("#formTravelPrice").val(proPrice)
             $("#formTravelTextArea").val(proEvent)
-            $("#btnSaveTravel").off("click", data, do_saveTravel);
+            $("#btnSaveTravel").off("click", do_saveTravel);
             $("#btnSaveTravel").on("click", data, do_saveTravel);
             modalTravel.modal('show');
         }
@@ -119,8 +119,8 @@
                    }else if(event.data.type == "edit") {
                         $("#"+event.data.id+" p[id='txtProName']").text(data.name)
                         $("#"+event.data.id+" p[id='txtProDay']").text(data.day)
-                        $("#"+event.data.id+" p[id='txtProEvent']").text("费用:"+data.price)
-                        $("#"+event.data.id+" p[id='txtProPrice']").text("行程:"+data.event)
+                        $("#"+event.data.id+" p[id='txtProPrice']").text("费用:"+data.price)
+                        $("#"+event.data.id+" p[id='txtProEvent']").text("行程:"+data.event)
                         modalTravel = $("#modalTravel")
                         if(modalTravel.is(':hidden')){
                             modalTravel.modal('show');
