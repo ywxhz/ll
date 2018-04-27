@@ -4,12 +4,12 @@
         {{ day_str }}
         <span id="tabDayName{{ itemDay.id }}" style="padding-left: 10px;" >{{ itemDay.name }}</span>
     </h4>
-    <div class="list-group" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >
+    <ul class="list-group ul-sortable" style="padding-left: 0px;padding-right: 5px;margin-bottom:0px;width: 100%;" >
         {% for itemPoint in lypoint %}
             {% if itemPoint.did == itemDay.id %}
                 {% include 'list-point.html' %}
             {% endif %}
         {% endfor %}
-    </div>
+    </ul>
     <p id="tabDayDec{{ itemDay.id }}"  style="padding-left: 20px;padding-top: 10px;">{{ itemDay.dayevent }}</p>
 </div>

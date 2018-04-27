@@ -113,6 +113,15 @@ def edit_Day():
         reslut = db.EidtDay(ids, vals)
     return jsonify(reslut)
 
+@app.route('/do_daySort',methods=['POST'])
+def sort_Day():
+    reslut = {}
+    vals = request.form.to_dict()
+    if request.method == 'POST':
+        ids = request.form["ids"]
+    reslut["val"] = 1
+    return jsonify(reslut)
+
 @app.route('/do_addPoint',methods=['POST'])
 def add_Point():
     reslut = {}
@@ -147,6 +156,15 @@ def edit_Point():
         reslut = db.EidtPoint(ids, vals)
     return jsonify(reslut)
 
+@app.route('/do_pointSort',methods=['POST'])
+def sort_Point():
+    reslut = None
+    if request.method == 'POST':
+        ids = request.form["ids"]
+    reslut["val"] = 1;
+    return jsonify(reslut)
+
+
 @app.route('/checkin')
 def checkin():
     pasd='jyh31278'
@@ -169,7 +187,7 @@ def hello_world1111():
 
 if __name__ == '__main__':
     print "Start Lv !!! "
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
-    # app.run(host='0.0.0.0')
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
+    app.run(host='0.0.0.0')
     # # app.run(host='127.0.0.1')
