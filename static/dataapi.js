@@ -448,7 +448,7 @@ function getjtfs(zwtr){
             return "fas fa-car";
         }
         if (zwtr == "步行"){
-            return "fas fa-blind";
+            return "fas fa-male";
         }
         if (zwtr == "的士"){
             return "fas fa-taxi";
