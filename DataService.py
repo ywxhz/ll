@@ -437,7 +437,51 @@ class DataServicec:
         return  enum1
     # 根据天ID查询该计划下所有天数
     # did：天id
-    # 返回值：
+    # 返回值
+    def updatedaynum(self,ids):
+        sqllist = []
+        dn = 100
+        for idv in ids:
+            sqlstr = sqlstr = "UPDATE lyday SET daynum=" + str(dn) + " where id=" + str(idv)
+            dn = dn + 100
+            sqllist.append(sqlstr)
+        ms = MySqlconc()
+        enum = ms.SQLexecuteSW(sqllist)
+        msg = ""
+        msgval = -1
+        if enum == 0:
+            msg = ms.getsqlmsg()
+            msgval = -1
+        else:
+            msg = enum
+            msgval = 1
+        dict = {}
+        dict['msg'] = msg
+        dict['val'] = msgval
+        return dict
+
+    def updatepiontnum(self, ids):
+        sqllist=[]
+        dn=100
+        for idv in ids:
+            sqlstr=  sqlstr = "UPDATE lypoint SET indexnum="+str(dn)+" where id="+str(idv)
+            dn=dn+100
+            sqllist.append(sqlstr)
+        ms = MySqlconc()
+        enum=ms.SQLexecuteSW(sqllist)
+        msg = ""
+        msgval = -1
+        if enum == 0:
+            msg = ms.getsqlmsg()
+            msgval = -1
+        else:
+            msg = enum
+            msgval = "1"
+        dict = {}
+        dict['msg'] = msg
+        dict['val'] = msgval
+        return dict
+
     def QueryPointByJID(self, did):
         ms = MySqlconc()
         sqlstr = "select * from lypoint where id in(select pid from lyrtp where did=" + str(did) + ")"

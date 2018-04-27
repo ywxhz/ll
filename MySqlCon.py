@@ -28,11 +28,41 @@ class MySqlconc:
             return effect_row
         # 执行SQL，并返回收影响行数
 
-        # 关闭游标
-        cursor.close()
-        # 关闭连接
-        # self.conn.close()
-        return effect_row
+    def SQLexecuteSW(self,sqllist):
+        # 创建连接
+        self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',
+                                    charset='utf8')
+        print sqllist
+        cursor = self.conn.cursor()
+        commitzt=1
+        yshs=0
+        for sqlstr in sqllist:
+            try:
+                effect_row = 0
+                # 创建游标
+                effect_row = cursor.execute(sqlstr)
+                if effect_row >0:
+                    yshs = yshs + 1
+            except Exception as e:
+                print (str(e))
+                if e[0] == 1062:
+                    self.sqlmsg = "IIException:mysql code:1062,The field unique value has already existed 唯一值存在"
+                self.sqlmsg = str(e)
+                self.conn.rollback()
+                commitzt=0
+                return 0
+            # 执行SQL，并返回收影响行数
+        if commitzt == 1:
+            self.conn.commit()
+            # 关闭游标
+            cursor.close()
+            # 关闭连接
+            # self.conn.close()
+            return yshs
+        else:
+            self.conn.rollback()
+            cursor.close()
+            return 0
 
     def SQLQuery(self,sqlstr):
         self.conn = pymysql.connect(host='192.168.3.254', port=3306, user='lywz', passwd='123456', db='lydata',charset='utf8')
