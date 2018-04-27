@@ -186,7 +186,7 @@ def hello_world1111():
 
 if __name__ == '__main__':
     print "Start Lv !!! "
-    # http_server = WSGIServer(('', 5000), app)
-    # http_server.serve_forever()
-    app.run(host='0.0.0.0')
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
+    # app.run(host='0.0.0.0')
     # # app.run(host='127.0.0.1')

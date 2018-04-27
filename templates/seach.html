@@ -41,15 +41,17 @@
             data = {"ids":sortedIDs.join(',')};
             $.post(url,data,function(data){
                 if (data['val'] <= 0){
-                   alert("数据的排序数据异常,无法排序。");
+{#                   alert("数据的排序数据异常,无法排序。");#}
                     $(event.currentTarget).sortable( "cancel" );
                     return;
                 }
                 if(tempDay.length>=1){
-                    days = ui.item.sibling();
-                    for(var i in  days)
-                    {
-                        days[i].text("  第"+i+"天");
+                    for (var i=0;i<sortedIDs.length;i++){
+                        daystr = "  第"+(i+1)+"天";
+                        dayspan = $("#day" + sortedIDs[i] + " > .daytext:first");
+                        tabspan = $("#tab" + sortedIDs[i] + " > h4 > .daytext:first");
+                        dayspan.text(daystr);
+                        tabspan.text(daystr);
                     }
                 }
             });
