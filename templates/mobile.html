@@ -197,7 +197,7 @@
                                 <p class="item-text">{{ itemPoint.name }}</p>
                                 <p style="color: #909090;" >{{ itemPoint.event }}</p>
                                 {% if itemPoint.type != "自定义-交通" %}
-                                    <p class="item-traffic-text item-note {{ icon_class}}"  > {{ itemPoint.treventds }}</p>
+                                    <p class="item-traffic-text item-note {{ icon_class}}"  >{{ itemPoint.transport }}&nbsp;&nbsp;&nbsp;&nbsp;{{ itemPoint.trtime }}&nbsp;&nbsp;&nbsp;&nbsp;{{ itemPoint.trdistance }}</p>
                                     {% if itemPoint.trevent != "" %}
                                         <p class="item-note" style="color: #909090;">备注：{{ itemPoint.trevent }}</p>
                                     {% endif %}
