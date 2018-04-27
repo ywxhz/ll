@@ -142,7 +142,7 @@ def edit_Point():
     ids=vals['id']
     del(vals['id'])
     if vals.has_key('transport') and vals.has_key('trtime') and vals.has_key('trevent') and vals.has_key('trdistance'):
-        vals['treventds']= vals['transport']+u"  "+vals['trtime']+u"  "+vals['trdistance']+u"  "+vals['trevent']
+        vals['treventds']= vals['transport']+u"  "+vals['trtime']+u"  "+vals['trdistance']
     if request.method == 'POST':
         reslut = db.EidtPoint(ids, vals)
     return jsonify(reslut)
@@ -169,7 +169,7 @@ def hello_world1111():
 
 if __name__ == '__main__':
     print "Start Lv !!! "
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
-    # app.run(host='0.0.0.0')
+    # http_server = WSGIServer(('', 5000), app)
+    # http_server.serve_forever()
+    app.run(host='0.0.0.0')
     # app.run(host='127.0.0.1')

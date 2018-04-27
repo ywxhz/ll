@@ -269,6 +269,9 @@
             if(nowJTFS=="自驾"){
                  id="smLtlizj";
             }
+            if(nowJTFS=="步行"){
+                 id="smLtlibx";
+            }
             if(nowJTFS=="地铁"){
                   id="smLtlidt";
             }
@@ -436,7 +439,7 @@
 {% endblock %}
 
 {% block navbar %}
-    <div id="basepsddiv" style="position:absolute;width:100%;height:100%;z-index:99999;background-color: #FFFFFF;opacity:0.7;display: none;">
+    <div id="basepsddiv" style="position:fixed;width:100%;height:100%;z-index:99999;background-color: #FFFFFF;opacity:0.7;display: none;">
         <div style="position:absolute;left:40%;top:40%;opacity:1;width:300px;"><h4>输入密码:&nbsp</h4><input id="cookieinpsd" type="password" width="200px" />
             <button type="button" onclick="setcookie()" >确认</button>
         </div>
@@ -572,6 +575,7 @@
               <div class="modal-body">
                     <ul id="pointTLTab" class="nav nav-tabs" style="margin-bottom: 20px;">
                         <li   id="smLtlizj" class="active"  onclick="do_PointTLSL('自驾')"><a href="#TRds" data-toggle="tab" class="fas fa-car" style="font-size: 25px;" name="的士"></a> </li>
+                        <li   id="smLtlibx"  onclick="do_PointTLSL('步行')"><a href="#TRds" data-toggle="tab" class="fas fa-blind" style="font-size: 25px;" name="步行"></a> </li>
                         <li   id="smLtlids"  onclick="do_PointTLSL('的士')"><a href="#TRds" data-toggle="tab" name="的士" class="fas fa-taxi" style="font-size: 25px;"  > </a></li>
                         <li   id="smLtlibs"  onclick="do_PointTLSL('巴士')"><a href="#TRhc" data-toggle="tab" name="巴士" class="fas fa-bus" style="font-size: 25px;"  > </a></li>
                         <li   id="smLtlidt"  onclick="do_PointTLSL('地铁')"><a href="#TRdt" data-toggle="tab" name="地铁"  class="fas fa-subway" style="font-size: 25px;" > </a></li>

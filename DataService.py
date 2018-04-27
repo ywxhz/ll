@@ -512,10 +512,10 @@ class DataServicec:
         msgval = -1
         dict = {}
         if enumR == 0:
-            sqlstr = "DELETE FROM lyproject WHERE id=" + str(maxjid)
-            ms.SQLexecute(sqlstr)
             dict['msg'] = ms.getsqlmsg()
             dict['val'] = msgval
+            sqlstr = "DELETE FROM lyproject WHERE id=" + str(maxjid)
+            ms.SQLexecute(sqlstr)
             print str(dict)
             return dict
         else:

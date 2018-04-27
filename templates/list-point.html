@@ -13,6 +13,8 @@
         {% if itemPoint.type != "自定义-交通" %}
             {% if itemPoint.transport == "自驾" %}
                 {% set icon_class = "fas fa-car" %}
+            {% elif itemPoint.transport == "步行" %}
+                {% set icon_class = "fas fa-blind" %}
             {% elif itemPoint.transport == "的士" %}
                 {% set icon_class = "fas fa-taxi" %}
             {% elif itemPoint.transport == "巴士" %}
