@@ -5,7 +5,10 @@
                 <a class="icon-clone glyphicon glyphicon-tags" onclick="do_cloneTravel({{ item.id }})"></a>
                 <a class="icon-day glyphicon glyphicon-new-window" onclick="do_toTravel({{ item.id }})"></a>
                 <a class="icon-edit glyphicon glyphicon-edit" onclick="do_editTravel({{ item.id }})"></a>
-                <a class="icon-del glyphicon glyphicon-trash" onclick="do_delTravel({{ item.id }})"></a>
+{#                <a class="icon-del glyphicon glyphicon-trash" onclick="do_delTravel({{ item.id }})"></a>#}
+                <a class="icon-del glyphicon glyphicon-trash"
+                   data-delid="{{ item.id }}" data-delherf="/do_delTravel/{{ item.id }}"
+                   data-toggle="modal" data-target="#confirm-delete"></a>
                 <p class="text-center" style="font-size:80px;font-weight:bold;overflow: hidden;white-space: nowrap;width: 80px;" >{{ item.name }}</p>
                 <p id="txtProName" class="text-center" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{item.name}}</p>
                 <p id="txtProDay" style="font-size:15px;font-weight:bold;position:absolute;right: 0px;top: 70px;">{{ item.day }}</p>

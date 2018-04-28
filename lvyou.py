@@ -79,6 +79,7 @@ def del_travel(id):
     if request.method == 'POST':
         reslut = db.DelProject(id)
     return jsonify(reslut)
+
 @app.route('/do_addDay',methods=['POST'])
 def add_Day():
     reslut = {}
@@ -93,12 +94,11 @@ def add_Day():
             reslut["list-day-tab"] = render_template('list-day-tab.html', itemDay=reslut, day_active="active", day_str = day_str)
         return jsonify(reslut)
 
-@app.route('/do_delDay',methods=['POST'])
-def del_Day():
+@app.route('/do_delDay/<id>',methods=['POST'])
+def del_Day(id):
     reslut = None
     if request.method == 'POST':
-        did = request.form["dayId"]
-        reslut = db.DelDay(did)
+        reslut = db.DelDay(id)
     return jsonify(reslut)
 
 @app.route('/do_editDay',methods=['POST'])
@@ -134,12 +134,11 @@ def add_Point():
             reslut = tempData
         return jsonify(reslut)
 
-@app.route('/do_delPoint',methods=['POST'])
-def del_Point():
+@app.route('/do_delPoint/<id>',methods=['POST'])
+def del_Point(id):
     reslut = None
     if request.method == 'POST':
-        pointId = request.form["pointId"]
-        reslut = db.DelPoint(pointId)
+        reslut = db.DelPoint(id)
     return jsonify(reslut)
 
 @app.route('/do_editPoint',methods=['POST'])

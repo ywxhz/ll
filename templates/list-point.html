@@ -5,7 +5,9 @@
    ptptrainsp="{{ itemPoint.tptrainsp }}"  ptrdistance="{{ itemPoint.trdistance }}" ptransport="{{ itemPoint.transport }}"
    ptrtime="{{ itemPoint.trtime }}" ptrevent="{{ itemPoint.trevent }}" ptrdistance="{{ itemPoint.trdistance }}"
    href="#" class="list-group-item list-group-item-separate" >
-    <span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px" onclick="do_delPoint('itemPoint{{ itemPoint.id }}')" ></span>
+    <span class="glyphicon glyphicon-trash" style="float: right;margin-right: 10px"
+          data-delid="itemPoint{{ itemPoint.id }}" data-delherf="/do_delPoint/{{ itemPoint.id }}"
+          data-toggle="modal" data-target="#confirm-delete" ></span>
     <span class="glyphicon glyphicon-edit"  style="float: right;margin-right: 20px" onclick="do_editPoint('{{ itemPoint.id }}')" ></span>
     <span class="glyphicon glyphicon-chevron-down"  style="float: right;margin-right: 30px" onclick="do_showPointDec('itemPointDec{{ itemPoint.id }}')" ></span>
     <h4 id="itemPointName{{ itemPoint.id }}" style="margin-bottom: 13px;" class="list-group-item-heading">{{ itemPoint.name }}</h4>

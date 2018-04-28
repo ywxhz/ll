@@ -146,18 +146,30 @@
                 formTravelHelp.text("");
             }
         }
-
-        function do_delTravel(travelId){
-            var url = "/do_delTravel/"+travelId;
-            $.post(url,null,function(result){
-                if(result>0){
-                    $("#"+travelId).remove();
-                }
-            });
-        }
         
         function do_reload() {
             location.reload();
+        }
+
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            del_herf = $(e.relatedTarget).data('delherf');
+            del_id = $(e.relatedTarget).data('delid');
+            btn_ok = $("#confirm-delete").find('.btn-ok');
+            $(btn_ok).data("delherf",del_herf);
+            $(btn_ok).data("delid",del_id);
+        });
+        $("#confirm-delete").find('.btn-ok').on("click",do_del)
+        function do_del(e){
+            var delid = $(e.currentTarget).data('delid');
+            var url = $(e.currentTarget).data('delherf');
+            $.post(url,null,function(result){
+                if(result>0){
+                    $("#"+delid).remove();
+                }else{
+                    alert("删除失败");
+                }
+            });
+            $('#confirm-delete').modal('hide');
         }
 
     </script>
@@ -235,4 +247,5 @@
         </div>
     </div>
 
+    {% include 'delete.html' %}
 {% endblock %}
