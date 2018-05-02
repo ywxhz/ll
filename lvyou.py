@@ -123,7 +123,7 @@ def sort_Day():
 
 @app.route('/do_addPoint',methods=['POST'])
 def add_Point():
-    reslut = {}
+    reslut = {"id": 0}
     if request.method == 'POST':
         dayId = request.form["dayId"]
         pId = db.NewPoint(dayId, request.form)
@@ -132,7 +132,7 @@ def add_Point():
         if pId > 0:
             tempData["list-Point"] = render_template('list-point.html', itemPoint=tempData)
             reslut = tempData
-        return jsonify(reslut)
+    return jsonify(reslut)
 
 @app.route('/do_delPoint/<id>',methods=['POST'])
 def del_Point(id):
