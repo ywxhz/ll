@@ -41,20 +41,21 @@
             data = {"ids":sortedIDs.join(',')};
             $.post(url,data,function(data){
                 if (data['val'] <= 0){
-                   alert("数据的排序数据异常,无法排序。");
+{#                   alert("数据的排序数据异常,无法排序。");#}
                     $(event.currentTarget).sortable( "cancel" );
                     return;
                 }
                 if(tempDay.length>=1){
-                    days = ui.item.sibling();
-                    for(var i in  days)
-                    {
-                        days[i].text("  第"+i+"天");
+                    for (var i=0;i<sortedIDs.length;i++){
+                        daystr = "  第"+(i+1)+"天";
+                        dayspan = $("#day" + sortedIDs[i] + " > .daytext:first");
+                        tabspan = $("#tab" + sortedIDs[i] + " > h4 > .daytext:first");
+                        dayspan.text(daystr);
+                        tabspan.text(daystr);
                     }
                 }
             });
         }
-
 
         function do_itemAcitve(item) {
             $('#listDays a').removeClass('active');
@@ -84,19 +85,40 @@
             });
         }
 
-        function do_delDay(dayId) {
-            data = {"dayId":dayId}
-            var url = "/do_delDay";
-            $.post(url,data,function(reslut){
-                if(reslut>=0){
-                    $("#day"+dayId).remove();
-                    $("#tab"+dayId).remove();
-                }
-                else{
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            del_herf = $(e.relatedTarget).data('delherf');
+            del_id = $(e.relatedTarget).data('delid');
+            btn_ok = $("#confirm-delete").find('.btn-ok');
+            $(btn_ok).data("delherf",del_herf);
+            $(btn_ok).data("delid",del_id);
+        });
+        $("#confirm-delete").find('.btn-ok').on("click",do_del)
+        function do_del(e){
+            var delid = $(e.currentTarget).data('delid');
+            var url = $(e.currentTarget).data('delherf');
+            $.post(url,null,function(result){
+                if(result>0){
+                    $("#"+delid).remove();
+                }else{
                     alert("删除失败");
                 }
             });
+            $('#confirm-delete').modal('hide');
         }
+
+{#        function do_delDay(dayId) {#}
+{#            data = {"dayId":dayId}#}
+{#            var url = "/do_delDay";#}
+{#            $.post(url,data,function(reslut){#}
+{#                if(reslut>=0){#}
+{#                    $("#day"+dayId).remove();#}
+{#                    $("#tab"+dayId).remove();#}
+{#                }#}
+{#                else{#}
+{#                    alert("删除失败");#}
+{#                }#}
+{#            });#}
+{#        }#}
 
         function get_activeDayID() {
             dayId =  $("#tabContent .tab-pane.active:first").attr("value");
@@ -120,22 +142,22 @@
                     return;
                 }
                 strElement =  repData["list-Point"];
-                $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+                $("#tabContent .tab-pane.active:first > ul.list-group:first").append(strElement);
             });
         }
 
-        function do_delPoint(itemid) {
-            pointId = $("#"+itemid).attr("value");
-            data = {"pointId":pointId}
-            var url = "/do_delPoint";
-            $.post(url,data,function(reslut){
-                if(reslut<=0){
-                    alert("删除失败");
-                    return;
-                }
-                $("#"+itemid).remove();
-            });
-        }
+{#        function do_delPoint(itemid) {#}
+{#            pointId = $("#"+itemid).attr("value");#}
+{#            data = {"pointId":pointId}#}
+{#            var url = "/do_delPoint";#}
+{#            $.post(url,data,function(reslut){#}
+{#                if(reslut<=0){#}
+{#                    alert("删除失败");#}
+{#                    return;#}
+{#                }#}
+{#                $("#"+itemid).remove();#}
+{#            });#}
+{#        }#}
 
         function do_editDay(dayId){
             tabDayName = $("#tabDayName"+dayId);
@@ -391,7 +413,7 @@
                         return;
                     }
                     strElement =  repData["list-Point"];
-                    $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+                    $("#tabContent .tab-pane.active:first > ul.list-group:first").append(strElement);
                 });
             }
             if(nowBigLTMDType=="edit"){
@@ -450,7 +472,7 @@
                     return;
                 }
                 strElement =  repData["list-Point"];
-                $("#tabContent .tab-pane.active:first > div.list-group:first").append(strElement);
+                $("#tabContent .tab-pane.active:first > ul.list-group:first").append(strElement);
             });
         }
 
@@ -555,6 +577,8 @@
             </div>
         </div>
     </div>
+
+    {% include 'delete.html' %}
 
     <div class="modal fade" id="modalEditPointOrDay" tabindex="-1" role="dialog" aria-labelledby="lblEditPoint" aria-hidden="true" >
         <div class="modal-dialog">
@@ -723,7 +747,7 @@
           </div>
         </div>
 
-    <div class="modal fade" id="modalQrcode" tabindex="10" role="dialog" aria-labelledby="modalQrcodeLabel" aria-hidden="true" >
+    <div class="modal fade" id="modalQrcode" tabindex="-1" role="dialog" aria-labelledby="modalQrcodeLabel" aria-hidden="true" >
         <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
@@ -739,4 +763,5 @@
            </div>
         </div>
     </div>
+
 {% endblock %}
