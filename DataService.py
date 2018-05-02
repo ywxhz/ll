@@ -584,7 +584,7 @@ class DataServicec:
                 for idval2 in reidQ2:
                     print idval2
                     for pid in idval2:
-                        sqls = "insert into lypoint(indexnum,ptime,event,name,type,transport,trtime,treventds,picpath,stratt,stratc,stratp,endc,endt,endp,tptrain,tptrainevent,tptrainsp,trdistance) select indexnum,ptime,event,name,type,transport,trtime,treventds,picpath,stratt,stratc,stratp,endc,endt,endp,tptrain,tptrainevent,tptrainsp,trdistance from lypoint where id=" + str(pid)
+                        sqls = "insert into lypoint(indexnum,ptime,event,name,type,transport,trtime,treventds,trevent,picpath,stratt,stratc,stratp,endc,endt,endp,tptrain,tptrainevent,tptrainsp,trdistance) select indexnum,ptime,event,name,type,transport,trtime,treventds,trevent,picpath,stratt,stratc,stratp,endc,endt,endp,tptrain,tptrainevent,tptrainsp,trdistance from lypoint where id=" + str(pid)
                         reid = ms.SQLexecute(sqls)
                         #  dp 插入关系表--
                         sqls = "insert into lyrtp(did,pid) select max(lyday.id),max(lypoint.id) from lyday,lypoint"
