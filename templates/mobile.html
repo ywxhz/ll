@@ -175,7 +175,9 @@
                                 {% set icon_class = "fas fa-car" %}
                             {% endif %}
 
-                            {% if itemPoint.type != "自定义-交通" %}
+                            {% if itemPoint.type == "自定义-酒店" %}
+                                {% set icon_header_class = "header-icon-tr fas fa-thumbtack" %}
+                            {% elif itemPoint.type != "自定义-交通" %}
                                 {% set icon_header_class = "header-icon fab fa-telegram" %}
                             {% elif itemPoint.tptrainsp == "自驾" %}
                                 {% set icon_header_class = "header-icon-tr fas fa-car" %}
