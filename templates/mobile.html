@@ -93,6 +93,14 @@
             padding-top: 10px;
         }
 
+        .header-icon-hotel{
+            float: left;
+            font-size: 25px;
+            color: #FF7F00;
+            padding-left: 12px;
+            padding-top: 10px;
+        }
+
         .note{
             color: #999;
             margin: 15px;
@@ -176,7 +184,7 @@
                             {% endif %}
 
                             {% if itemPoint.type == "自定义-酒店" %}
-                                {% set icon_header_class = "header-icon-tr fas fa-thumbtack" %}
+                                {% set icon_header_class = "header-icon-hotel fas fa-home" %}
                             {% elif itemPoint.type != "自定义-交通" %}
                                 {% set icon_header_class = "header-icon fab fa-telegram" %}
                             {% elif itemPoint.tptrainsp == "自驾" %}
